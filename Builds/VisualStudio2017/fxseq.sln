@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 15
+
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fxseq - VST3", "fxseq_VST3.vcxproj", "{773AFDB2-CDE1-FBF0-1559-5489825A8491}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6AF4AE5D-3606-90F4-4F4C-88E4E27C4437} = {6AF4AE5D-3606-90F4-4F4C-88E4E27C4437}
+		{FE2C4F37-9254-6DFB-7405-51E78113119A} = {FE2C4F37-9254-6DFB-7405-51E78113119A}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fxseq - Shared Code", "fxseq_SharedCode.vcxproj", "{6AF4AE5D-3606-90F4-4F4C-88E4E27C4437}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fxseq - VST3 Manifest Helper", "fxseq_VST3ManifestHelper.vcxproj", "{FE2C4F37-9254-6DFB-7405-51E78113119A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{773AFDB2-CDE1-FBF0-1559-5489825A8491}.Debug|x64.ActiveCfg = Debug|x64
+		{773AFDB2-CDE1-FBF0-1559-5489825A8491}.Debug|x64.Build.0 = Debug|x64
+		{773AFDB2-CDE1-FBF0-1559-5489825A8491}.Release|x64.ActiveCfg = Release|x64
+		{773AFDB2-CDE1-FBF0-1559-5489825A8491}.Release|x64.Build.0 = Release|x64
+		{6AF4AE5D-3606-90F4-4F4C-88E4E27C4437}.Debug|x64.ActiveCfg = Debug|x64
+		{6AF4AE5D-3606-90F4-4F4C-88E4E27C4437}.Debug|x64.Build.0 = Debug|x64
+		{6AF4AE5D-3606-90F4-4F4C-88E4E27C4437}.Release|x64.ActiveCfg = Release|x64
+		{6AF4AE5D-3606-90F4-4F4C-88E4E27C4437}.Release|x64.Build.0 = Release|x64
+		{FE2C4F37-9254-6DFB-7405-51E78113119A}.Debug|x64.ActiveCfg = Debug|x64
+		{FE2C4F37-9254-6DFB-7405-51E78113119A}.Debug|x64.Build.0 = Debug|x64
+		{FE2C4F37-9254-6DFB-7405-51E78113119A}.Release|x64.ActiveCfg = Release|x64
+		{FE2C4F37-9254-6DFB-7405-51E78113119A}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
