@@ -1,7 +1,8 @@
 BASE_DIR="${HOME}/dev/fxseq"
 CURRENT_DIR="$(pwd)"
+GIT_NAME="fxseq"
+GIT_URL="https://github.com/ssabug/fxseq"
 
-#
 
 if [ -n "$1" ]
 then
@@ -12,6 +13,10 @@ then
 
     #echo "/////// INIT PROJECT DIR ${BASE_DIR}"
     #git init
+    #echo "/////// LINK TO REMOTE REPO"
+    #git remote add "${GIT_NAME}" "${GIT_URL}"
+    #echo "/////// PUSH TO MASTER BRANCH"
+    #git push --set-upstream "${GIT_NAME}" master
 
     echo "/////// ADDING ALL FILES"
     git add --all

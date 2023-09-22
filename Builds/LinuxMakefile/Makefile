@@ -112,6 +112,7 @@ OBJECTS_SHARED_CODE := \
   $(JUCE_OBJDIR)/SequencerComponent_ccc922b5.o \
   $(JUCE_OBJDIR)/EffectComponent_c8de84cd.o \
   $(JUCE_OBJDIR)/OptionsComponent_daeb5708.o \
+  $(JUCE_OBJDIR)/OutputComponent_c20ebb5d.o \
   $(JUCE_OBJDIR)/include_juce_audio_basics_8a4e984a.o \
   $(JUCE_OBJDIR)/include_juce_audio_devices_63111d02.o \
   $(JUCE_OBJDIR)/include_juce_audio_formats_15f82001.o \
@@ -202,6 +203,11 @@ $(JUCE_OBJDIR)/EffectComponent_c8de84cd.o: ../../Source/EffectComponent.cpp
 $(JUCE_OBJDIR)/OptionsComponent_daeb5708.o: ../../Source/OptionsComponent.cpp
 	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling OptionsComponent.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/OutputComponent_c20ebb5d.o: ../../Source/OutputComponent.cpp
+	-$(V_AT)mkdir -p $(@D)
+	@echo "Compiling OutputComponent.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/include_juce_audio_basics_8a4e984a.o: ../../JuceLibraryCode/include_juce_audio_basics.cpp

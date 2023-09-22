@@ -31,14 +31,30 @@ FxseqAudioProcessorEditor::FxseqAudioProcessorEditor (FxseqAudioProcessor& p)
     for (int i=0;i<sizeof(effects)/sizeof(effects[0]);i++) {
         effects[i].comboColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+effects[i].comboTemplate+"/colors");
         effects[i].sliderColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+effects[i].sliderTemplate+"/colors");
+        effects[i].programButtonColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+effects[i].imageButtonTemplate+"/colors");
+        std::vector<std::string> imagesP=readXMLVectorParam(skinPath+"skin.xml","skin/templates/"+effects[i].imageButtonTemplate+"/images");
+        effects[i].programButtonImages.clear();
+        for (int j=0;j<imagesP.size();j++) {   effects[i].programButtonImages.push_back(juce::ImageFileFormat::loadFrom(juce::File(imagePath+imagesP[j])));    }
         
         effects[i].skinChange();
         addAndMakeVisible(effects[i]);
     }
 
+    options.comboColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+options.comboTemplate+"/colors");
+    options.sliderColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+options.sliderTemplate+"/colors");
+    options.imageButtonColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+options.imageButtonTemplate+"/colors");
+    options.skinChange();
+    addAndMakeVisible(options);
+
+    output.comboColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+output.comboTemplate+"/colors");
+    output.sliderColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+output.sliderTemplate+"/colors");
+    output.imageButtonColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+output.imageButtonTemplate+"/colors");
+    output.skinChange();
+    addAndMakeVisible(output);
+
     addAndMakeVisible(debugLog);
 
-    startTimerHz(100);
+    startTimerHz(30);
 }
 
 FxseqAudioProcessorEditor::~FxseqAudioProcessorEditor()
@@ -79,6 +95,10 @@ void FxseqAudioProcessorEditor::resized()
     for (int i=0;i<sizeof(effects)/sizeof(effects[0]);i++) {
         effects[i].setBounds(5+i*282,375,262,120);
     }
+
+    options.setBounds(1135,5,250,140);
+
+    output.setBounds(1135,165,250,140);
 }
 
 void FxseqAudioProcessorEditor::timerCallback()
@@ -96,7 +116,8 @@ void FxseqAudioProcessorEditor::timerCallback()
                        +"position1 " + std::__cxx11::to_string(positions[0]) + "\n"
                        +"position2 " + std::__cxx11::to_string(positions[1]) + "\n"
                        +"position3 " + std::__cxx11::to_string(positions[2]) + "\n"
-                       +"position4 " + std::__cxx11::to_string(positions[3]) 
+                       +"position4 " + std::__cxx11::to_string(positions[3]) + "\n"
+
                     );
  
 }
@@ -115,9 +136,21 @@ void FxseqAudioProcessorEditor::updateProcessorPattern(int sequencerIndex,int pa
 
 void FxseqAudioProcessorEditor::updateSelectedProcessorPattern(int sequencerIndex,int patternIndex) 
 {
-    audioProcessor.selected_pattern[sequencerIndex]=patternIndex;
+    std::string paramName="seq"+std::__cxx11::to_string(sequencerIndex+1)+"_pattern";
+    audioProcessor.updateParameter(paramName,(float)patternIndex);
     //  audioProcessor.updateGainPattern(sequencerIndex,patternIndex);
-    //audioProcessor.updateGainPattern( sequencerIndex,patternIndex );
+}
+
+void FxseqAudioProcessorEditor::updateSelectedProcessorClock(int sequencerIndex,int clockIndex) 
+{
+    std::string paramName="seq"+std::__cxx11::to_string(sequencerIndex+1)+"_clockDiv";
+    audioProcessor.updateParameter(paramName,(float)clockIndex);
+}
+
+void FxseqAudioProcessorEditor::updateSelectedProcessorEffect(int sequencerIndex,int effectIndex) 
+{
+    std::string paramName="seq"+std::__cxx11::to_string(sequencerIndex+1)+"_fx";
+    audioProcessor.updateParameter(paramName,(float)effectIndex);
 }
 ////////////////////////////////////////////////////////////////////////////////////// UTILS //////////////////////////////////////////////////////////////////////////////////////
 std::vector<std::string> FxseqAudioProcessorEditor::split(std::string s, std::string delimiter) 

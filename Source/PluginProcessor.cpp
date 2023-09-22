@@ -10,17 +10,37 @@
 #include "PluginEditor.h"
 
 //==============================================================================
+juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
+{
+    juce::AudioProcessorValueTreeState::ParameterLayout params;
+    std::string fxNamesStr[4]={"Chopper","Filter","Echo","Crusher"};
+    juce::StringArray fxNames=juce::StringArray({"Chopper","Filter","Echo","Crusher"});
+ 
+    params.add (std::make_unique<juce::AudioParameterFloat> ("drywet","Dry/Wet", 0.0f, 1.0f, 1.0f));
+    params.add (std::make_unique<juce::AudioParameterFloat> ("outgain","Out Gain",0.0f, 2.0f, 1.0f));
+
+    for (int i = 1; i < 4+1; ++i)
+    {
+        std::string prefix="seq"+std::__cxx11::to_string(i)+"_";
+        params.add (std::make_unique<juce::AudioParameterInt> (prefix+"pattern",prefix+"pattern", 1, 16, 1));
+        params.add (std::make_unique<juce::AudioParameterChoice> (prefix+"clockDiv",prefix+"clockDiv",juce::StringArray({ "4","2","1","1/2","1/4","1/8","1/16","1/32" }), 2));
+        params.add (std::make_unique<juce::AudioParameterChoice> (prefix+"fx",prefix+"fx",juce::StringArray(fxNames), i));
+          
+    }
+        for (int i = 0; i < 4; ++i)
+    {
+        std::string prefix=fxNamesStr[i]+"_";
+        params.add (std::make_unique<juce::AudioParameterFloat> (prefix+"gain",prefix+"gain", 0.0f, 2.0f, 1.0f));
+        params.add (std::make_unique<juce::AudioParameterFloat> (prefix+"dry/wet",prefix+"dry/wet", 0.0f, 1.0f, 1.0f));         
+    }
+    return params;
+}
+//==============================================================================
 FxseqAudioProcessor::FxseqAudioProcessor()
-#ifndef JucePlugin_PreferredChannelConfigurations
-     : AudioProcessor (BusesProperties()
-                     #if ! JucePlugin_IsMidiEffect
-                      #if ! JucePlugin_IsSynth
-                       .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
-                      #endif
-                       .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
-                     #endif
-                       )
-#endif
+     : AudioProcessor (BusesProperties().withInput  ("Input",  juce::AudioChannelSet::stereo(), true)                     
+                                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
+                       ),  
+       pluginParameters (*this, nullptr, "PARAMETERS", createParameterLayout())
 {
 
 }
@@ -29,7 +49,6 @@ FxseqAudioProcessor::~FxseqAudioProcessor()
 {
 
 }
-
 //==============================================================================
 const juce::String FxseqAudioProcessor::getName() const
 {
@@ -241,4 +260,10 @@ std::vector<float> FxseqAudioProcessor::generateGainPattern(int sequencerIndex,i
         }
     }        
     return outVector;
+}
+
+void FxseqAudioProcessor::updateParameter(std::string paramName,float paramValue)
+{
+    auto rg=pluginParameters.getParameter(paramName)->getNormalisableRange().end-pluginParameters.getParameter(paramName)->getNormalisableRange().start;
+    pluginParameters.getParameter(paramName)->setValue(paramValue/rg);
 }

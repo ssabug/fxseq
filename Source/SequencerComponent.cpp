@@ -57,7 +57,7 @@ SequencerComponent::SequencerComponent(int Index,FxseqAudioProcessorEditor *ape,
     effectTypeSelect.addItem(TRANS("CHOPPER"),1);effectTypeSelect.addItem(TRANS("FILTER"),2);effectTypeSelect.addItem(TRANS("ECHO"),3);effectTypeSelect.addItem(TRANS("CRUSHER"),4);
     for(int i=0;i<comboColors.size();i++) {  effectTypeSelect.setColour(comboColors[i][0],juce::Colour(comboColors[i][1]));   }
     effectTypeSelect.setSelectedItemIndex(index);
-    effectTypeSelect.onChange = [this] {changeSelectedPattern();};
+    effectTypeSelect.onChange = [this] {changeEffect();};
     addAndMakeVisible (effectTypeSelect);
     
 }
@@ -150,6 +150,13 @@ void SequencerComponent::changeSelectedPattern()
 void SequencerComponent::changeClockMult()
 {
     clockMult=std::stoi(clockMultSelect.getItemText(clockMultSelect.getSelectedItemIndex()).toStdString());
+    APE->updateSelectedProcessorClock(index,clockMultSelect.getSelectedItemIndex());
+}
+
+void SequencerComponent::changeEffect()
+{
+    clockMult=std::stoi(clockMultSelect.getItemText(clockMultSelect.getSelectedItemIndex()).toStdString());
+    APE->updateSelectedProcessorEffect(index,effectTypeSelect.getSelectedItemIndex());
 }
 
 int SequencerComponent::getSelectedPattern()

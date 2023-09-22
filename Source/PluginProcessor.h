@@ -59,6 +59,7 @@ public:
     void initAllPatterns();
     std::vector<float> generateGainPattern(int sequencerIndex,int patternIndex);
     void updateGainPattern(int sequencerIndex,int patternIndex);
+    void updateParameter(std::string paramName,float paramValue);
 
     double ppq;
     float unused;
@@ -70,6 +71,7 @@ public:
     int sequencerClockMult[4]={4,4,4,4};// TEMPORARY
     bool sequenceMode=false;//TEMPORARY*/
     int selected_pattern[4]; 
+    
     
 
     std::vector<std::vector<std::vector<float>>> gainPatterns;
@@ -116,9 +118,9 @@ public:
      
     float lastFxDepths[4];
     juce::SmoothedValue<float,juce::ValueSmoothingTypes::Multiplicative> fxDepths_smoothed[4];
-
+    juce::AudioProcessorValueTreeState pluginParameters;  
 private:
-    
+    //juce::AudioProcessorValueTreeState pluginParameters;   
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FxseqAudioProcessor)
 };

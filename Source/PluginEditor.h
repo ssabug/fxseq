@@ -13,6 +13,7 @@
 #include "SequencerComponent.h"
 #include "EffectComponent.h"
 #include "OptionsComponent.h"
+#include "OutputComponent.h"
 #include <filesystem>
 #include <fstream>
 
@@ -33,6 +34,8 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         void updateSeqPattern(int sequencerIndex,int patternIndex);
         void updateProcessorPattern(int sequencerIndex,int patternIndex);
         void updateSelectedProcessorPattern(int sequencerIndex,int patternIndex);
+        void updateSelectedProcessorClock(int sequencerIndex,int clockIndex);
+        void updateSelectedProcessorEffect(int sequencerIndex,int effectIndex);
     
         std::string skinPath="/home/pwner/dev/fxseq/Ressources/skins/default/";
         std::string imagePath=skinPath+"images/";
@@ -53,11 +56,15 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
                                           SequencerComponent(3,this,"imagebutton4","combo4")
                                          };
 
-        EffectComponent effects[4]=      {EffectComponent(0,"CHOPPER","combo1","slider1"),
-                                          EffectComponent(1,"FILTER","combo2","slider2"),
-                                          EffectComponent(2,"ECHO","combo3","slider3"),
-                                          EffectComponent(3,"CRUHSER","combo4","slider4")
+        EffectComponent effects[4]=      {EffectComponent(0,this,"CHOPPER","combo1","slider1","programbutton1"),
+                                          EffectComponent(1,this,"FILTER","combo2","slider2","programbutton2"),
+                                          EffectComponent(2,this,"ECHO","combo3","slider3","programbutton3"),
+                                          EffectComponent(3,this,"CRUSHER","combo4","slider4","programbutton4")
                                          };
+
+        OptionsComponent options= OptionsComponent(this,"combo1","slider1","textbutton1");
+    
+        OutputComponent output= OutputComponent(this,"combo1","slider1","imagebutton1");
         
         FxseqAudioProcessor& audioProcessor;
 

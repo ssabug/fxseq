@@ -25,6 +25,10 @@
           file="Source/OptionsComponent.cpp"/>
     <FILE id="vZiufb" name="OptionsComponent.h" compile="0" resource="0"
           file="Source/OptionsComponent.h"/>
+    <FILE id="q5Asst" name="OutputComponent.cpp" compile="1" resource="0"
+          file="Source/OutputComponent.cpp"/>
+    <FILE id="Is6Rdl" name="OutputComponent.h" compile="0" resource="0"
+          file="Source/OutputComponent.h"/>
   </MAINGROUP>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>

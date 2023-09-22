@@ -25,6 +25,7 @@ class SequencerComponent   : public juce::Component
         void updatePattern(int patternData[]);        
         void changeSelectedPattern();
         void changeClockMult();
+        void changeEffect();
         int getSelectedPattern();
 
         FxseqAudioProcessorEditor *APE;
