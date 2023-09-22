@@ -20,10 +20,11 @@ OptionsComponent::OptionsComponent(FxseqAudioProcessorEditor *ape,std::string Co
     presetSelectedLabel.setText("Preset",juce::dontSendNotification);
     addAndMakeVisible (presetSelectedLabel);
 
-    savePreset.setToggleable(true);
-    //for(int i=0;i<imageButtonTemplate.size();i++) {  savePreset.setColour(imageButtonColors[i][0],juce::Colour(imageButtonColors[i][1]));   } // CRASHES THE PLUGIN!!!
+    savePresetButton.setToggleable(true);
+    savePresetButton.onClick = [this] { savePreset();};
+    //for(int i=0;i<imageButtonTemplate.size();i++) {  savePresetButton.setColour(imageButtonColors[i][0],juce::Colour(imageButtonColors[i][1]));   } // CRASHES THE PLUGIN!!!
     savePresetLabel.setText("Save",juce::dontSendNotification);
-    addAndMakeVisible (savePreset);
+    addAndMakeVisible (savePresetButton);
     addAndMakeVisible (savePresetLabel);
 }   
 
@@ -31,14 +32,14 @@ void OptionsComponent::resized()
 {
     presetSelected.setBounds        (10,15,150,20);
     presetSelectedLabel.setBounds   (50,00,80,20);
-    savePreset.setBounds            (180,15,40,20);
+    savePresetButton.setBounds            (180,15,40,20);
     savePresetLabel.setBounds       (177,0,40,20);    
 }
 
 void OptionsComponent::skinChange()
 {   
     for(int i=0;i<comboColors.size();i++) {  presetSelected.setColour(comboColors[i][0],juce::Colour(comboColors[i][1]));   }
-    //for(int i=0;i<imageButtonTemplate.size();i++) {  savePreset.setColour(imageButtonColors[i][0],juce::Colour(imageButtonColors[i][1]));   } // CRASHES THE PLUGIN!!!
+    //for(int i=0;i<imageButtonTemplate.size();i++) {  savePresetButton.setColour(imageButtonColors[i][0],juce::Colour(imageButtonColors[i][1]));   } // CRASHES THE PLUGIN!!!
 
     presetSelectedLabel.setColour(0x1000281,juce::Colour(comboColors[1][1]));
     savePresetLabel.setColour(0x1000281,juce::Colour(comboColors[1][1]));
@@ -54,8 +55,13 @@ void OptionsComponent::initSlider1(std::string name,juce::Slider& slider,juce::L
     addAndMakeVisible(slider);
     addAndMakeVisible(label);
 }
-
+/////////////////////////////////////////////// CALLBACKS///////////////////////////////////////////////
 void OptionsComponent::changeSelectedPreset()
+{
+
+}
+
+void OptionsComponent::savePreset()
 {
 
 }

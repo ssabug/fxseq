@@ -26,6 +26,7 @@
 		0D24955A6BBE6D29DDD6B829 /* Security.framework */ = {isa = PBXBuildFile; fileRef = 0DEC72D8A7409680FBFC111E; };
 		10B07E5FCA29EE10DFAA3857 /* include_juce_dsp.mm */ = {isa = PBXBuildFile; fileRef = D31EFCF8A913AC8A5EFCF5A1; };
 		22D1B97C118DAD5B576D7590 /* include_juce_gui_basics.mm */ = {isa = PBXBuildFile; fileRef = 0A4CED6520FA1940CE937A11; };
+		23E0E5ABB161A970605EC53B /* SequenceSequencerComponent.cpp */ = {isa = PBXBuildFile; fileRef = 692BB775AD6F6B7678267A7F; };
 		260AB85BF993472CBDAEE683 /* SequencerComponent.cpp */ = {isa = PBXBuildFile; fileRef = CC9B2C2247819B80A5FAAB47; };
 		29895BCFD1FFABEB9557A71B /* AudioToolbox.framework */ = {isa = PBXBuildFile; fileRef = C0A6EF42762BDA8D12247B64; };
 		3262F29B4F872F76523AF246 /* WebKit.framework */ = {isa = PBXBuildFile; fileRef = 2A9F6BD647292F892D02EF0B; };
@@ -85,10 +86,12 @@
 		386FB706B0635807051BEFE2 /* SequencerComponent.h */ /* SequencerComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SequencerComponent.h; path = ../../Source/SequencerComponent.h; sourceTree = SOURCE_ROOT; };
 		3CE11C68FE7EA42809E473CA /* juce_dsp */ /* juce_dsp */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_dsp; path = "~/JUCE/modules/juce_dsp"; sourceTree = "<absolute>"; };
 		3DE28582BFE0762B9C789754 /* CoreAudioKit.framework */ /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
+		42CC867D53501689C256644C /* SequenceSequencerComponent.h */ /* SequenceSequencerComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SequenceSequencerComponent.h; path = ../../Source/SequenceSequencerComponent.h; sourceTree = SOURCE_ROOT; };
 		434BF894CCB488880A4CF857 /* include_juce_graphics.mm */ /* include_juce_graphics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_graphics.mm; path = ../../JuceLibraryCode/include_juce_graphics.mm; sourceTree = SOURCE_ROOT; };
 		49AC52FA132267BC67DF9B81 /* include_juce_osc.cpp */ /* include_juce_osc.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = include_juce_osc.cpp; path = ../../JuceLibraryCode/include_juce_osc.cpp; sourceTree = SOURCE_ROOT; };
 		597C2A644A3919BF073F8B61 /* include_juce_audio_plugin_client_VST_utils.mm */ /* include_juce_audio_plugin_client_VST_utils.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_plugin_client_VST_utils.mm; path = ../../JuceLibraryCode/include_juce_audio_plugin_client_VST_utils.mm; sourceTree = SOURCE_ROOT; };
 		68E00ADBBC193BC6331B77F2 /* RecentFilesMenuTemplate.nib */ /* RecentFilesMenuTemplate.nib */ = {isa = PBXFileReference; lastKnownFileType = file.nib; name = RecentFilesMenuTemplate.nib; path = RecentFilesMenuTemplate.nib; sourceTree = SOURCE_ROOT; };
+		692BB775AD6F6B7678267A7F /* SequenceSequencerComponent.cpp */ /* SequenceSequencerComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SequenceSequencerComponent.cpp; path = ../../Source/SequenceSequencerComponent.cpp; sourceTree = SOURCE_ROOT; };
 		6DA91DD5B804B5B514F6E76E /* OutputComponent.cpp */ /* OutputComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = OutputComponent.cpp; path = ../../Source/OutputComponent.cpp; sourceTree = SOURCE_ROOT; };
 		71FD04A1280234706CC2CFF3 /* Accelerate.framework */ /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		73AED9130988F4045368EBD0 /* QuartzCore.framework */ /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -281,6 +284,8 @@
 				F90AFFF9703AB1D971F198CA,
 				6DA91DD5B804B5B514F6E76E,
 				8B924DECD17ACD4E1654B62E,
+				692BB775AD6F6B7678267A7F,
+				42CC867D53501689C256644C,
 			);
 			name = fxseq;
 			sourceTree = "<group>";
@@ -367,7 +372,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1340;
-				ORGANIZATIONNAME = "";
+				ORGANIZATIONNAME = "ssabug";
 				TargetAttributes = {
 					2F76222BFC2834041147013B = {
 						SystemCapabilities = {
@@ -522,6 +527,7 @@
 				9E54375A190AAE8CDD5C40EC,
 				A292558BE8F2406A5B42F166,
 				B561170886E3DA9DFE9DAD81,
+				23E0E5ABB161A970605EC53B,
 				AF044DF31D3BD0D5E1251176,
 				3CE0DD70C3CA4DA1B984B1CD,
 				91484FB6F332F3FBB7CA6B29,
@@ -632,8 +638,8 @@
 					"JucePlugin_Enable_ARA=0",
 					"JucePlugin_Name=\\\"fxseq\\\"",
 					"JucePlugin_Desc=\\\"fxseq\\\"",
-					"JucePlugin_Manufacturer=\\\"yourcompany\\\"",
-					"JucePlugin_ManufacturerWebsite=\\\"www.yourcompany.com\\\"",
+					"JucePlugin_Manufacturer=\\\"ssabug\\\"",
+					"JucePlugin_ManufacturerWebsite=\\\"https://github.com/ssabug\\\"",
 					"JucePlugin_ManufacturerEmail=\\\"\\\"",
 					"JucePlugin_ManufacturerCode=0x4d616e75",
 					"JucePlugin_PluginCode=0x42667833",
@@ -653,8 +659,8 @@
 					"JucePlugin_AUExportPrefix=fxseqAU",
 					"JucePlugin_AUExportPrefixQuoted=\\\"fxseqAU\\\"",
 					"JucePlugin_AUManufacturerCode=JucePlugin_ManufacturerCode",
-					"JucePlugin_CFBundleIdentifier=com.yourcompany.fxseq",
-					"JucePlugin_AAXIdentifier=com.yourcompany.fxseq",
+					"JucePlugin_CFBundleIdentifier=com.ssabug.fxseq",
+					"JucePlugin_AAXIdentifier=com.ssabug.fxseq",
 					"JucePlugin_AAXManufacturerCode=JucePlugin_ManufacturerCode",
 					"JucePlugin_AAXProductId=JucePlugin_PluginCode",
 					"JucePlugin_AAXCategory=0",
@@ -662,13 +668,13 @@
 					"JucePlugin_AAXDisableMultiMono=0",
 					"JucePlugin_IAAType=0x61757278",
 					"JucePlugin_IAASubType=JucePlugin_PluginCode",
-					"JucePlugin_IAAName=\\\"yourcompany:\\ fxseq\\\"",
+					"JucePlugin_IAAName=\\\"ssabug:\\ fxseq\\\"",
 					"JucePlugin_VSTNumMidiInputs=16",
 					"JucePlugin_VSTNumMidiOutputs=16",
 					"JucePlugin_ARAContentTypes=0",
 					"JucePlugin_ARATransformationFlags=0",
-					"JucePlugin_ARAFactoryID=\\\"com.yourcompany.fxseq.factory\\\"",
-					"JucePlugin_ARADocumentArchiveID=\\\"com.yourcompany.fxseq.aradocumentarchive.1.0.0\\\"",
+					"JucePlugin_ARAFactoryID=\\\"com.ssabug.fxseq.factory\\\"",
+					"JucePlugin_ARADocumentArchiveID=\\\"com.ssabug.fxseq.aradocumentarchive.1.0.0\\\"",
 					"JucePlugin_ARACompatibleArchiveIDs=\\\"\\\"",
 					"JUCE_STANDALONE_APPLICATION=JucePlugin_Build_Standalone",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
@@ -688,7 +694,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_HEADER_SEARCH_PATHS = "$(HOME)/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode $(HOME)/JUCE/modules $(HOME)/JUCE/modules/juce_audio_plugin_client/AU";
 				OTHER_LDFLAGS = "-weak_framework Metal -weak_framework MetalKit";
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.fxseq;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ssabug.fxseq;
 				PRODUCT_NAME = "fxseq";
 				SKIP_INSTALL = YES;
 				USE_HEADERMAP = NO;
@@ -753,8 +759,8 @@
 					"JucePlugin_Enable_ARA=0",
 					"JucePlugin_Name=\\\"fxseq\\\"",
 					"JucePlugin_Desc=\\\"fxseq\\\"",
-					"JucePlugin_Manufacturer=\\\"yourcompany\\\"",
-					"JucePlugin_ManufacturerWebsite=\\\"www.yourcompany.com\\\"",
+					"JucePlugin_Manufacturer=\\\"ssabug\\\"",
+					"JucePlugin_ManufacturerWebsite=\\\"https://github.com/ssabug\\\"",
 					"JucePlugin_ManufacturerEmail=\\\"\\\"",
 					"JucePlugin_ManufacturerCode=0x4d616e75",
 					"JucePlugin_PluginCode=0x42667833",
@@ -774,8 +780,8 @@
 					"JucePlugin_AUExportPrefix=fxseqAU",
 					"JucePlugin_AUExportPrefixQuoted=\\\"fxseqAU\\\"",
 					"JucePlugin_AUManufacturerCode=JucePlugin_ManufacturerCode",
-					"JucePlugin_CFBundleIdentifier=com.yourcompany.fxseq",
-					"JucePlugin_AAXIdentifier=com.yourcompany.fxseq",
+					"JucePlugin_CFBundleIdentifier=com.ssabug.fxseq",
+					"JucePlugin_AAXIdentifier=com.ssabug.fxseq",
 					"JucePlugin_AAXManufacturerCode=JucePlugin_ManufacturerCode",
 					"JucePlugin_AAXProductId=JucePlugin_PluginCode",
 					"JucePlugin_AAXCategory=0",
@@ -783,13 +789,13 @@
 					"JucePlugin_AAXDisableMultiMono=0",
 					"JucePlugin_IAAType=0x61757278",
 					"JucePlugin_IAASubType=JucePlugin_PluginCode",
-					"JucePlugin_IAAName=\\\"yourcompany:\\ fxseq\\\"",
+					"JucePlugin_IAAName=\\\"ssabug:\\ fxseq\\\"",
 					"JucePlugin_VSTNumMidiInputs=16",
 					"JucePlugin_VSTNumMidiOutputs=16",
 					"JucePlugin_ARAContentTypes=0",
 					"JucePlugin_ARATransformationFlags=0",
-					"JucePlugin_ARAFactoryID=\\\"com.yourcompany.fxseq.factory\\\"",
-					"JucePlugin_ARADocumentArchiveID=\\\"com.yourcompany.fxseq.aradocumentarchive.1.0.0\\\"",
+					"JucePlugin_ARAFactoryID=\\\"com.ssabug.fxseq.factory\\\"",
+					"JucePlugin_ARADocumentArchiveID=\\\"com.ssabug.fxseq.aradocumentarchive.1.0.0\\\"",
 					"JucePlugin_ARACompatibleArchiveIDs=\\\"\\\"",
 					"JUCE_STANDALONE_APPLICATION=JucePlugin_Build_Standalone",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
@@ -813,7 +819,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_HEADER_SEARCH_PATHS = "$(HOME)/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode $(HOME)/JUCE/modules $(HOME)/JUCE/modules/juce_audio_plugin_client/AU";
 				OTHER_LDFLAGS = "-bundle -lfxseq -weak_framework Metal -weak_framework MetalKit";
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.fxseq;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ssabug.fxseq;
 				PRODUCT_NAME = "fxseq";
 				USE_HEADERMAP = NO;
 				VALID_ARCHS = "i386 x86_64 arm64 arm64e";
@@ -916,8 +922,8 @@
 					"JucePlugin_Enable_ARA=0",
 					"JucePlugin_Name=\\\"fxseq\\\"",
 					"JucePlugin_Desc=\\\"fxseq\\\"",
-					"JucePlugin_Manufacturer=\\\"yourcompany\\\"",
-					"JucePlugin_ManufacturerWebsite=\\\"www.yourcompany.com\\\"",
+					"JucePlugin_Manufacturer=\\\"ssabug\\\"",
+					"JucePlugin_ManufacturerWebsite=\\\"https://github.com/ssabug\\\"",
 					"JucePlugin_ManufacturerEmail=\\\"\\\"",
 					"JucePlugin_ManufacturerCode=0x4d616e75",
 					"JucePlugin_PluginCode=0x42667833",
@@ -937,8 +943,8 @@
 					"JucePlugin_AUExportPrefix=fxseqAU",
 					"JucePlugin_AUExportPrefixQuoted=\\\"fxseqAU\\\"",
 					"JucePlugin_AUManufacturerCode=JucePlugin_ManufacturerCode",
-					"JucePlugin_CFBundleIdentifier=com.yourcompany.fxseq",
-					"JucePlugin_AAXIdentifier=com.yourcompany.fxseq",
+					"JucePlugin_CFBundleIdentifier=com.ssabug.fxseq",
+					"JucePlugin_AAXIdentifier=com.ssabug.fxseq",
 					"JucePlugin_AAXManufacturerCode=JucePlugin_ManufacturerCode",
 					"JucePlugin_AAXProductId=JucePlugin_PluginCode",
 					"JucePlugin_AAXCategory=0",
@@ -946,13 +952,13 @@
 					"JucePlugin_AAXDisableMultiMono=0",
 					"JucePlugin_IAAType=0x61757278",
 					"JucePlugin_IAASubType=JucePlugin_PluginCode",
-					"JucePlugin_IAAName=\\\"yourcompany:\\ fxseq\\\"",
+					"JucePlugin_IAAName=\\\"ssabug:\\ fxseq\\\"",
 					"JucePlugin_VSTNumMidiInputs=16",
 					"JucePlugin_VSTNumMidiOutputs=16",
 					"JucePlugin_ARAContentTypes=0",
 					"JucePlugin_ARATransformationFlags=0",
-					"JucePlugin_ARAFactoryID=\\\"com.yourcompany.fxseq.factory\\\"",
-					"JucePlugin_ARADocumentArchiveID=\\\"com.yourcompany.fxseq.aradocumentarchive.1.0.0\\\"",
+					"JucePlugin_ARAFactoryID=\\\"com.ssabug.fxseq.factory\\\"",
+					"JucePlugin_ARADocumentArchiveID=\\\"com.ssabug.fxseq.aradocumentarchive.1.0.0\\\"",
 					"JucePlugin_ARACompatibleArchiveIDs=\\\"\\\"",
 					"JUCE_STANDALONE_APPLICATION=JucePlugin_Build_Standalone",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
@@ -972,7 +978,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_HEADER_SEARCH_PATHS = "$(HOME)/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode $(HOME)/JUCE/modules $(HOME)/JUCE/modules/juce_audio_plugin_client/AU";
 				OTHER_LDFLAGS = "-weak_framework Metal -weak_framework MetalKit";
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.fxseq;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ssabug.fxseq;
 				PRODUCT_NAME = "juce_vst3_helper";
 				USE_HEADERMAP = NO;
 				VALID_ARCHS = "i386 x86_64 arm64 arm64e";
@@ -1026,8 +1032,8 @@
 					"JucePlugin_Enable_ARA=0",
 					"JucePlugin_Name=\\\"fxseq\\\"",
 					"JucePlugin_Desc=\\\"fxseq\\\"",
-					"JucePlugin_Manufacturer=\\\"yourcompany\\\"",
-					"JucePlugin_ManufacturerWebsite=\\\"www.yourcompany.com\\\"",
+					"JucePlugin_Manufacturer=\\\"ssabug\\\"",
+					"JucePlugin_ManufacturerWebsite=\\\"https://github.com/ssabug\\\"",
 					"JucePlugin_ManufacturerEmail=\\\"\\\"",
 					"JucePlugin_ManufacturerCode=0x4d616e75",
 					"JucePlugin_PluginCode=0x42667833",
@@ -1047,8 +1053,8 @@
 					"JucePlugin_AUExportPrefix=fxseqAU",
 					"JucePlugin_AUExportPrefixQuoted=\\\"fxseqAU\\\"",
 					"JucePlugin_AUManufacturerCode=JucePlugin_ManufacturerCode",
-					"JucePlugin_CFBundleIdentifier=com.yourcompany.fxseq",
-					"JucePlugin_AAXIdentifier=com.yourcompany.fxseq",
+					"JucePlugin_CFBundleIdentifier=com.ssabug.fxseq",
+					"JucePlugin_AAXIdentifier=com.ssabug.fxseq",
 					"JucePlugin_AAXManufacturerCode=JucePlugin_ManufacturerCode",
 					"JucePlugin_AAXProductId=JucePlugin_PluginCode",
 					"JucePlugin_AAXCategory=0",
@@ -1056,13 +1062,13 @@
 					"JucePlugin_AAXDisableMultiMono=0",
 					"JucePlugin_IAAType=0x61757278",
 					"JucePlugin_IAASubType=JucePlugin_PluginCode",
-					"JucePlugin_IAAName=\\\"yourcompany:\\ fxseq\\\"",
+					"JucePlugin_IAAName=\\\"ssabug:\\ fxseq\\\"",
 					"JucePlugin_VSTNumMidiInputs=16",
 					"JucePlugin_VSTNumMidiOutputs=16",
 					"JucePlugin_ARAContentTypes=0",
 					"JucePlugin_ARATransformationFlags=0",
-					"JucePlugin_ARAFactoryID=\\\"com.yourcompany.fxseq.factory\\\"",
-					"JucePlugin_ARADocumentArchiveID=\\\"com.yourcompany.fxseq.aradocumentarchive.1.0.0\\\"",
+					"JucePlugin_ARAFactoryID=\\\"com.ssabug.fxseq.factory\\\"",
+					"JucePlugin_ARADocumentArchiveID=\\\"com.ssabug.fxseq.aradocumentarchive.1.0.0\\\"",
 					"JucePlugin_ARACompatibleArchiveIDs=\\\"\\\"",
 					"JUCE_STANDALONE_APPLICATION=JucePlugin_Build_Standalone",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
@@ -1083,7 +1089,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_HEADER_SEARCH_PATHS = "$(HOME)/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode $(HOME)/JUCE/modules $(HOME)/JUCE/modules/juce_audio_plugin_client/AU";
 				OTHER_LDFLAGS = "-weak_framework Metal -weak_framework MetalKit";
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.fxseq;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ssabug.fxseq;
 				PRODUCT_NAME = "juce_vst3_helper";
 				USE_HEADERMAP = NO;
 				VALID_ARCHS = "i386 x86_64 arm64 arm64e";
@@ -1137,8 +1143,8 @@
 					"JucePlugin_Enable_ARA=0",
 					"JucePlugin_Name=\\\"fxseq\\\"",
 					"JucePlugin_Desc=\\\"fxseq\\\"",
-					"JucePlugin_Manufacturer=\\\"yourcompany\\\"",
-					"JucePlugin_ManufacturerWebsite=\\\"www.yourcompany.com\\\"",
+					"JucePlugin_Manufacturer=\\\"ssabug\\\"",
+					"JucePlugin_ManufacturerWebsite=\\\"https://github.com/ssabug\\\"",
 					"JucePlugin_ManufacturerEmail=\\\"\\\"",
 					"JucePlugin_ManufacturerCode=0x4d616e75",
 					"JucePlugin_PluginCode=0x42667833",
@@ -1158,8 +1164,8 @@
 					"JucePlugin_AUExportPrefix=fxseqAU",
 					"JucePlugin_AUExportPrefixQuoted=\\\"fxseqAU\\\"",
 					"JucePlugin_AUManufacturerCode=JucePlugin_ManufacturerCode",
-					"JucePlugin_CFBundleIdentifier=com.yourcompany.fxseq",
-					"JucePlugin_AAXIdentifier=com.yourcompany.fxseq",
+					"JucePlugin_CFBundleIdentifier=com.ssabug.fxseq",
+					"JucePlugin_AAXIdentifier=com.ssabug.fxseq",
 					"JucePlugin_AAXManufacturerCode=JucePlugin_ManufacturerCode",
 					"JucePlugin_AAXProductId=JucePlugin_PluginCode",
 					"JucePlugin_AAXCategory=0",
@@ -1167,13 +1173,13 @@
 					"JucePlugin_AAXDisableMultiMono=0",
 					"JucePlugin_IAAType=0x61757278",
 					"JucePlugin_IAASubType=JucePlugin_PluginCode",
-					"JucePlugin_IAAName=\\\"yourcompany:\\ fxseq\\\"",
+					"JucePlugin_IAAName=\\\"ssabug:\\ fxseq\\\"",
 					"JucePlugin_VSTNumMidiInputs=16",
 					"JucePlugin_VSTNumMidiOutputs=16",
 					"JucePlugin_ARAContentTypes=0",
 					"JucePlugin_ARATransformationFlags=0",
-					"JucePlugin_ARAFactoryID=\\\"com.yourcompany.fxseq.factory\\\"",
-					"JucePlugin_ARADocumentArchiveID=\\\"com.yourcompany.fxseq.aradocumentarchive.1.0.0\\\"",
+					"JucePlugin_ARAFactoryID=\\\"com.ssabug.fxseq.factory\\\"",
+					"JucePlugin_ARADocumentArchiveID=\\\"com.ssabug.fxseq.aradocumentarchive.1.0.0\\\"",
 					"JucePlugin_ARACompatibleArchiveIDs=\\\"\\\"",
 					"JUCE_STANDALONE_APPLICATION=JucePlugin_Build_Standalone",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
@@ -1194,7 +1200,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_HEADER_SEARCH_PATHS = "$(HOME)/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode $(HOME)/JUCE/modules $(HOME)/JUCE/modules/juce_audio_plugin_client/AU";
 				OTHER_LDFLAGS = "-weak_framework Metal -weak_framework MetalKit";
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.fxseq;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ssabug.fxseq;
 				PRODUCT_NAME = "fxseq";
 				SKIP_INSTALL = YES;
 				USE_HEADERMAP = NO;
@@ -1298,8 +1304,8 @@
 					"JucePlugin_Enable_ARA=0",
 					"JucePlugin_Name=\\\"fxseq\\\"",
 					"JucePlugin_Desc=\\\"fxseq\\\"",
-					"JucePlugin_Manufacturer=\\\"yourcompany\\\"",
-					"JucePlugin_ManufacturerWebsite=\\\"www.yourcompany.com\\\"",
+					"JucePlugin_Manufacturer=\\\"ssabug\\\"",
+					"JucePlugin_ManufacturerWebsite=\\\"https://github.com/ssabug\\\"",
 					"JucePlugin_ManufacturerEmail=\\\"\\\"",
 					"JucePlugin_ManufacturerCode=0x4d616e75",
 					"JucePlugin_PluginCode=0x42667833",
@@ -1319,8 +1325,8 @@
 					"JucePlugin_AUExportPrefix=fxseqAU",
 					"JucePlugin_AUExportPrefixQuoted=\\\"fxseqAU\\\"",
 					"JucePlugin_AUManufacturerCode=JucePlugin_ManufacturerCode",
-					"JucePlugin_CFBundleIdentifier=com.yourcompany.fxseq",
-					"JucePlugin_AAXIdentifier=com.yourcompany.fxseq",
+					"JucePlugin_CFBundleIdentifier=com.ssabug.fxseq",
+					"JucePlugin_AAXIdentifier=com.ssabug.fxseq",
 					"JucePlugin_AAXManufacturerCode=JucePlugin_ManufacturerCode",
 					"JucePlugin_AAXProductId=JucePlugin_PluginCode",
 					"JucePlugin_AAXCategory=0",
@@ -1328,13 +1334,13 @@
 					"JucePlugin_AAXDisableMultiMono=0",
 					"JucePlugin_IAAType=0x61757278",
 					"JucePlugin_IAASubType=JucePlugin_PluginCode",
-					"JucePlugin_IAAName=\\\"yourcompany:\\ fxseq\\\"",
+					"JucePlugin_IAAName=\\\"ssabug:\\ fxseq\\\"",
 					"JucePlugin_VSTNumMidiInputs=16",
 					"JucePlugin_VSTNumMidiOutputs=16",
 					"JucePlugin_ARAContentTypes=0",
 					"JucePlugin_ARATransformationFlags=0",
-					"JucePlugin_ARAFactoryID=\\\"com.yourcompany.fxseq.factory\\\"",
-					"JucePlugin_ARADocumentArchiveID=\\\"com.yourcompany.fxseq.aradocumentarchive.1.0.0\\\"",
+					"JucePlugin_ARAFactoryID=\\\"com.ssabug.fxseq.factory\\\"",
+					"JucePlugin_ARADocumentArchiveID=\\\"com.ssabug.fxseq.aradocumentarchive.1.0.0\\\"",
 					"JucePlugin_ARACompatibleArchiveIDs=\\\"\\\"",
 					"JUCE_STANDALONE_APPLICATION=JucePlugin_Build_Standalone",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
@@ -1357,7 +1363,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_HEADER_SEARCH_PATHS = "$(HOME)/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode $(HOME)/JUCE/modules $(HOME)/JUCE/modules/juce_audio_plugin_client/AU";
 				OTHER_LDFLAGS = "-bundle -lfxseq -weak_framework Metal -weak_framework MetalKit";
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.fxseq;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ssabug.fxseq;
 				PRODUCT_NAME = "fxseq";
 				USE_HEADERMAP = NO;
 				VALID_ARCHS = "i386 x86_64 arm64 arm64e";

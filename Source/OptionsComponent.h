@@ -12,6 +12,7 @@ class OptionsComponent   : public juce::Component
         //CALLBACKS
         void skinChange();
         void changeSelectedPreset();
+        void savePreset();
 
         FxseqAudioProcessorEditor *APE;
 
@@ -24,7 +25,7 @@ class OptionsComponent   : public juce::Component
         void initSlider1(std::string name,juce::Slider& slider,juce::Label& label,float min,float max,float def);
 
         juce::ComboBox presetSelected;
-        juce::TextButton savePreset;
+        juce::TextButton savePresetButton;
         juce::Label presetSelectedLabel,savePresetLabel;
         
         

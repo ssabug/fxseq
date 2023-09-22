@@ -649,6 +649,9 @@
     <ClCompile Include="..\..\Source\OutputComponent.cpp">
       <Filter>fxseq</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\SequenceSequencerComponent.cpp">
+      <Filter>fxseq</Filter>
+    </ClCompile>
     <ClCompile Include="C:\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.cpp">
       <Filter>JUCE Modules\juce_audio_basics\audio_play_head</Filter>
     </ClCompile>
@@ -3586,6 +3589,9 @@
       <Filter>fxseq</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\OutputComponent.h">
+      <Filter>fxseq</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SequenceSequencerComponent.h">
       <Filter>fxseq</Filter>
     </ClInclude>
     <ClInclude Include="C:\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">

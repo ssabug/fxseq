@@ -8,14 +8,18 @@
 
 #pragma once
 
+#include <filesystem>
+#include <fstream>
+
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "SequencerComponent.h"
+#include "SequenceSequencerComponent.h"
 #include "EffectComponent.h"
 #include "OptionsComponent.h"
 #include "OutputComponent.h"
-#include <filesystem>
-#include <fstream>
+
+
 
 //==============================================================================
 /**
@@ -55,6 +59,8 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
                                           SequencerComponent(2,this,"imagebutton3","combo3"),
                                           SequencerComponent(3,this,"imagebutton4","combo4")
                                          };
+
+        SequenceSequencerComponent sequenceSeq={SequenceSequencerComponent(this,"combo3","slider3","imagebutton3")};
 
         EffectComponent effects[4]=      {EffectComponent(0,this,"CHOPPER","combo1","slider1","programbutton1"),
                                           EffectComponent(1,this,"FILTER","combo2","slider2","programbutton2"),

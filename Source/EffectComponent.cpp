@@ -28,9 +28,9 @@ void EffectComponent::resized()
 {
     effectName.setBounds(90,0,80,20);
     outGainLabel.setBounds(195,00,80,20);
-    outGain.setBounds     (185,05,80,60);
+    outGain.setBounds     (185,10,80,60);
     outMixLabel.setBounds (195,58,80,20);
-    outMix.setBounds      (185,63,80,60);
+    outMix.setBounds      (185,68,80,60);
     programButton.setBounds(0,0,43,17);
 }
 

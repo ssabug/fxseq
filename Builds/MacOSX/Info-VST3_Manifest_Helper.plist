@@ -8,7 +8,7 @@
     <key>CFBundleIconFile</key>
     <string></string>
     <key>CFBundleIdentifier</key>
-    <string>com.yourcompany.fxseq</string>
+    <string>com.ssabug.fxseq</string>
     <key>CFBundleName</key>
     <string>fxseq</string>
     <key>CFBundleDisplayName</key>

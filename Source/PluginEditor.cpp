@@ -52,6 +52,12 @@ FxseqAudioProcessorEditor::FxseqAudioProcessorEditor (FxseqAudioProcessor& p)
     output.skinChange();
     addAndMakeVisible(output);
 
+    sequenceSeq.comboColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+output.comboTemplate+"/colors");
+    sequenceSeq.sliderColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+output.sliderTemplate+"/colors");
+    sequenceSeq.imageButtonColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+output.imageButtonTemplate+"/colors");
+    sequenceSeq.skinChange();
+    addAndMakeVisible(sequenceSeq);
+
     addAndMakeVisible(debugLog);
 
     startTimerHz(30);
@@ -91,6 +97,8 @@ void FxseqAudioProcessorEditor::resized()
     for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) {
         sequencers[i].setBounds(5,5+i*80,1200,80);
     }
+
+    sequenceSeq.setBounds(5,310,1200,80);
 
     for (int i=0;i<sizeof(effects)/sizeof(effects[0]);i++) {
         effects[i].setBounds(5+i*282,375,262,120);

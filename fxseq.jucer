@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="BFx3FP" name="fxseq" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              pluginFormats="buildVST3">
+              pluginFormats="buildVST3" companyName="ssabug" companyWebsite="https://github.com/ssabug">
   <MAINGROUP id="mabWzD" name="fxseq">
     <GROUP id="{AB131AAF-5B1D-67F1-748B-C00E17971B5F}" name="Source">
       <FILE id="OanDcm" name="PluginProcessor.cpp" compile="1" resource="0"
@@ -29,6 +29,10 @@
           file="Source/OutputComponent.cpp"/>
     <FILE id="Is6Rdl" name="OutputComponent.h" compile="0" resource="0"
           file="Source/OutputComponent.h"/>
+    <FILE id="Mfv8uj" name="SequenceSequencerComponent.cpp" compile="1"
+          resource="0" file="Source/SequenceSequencerComponent.cpp"/>
+    <FILE id="GEt1mT" name="SequenceSequencerComponent.h" compile="0" resource="0"
+          file="Source/SequenceSequencerComponent.h"/>
   </MAINGROUP>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
