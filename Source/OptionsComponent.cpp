@@ -71,7 +71,7 @@ void OptionsComponent::skinChange()
     sequencerModeLabel.setColour(0x1000281,juce::Colour(comboColors[1][1]));
     scrollPatternsLabel.setColour(0x1000281,juce::Colour(comboColors[1][1]));
 
-    if (scroll) { scrollPatterns.setColour(juce::TextButton::buttonColourId,juce::Colours::black);}
+    if (not scroll) { scrollPatterns.setColour(juce::TextButton::buttonColourId,juce::Colours::black);}
     else {scrollPatterns.setColour(juce::TextButton::buttonColourId,juce::Colour(imageButtonColors[0][1]));}
 }
 ////////////////////////////////////////////// TEMPLATES //////////////////////////////////////////////
