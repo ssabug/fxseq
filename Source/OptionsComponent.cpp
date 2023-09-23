@@ -70,6 +70,9 @@ void OptionsComponent::skinChange()
     savePresetLabel.setColour(0x1000281,juce::Colour(comboColors[1][1]));
     sequencerModeLabel.setColour(0x1000281,juce::Colour(comboColors[1][1]));
     scrollPatternsLabel.setColour(0x1000281,juce::Colour(comboColors[1][1]));
+
+    if (scroll) { scrollPatterns.setColour(juce::TextButton::buttonColourId,juce::Colours::black);}
+    else {scrollPatterns.setColour(juce::TextButton::buttonColourId,juce::Colour(imageButtonColors[0][1]));}
 }
 ////////////////////////////////////////////// TEMPLATES //////////////////////////////////////////////
 void OptionsComponent::initSlider1(std::string name,juce::Slider& slider,juce::Label& label,float min,float max,float def)
