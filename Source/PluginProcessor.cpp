@@ -33,6 +33,11 @@ juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
         params.add (std::make_unique<juce::AudioParameterFloat> (prefix+"gain",prefix+"gain", 0.0f, 2.0f, 1.0f));
         params.add (std::make_unique<juce::AudioParameterFloat> (prefix+"dry/wet",prefix+"dry/wet", 0.0f, 1.0f, 1.0f));         
     }
+
+    params.add (std::make_unique<juce::AudioParameterBool> ("sequencerMode","sequencerMode", false));
+    params.add (std::make_unique<juce::AudioParameterInt> ("sequenceNumber","sequenceNumber", 1, 16, 1));
+    params.add (std::make_unique<juce::AudioParameterInt> ("sequenceLength","sequenceLength", 2, 16, 4));
+
     return params;
 }
 //==============================================================================
@@ -165,15 +170,18 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
         
         for (int i=0;i<sequencerCount;i++) // FOR EACH SEQUENCER
         {
-                     
+               
             sequencerPositions[i]=int(std::floor( std::modf(ppq/sequencerClockMult[i],&unused)*(16*resolution))); // compute position on pattern
-            if (not sequenceMode)           
+            if (not (bool)pluginParameters.getParameter("sequencerMode")->getValue())           
             {
-                     
+              selected_pattern[i]=(int)getParameterValue("seq"+std::__cxx11::to_string(i+1)+"_pattern"); 
             } else {
-              int selectedSequence=0;         // get selected sequence (SEQUENCE MODE ONLY)   
-              int sequencePosition=0;         // compute positon on sequence (SEQUENCE MODE ONLY)             
-              selected_pattern[i]=sequences[selectedSequence][sequencePosition];
+             int selectedSequence=(int)pluginParameters.getParameter("sequenceNumber")->getValue()*15;  // get selected sequence (SEQUENCE MODE ONLY)   
+              int sequencePosition;
+              sequenceLength=(int)getParameterValue("sequenceLength")+2;
+              
+              if (ppq >= (float)sequenceLength ) {sequencePosition=int(std::floor(ppq/greatestClockMult)-sequenceLength*std::floor(ppq/(sequenceLength*greatestClockMult)));} else {sequenceLength=std::floor(ppq/greatestClockMult);}         // compute positon on sequence (SEQUENCE MODE ONLY)             
+              //selected_pattern[i]=sequences[selectedSequence][sequencePosition];
             }
             //lastFxDepths[i]=fxDepths_smoothed[i].getNextValue(); // get smoothed value from previous value
             //fxDepths_smoothed[i].setTargetValue(gainPatterns[i][selected_pattern[i]][sequencerPositions[i]]);// get data from pattern and set it for smoothed value target );           
@@ -266,4 +274,10 @@ void FxseqAudioProcessor::updateParameter(std::string paramName,float paramValue
 {
     auto rg=pluginParameters.getParameter(paramName)->getNormalisableRange().end-pluginParameters.getParameter(paramName)->getNormalisableRange().start;
     pluginParameters.getParameter(paramName)->setValue(paramValue/rg);
+}
+
+float FxseqAudioProcessor::getParameterValue(std::string paramName)
+{
+    auto rg=pluginParameters.getParameter(paramName)->getNormalisableRange().end-pluginParameters.getParameter(paramName)->getNormalisableRange().start;
+    return pluginParameters.getParameter(paramName)->getValue()*rg;
 }

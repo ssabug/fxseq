@@ -52,10 +52,11 @@ FxseqAudioProcessorEditor::FxseqAudioProcessorEditor (FxseqAudioProcessor& p)
     output.skinChange();
     addAndMakeVisible(output);
 
-    sequenceSeq.comboColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+output.comboTemplate+"/colors");
-    sequenceSeq.sliderColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+output.sliderTemplate+"/colors");
-    sequenceSeq.imageButtonColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+output.imageButtonTemplate+"/colors");
+    sequenceSeq.comboColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+sequenceSeq.comboTemplate+"/colors");
+    sequenceSeq.sliderColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+sequenceSeq.sliderTemplate+"/colors");
+    sequenceSeq.imageButtonColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+sequenceSeq.imageButtonTemplate+"/colors");
     sequenceSeq.skinChange();
+    sequenceSeq.changeSelectedSequence();
     addAndMakeVisible(sequenceSeq);
 
     addAndMakeVisible(debugLog);
@@ -114,20 +115,31 @@ void FxseqAudioProcessorEditor::timerCallback()
     double ppq=audioProcessor.ppq;
     float unused;
     std::vector<int> positions;
+    int sequencePosition;
+    int sequenceLength=sequenceSeq.getSequenceLength();
+    greatestClockMult=(int)greatest(sequencers[0].clockMult,sequencers[1].clockMult,sequencers[2].clockMult,sequencers[3].clockMult);
+    audioProcessor.greatestClockMult=greatestClockMult;
+    
+
+    if (ppq >= sequenceLength ) {sequencePosition=int(std::floor(ppq/greatestClockMult)-sequenceLength*std::floor(ppq/(sequenceLength*greatestClockMult)));} else {sequenceLength=std::floor(ppq/greatestClockMult);}
+    sequenceSeq.updatePosition(sequencePosition);
 
     for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) {       
         positions.push_back(int(std::floor( std::modf(ppq/sequencers[i].clockMult,&unused)*(16))));
+
+        if ( (options.scroll) and (options.sequenceMode) ) {
+            sequencers[i].remoteChangeSelectedPattern(sequenceSeq.sequence[sequencePosition]);
+        }
+
         sequencers[i].updatePosition(positions[i]);
     }
-
+    
+    int procSeqLength=audioProcessor.sequenceLength;
     debugLog.setText(    "ppq " + std::__cxx11::to_string(ppq) + "\n"
-                       +"position1 " + std::__cxx11::to_string(positions[0]) + "\n"
-                       +"position2 " + std::__cxx11::to_string(positions[1]) + "\n"
-                       +"position3 " + std::__cxx11::to_string(positions[2]) + "\n"
-                       +"position4 " + std::__cxx11::to_string(positions[3]) + "\n"
-
+                       +"selected pattern : " + std::__cxx11::to_string(audioProcessor.selected_pattern[0])+" " + std::__cxx11::to_string(audioProcessor.selected_pattern[1])+ " " + std::__cxx11::to_string(audioProcessor.selected_pattern[2]) + " " + std::__cxx11::to_string(audioProcessor.selected_pattern[3]) + "\n"
+                       +"seq length: " + std::__cxx11::to_string(procSeqLength) +"\n"
+                       + " seqmode :"+ std::__cxx11::to_string(options.sequenceMode) +" scroll :" + std::__cxx11::to_string(options.scroll)
                     );
- 
 }
 
 void FxseqAudioProcessorEditor::updateSeqPattern(int sequencerIndex,int patternIndex)
@@ -160,6 +172,22 @@ void FxseqAudioProcessorEditor::updateSelectedProcessorEffect(int sequencerIndex
     std::string paramName="seq"+std::__cxx11::to_string(sequencerIndex+1)+"_fx";
     audioProcessor.updateParameter(paramName,(float)effectIndex);
 }
+
+std::vector<int> FxseqAudioProcessorEditor::getSequence(int seqIndex)
+{
+    return audioProcessor.sequences[seqIndex];
+}
+
+
+void FxseqAudioProcessorEditor::updateSequence(int seqIndex, std::vector<int> sequence)
+{
+    audioProcessor.sequences[seqIndex]=sequence;
+}
+
+void FxseqAudioProcessorEditor::changeSequenceMode(bool mode)
+{
+    audioProcessor.updateParameter("sequencerMode",(float) mode);
+}
 ////////////////////////////////////////////////////////////////////////////////////// UTILS //////////////////////////////////////////////////////////////////////////////////////
 std::vector<std::string> FxseqAudioProcessorEditor::split(std::string s, std::string delimiter) 
 {
@@ -176,6 +204,27 @@ std::vector<std::string> FxseqAudioProcessorEditor::split(std::string s, std::st
     res.push_back (s.substr (pos_start));
     return res;
 }
+
+int FxseqAudioProcessorEditor::greatest(int n1,int n2,int n3,int n4) 
+{
+    int ng1,ng2,Greatest;
+    if(n1>=n2) { ng1=n1; } else {ng1=n2;}
+    if(n3>=n4) { ng2=n3; } else {ng2=n4;}
+    if (ng1>=ng2) { Greatest=ng1;} else { Greatest=ng2;}
+
+    return Greatest;
+}
+
+int FxseqAudioProcessorEditor::lowest(int n1,int n2,int n3,int n4) 
+{
+    int ng1,ng2,Lowest;
+    if(n1>=n2) { ng1=n2; } else {ng1=n1;}
+    if(n3>=n4) { ng2=n4; } else {ng2=n3;}
+    if (ng1>=ng2) { Lowest=ng2;} else { Lowest=ng1;}
+
+    return Lowest;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////// XML //////////////////////////////////////////////////////////////////////////////////////
 std::string FxseqAudioProcessorEditor::readXMLParam(std::string xmlFilePath,std::string paramPath)
 {

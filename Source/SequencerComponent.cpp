@@ -141,6 +141,11 @@ void SequencerComponent::updatePattern(int patternData[]) {
     }
 }
 
+void SequencerComponent::remoteChangeSelectedPattern(int patternToSelect)
+{
+    patternSelect.setSelectedItemIndex(patternToSelect);
+}
+
 void SequencerComponent::changeSelectedPattern()
 {
     APE->updateSeqPattern(index,patternSelect.getSelectedItemIndex());

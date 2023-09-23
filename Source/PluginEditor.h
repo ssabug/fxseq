@@ -40,13 +40,19 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         void updateSelectedProcessorPattern(int sequencerIndex,int patternIndex);
         void updateSelectedProcessorClock(int sequencerIndex,int clockIndex);
         void updateSelectedProcessorEffect(int sequencerIndex,int effectIndex);
-    
+        std::vector<int> getSequence(int seqIndex);
+        void updateSequence(int seqIndex, std::vector<int> sequence);
+        void changeSequenceMode(bool mode);
+        
+        int greatestClockMult=4;
         std::string skinPath="/home/pwner/dev/fxseq/Ressources/skins/default/";
         std::string imagePath=skinPath+"images/";
     private:
         void timerCallback();
         //UTILS
         std::vector<std::string> split(std::string s, std::string delimiter);
+        int greatest(int n1,int n2,int n3,int n4);
+        int lowest(int n1,int n2,int n3,int n4);
         // XML //
         std::string readXMLParam(std::string xmlFilePath,std::string paramPath);
         std::vector<std::string> readXMLVectorParam(std::string xmlFilePath,std::string paramPath);
@@ -60,7 +66,7 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
                                           SequencerComponent(3,this,"imagebutton4","combo4")
                                          };
 
-        SequenceSequencerComponent sequenceSeq={SequenceSequencerComponent(this,"combo3","slider3","imagebutton3")};
+        SequenceSequencerComponent sequenceSeq={SequenceSequencerComponent(this,"combo1","slider1","imagebutton1")};
 
         EffectComponent effects[4]=      {EffectComponent(0,this,"CHOPPER","combo1","slider1","programbutton1"),
                                           EffectComponent(1,this,"FILTER","combo2","slider2","programbutton2"),

@@ -13,12 +13,14 @@ class SequenceSequencerComponent   : public juce::Component
         void skinChange();
         void changeSelectedSequence();
         void sequenceChanged(int step);
-        void updateSequence(int sequenceIndex);
         void changeSequenceLength();
+        void updatePosition(int position);
+        int getSequenceLength();
 
         FxseqAudioProcessorEditor *APE;
 
         int selectedSequence;
+        std::vector<int> sequence;
 
         std::string comboTemplate="combo3",sliderTemplate="slider3",imageButtonTemplate="imagebutton3";
         std::vector<std::vector<int>> comboColors={{(int)0x1000b00,(int)0xFF000000},{(int)0x1000c00,(int)0xFF7F00FF},{(int)0x1000e00,(int)0xFF7F00FF},{(int)0x1000a00,(int)0xFF7F00FF}};
@@ -27,10 +29,11 @@ class SequenceSequencerComponent   : public juce::Component
 
     private:
         void initSlider2(juce::Slider& slider,float min,float max,float def);
+        
 
         juce::ComboBox sequenceStep[16],sequenceSelect;
         juce::TextButton autoScroll;
-        juce::Label sequenceSelectLabel,autoScrollLabel,sequenceLengthSliderLabel;
+        juce::Label sequenceSelectLabel,sequenceLengthSliderLabel;
         juce::Slider sequenceLengthSlider;
         
         

@@ -42,7 +42,7 @@ void SequenceSequencerComponent::resized()
     sequenceLengthSlider.setBounds        (60,15,75,30);
 
     for (int j=0;j<16;j++) {
-        sequenceStep[j].setBounds         (150+j*60,20,50,20);
+        sequenceStep[j].setBounds         (150+j*60,20,55,20);
     }
 }
 
@@ -69,7 +69,11 @@ void SequenceSequencerComponent::initSlider2(juce::Slider& slider,float min,floa
 /////////////////////////////////////////////// CALLBACKS///////////////////////////////////////////////
 void SequenceSequencerComponent::changeSelectedSequence()
 {
-
+    sequence=APE->getSequence(sequenceSelect.getSelectedItemIndex());
+    for (int j=0;j<16;j++) {
+        sequenceStep[j].setSelectedItemIndex(sequence[j]);
+    }
+    selectedSequence=sequenceSelect.getSelectedItemIndex();
 }
 
 void SequenceSequencerComponent::changeSequenceLength()
@@ -77,12 +81,13 @@ void SequenceSequencerComponent::changeSequenceLength()
     int sequenceLength=sequenceLengthSlider.getValue();
     for (int i=0;i<16;i++) 
     {
-        int mask=0xffffffff;
+        int mask=0xffffffff,mask2;
         if (i>sequenceLength-1) {
             mask=0xFF3F3F3F;
         } 
         for(int j=0;j<comboColors.size();j++) {
-            sequenceStep[i].setColour(comboColors[j][0],juce::Colour(comboColors[j][1] & mask));
+            if (j==1) {mask2=0xFF000000;} else {mask2=mask;}
+            sequenceStep[i].setColour(comboColors[j][0],juce::Colour(comboColors[j][1] & mask2));
         }
         
     }
@@ -90,10 +95,25 @@ void SequenceSequencerComponent::changeSequenceLength()
 
 void SequenceSequencerComponent::sequenceChanged(int step)
 {
-
+    sequence[step]=sequenceStep[step].getSelectedItemIndex();
+    APE->updateSequence(selectedSequence,sequence);
 }
 
-void SequenceSequencerComponent::updateSequence(int sequenceIndex)
-{
 
+void SequenceSequencerComponent::updatePosition(int position)
+{
+    for(int i=0;i<getSequenceLength();i++)
+    {
+        int coeff;
+        if (i==position) { coeff=0xFFFFFFFF; }
+        else { coeff=0xFF7F7F7F; }
+        sequenceStep[i].setColour(comboColors[1][0],juce::Colour(comboColors[1][1]&coeff));
+        sequenceStep[i].setColour(comboColors[2][0],juce::Colour(comboColors[2][1]&coeff));        
+        sequenceStep[i].setColour(comboColors[3][0],juce::Colour(comboColors[3][1]&coeff));
+    }
+}
+
+int SequenceSequencerComponent::getSequenceLength()
+{
+    return sequenceLengthSlider.getValue();
 }

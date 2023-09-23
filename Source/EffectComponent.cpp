@@ -31,7 +31,7 @@ void EffectComponent::resized()
     outGain.setBounds     (185,10,80,60);
     outMixLabel.setBounds (195,58,80,20);
     outMix.setBounds      (185,68,80,60);
-    programButton.setBounds(0,0,43,17);
+    programButton.setBounds(0,0,43,20);
 }
 
 void EffectComponent::skinChange()
