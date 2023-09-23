@@ -12,6 +12,7 @@
 SequencerComponent::SequencerComponent(int Index,FxseqAudioProcessorEditor *ape,std::string StepSeqTemplate,std::string ComboTemplate)
 {
     index=Index;
+    position=index;
     stepSeqTemplate=StepSeqTemplate;
     comboTemplate=ComboTemplate;
     

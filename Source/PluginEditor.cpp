@@ -96,7 +96,8 @@ void FxseqAudioProcessorEditor::resized()
     debugLog.setBounds(1130,320,260,180);
 
     for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) {
-        sequencers[i].setBounds(5,5+i*80,1200,80);
+        //sequencers[i].setBounds(5,5+i*80,1200,80);
+        sequencers[i].setBounds(5,5+sequencers[i].position*80,1200,80);
     }
 
     sequenceSeq.setBounds(5,310,1200,80);
@@ -133,12 +134,19 @@ void FxseqAudioProcessorEditor::timerCallback()
 
         sequencers[i].updatePosition(positions[i]);
     }
-    
+    /*std::string dbg="GainMaps:\n";
+    for (int i = 0;i<16;i++) {
+        for (int j=0;j<8;j++) {
+            dbg+=std::__cxx11::to_string(audioProcessor.gainPatterns[0][0][i*8+j]) +"||";
+        }
+        dbg+="\n";
+    }*/
     int procSeqLength=audioProcessor.sequenceLength;
     debugLog.setText(    "ppq " + std::__cxx11::to_string(ppq) + "\n"
                        +"selected pattern : " + std::__cxx11::to_string(audioProcessor.selected_pattern[0])+" " + std::__cxx11::to_string(audioProcessor.selected_pattern[1])+ " " + std::__cxx11::to_string(audioProcessor.selected_pattern[2]) + " " + std::__cxx11::to_string(audioProcessor.selected_pattern[3]) + "\n"
                        +"seq length: " + std::__cxx11::to_string(procSeqLength) +"\n"
-                       + " seqmode :"+ std::__cxx11::to_string(options.sequenceMode) +" scroll :" + std::__cxx11::to_string(options.scroll)
+                       +"seqmode :"+ std::__cxx11::to_string(options.sequenceMode) +" scroll :" + std::__cxx11::to_string(options.scroll) + "\n"
+                       
                     );
 }
 
@@ -150,8 +158,7 @@ void FxseqAudioProcessorEditor::updateSeqPattern(int sequencerIndex,int patternI
 void FxseqAudioProcessorEditor::updateProcessorPattern(int sequencerIndex,int patternIndex) 
 {
     audioProcessor.patterns[sequencerIndex][patternIndex]=sequencers[sequencerIndex].pattern;
-    //  audioProcessor.updateGainPattern(sequencerIndex,patternIndex);
-    //audioProcessor.updateGainPattern( sequencerIndex,patternIndex );
+    audioProcessor.updateGainPattern(sequencerIndex,patternIndex);
 }
 
 void FxseqAudioProcessorEditor::updateSelectedProcessorPattern(int sequencerIndex,int patternIndex) 
@@ -187,6 +194,16 @@ void FxseqAudioProcessorEditor::updateSequence(int seqIndex, std::vector<int> se
 void FxseqAudioProcessorEditor::changeSequenceMode(bool mode)
 {
     audioProcessor.updateParameter("sequencerMode",(float) mode);
+}
+
+void FxseqAudioProcessorEditor::updateSequenceLength(int length)
+{
+     audioProcessor.pluginParameters.getParameter("sequenceLength")->setValue((float)(length-2)/14);
+}
+
+void FxseqAudioProcessorEditor::changeSelectedSequence(int seqIndex)
+{
+    audioProcessor.updateParameter("sequenceNumber",(float) seqIndex);
 }
 ////////////////////////////////////////////////////////////////////////////////////// UTILS //////////////////////////////////////////////////////////////////////////////////////
 std::vector<std::string> FxseqAudioProcessorEditor::split(std::string s, std::string delimiter) 

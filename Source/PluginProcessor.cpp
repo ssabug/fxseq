@@ -47,7 +47,7 @@ FxseqAudioProcessor::FxseqAudioProcessor()
                        ),  
        pluginParameters (*this, nullptr, "PARAMETERS", createParameterLayout())
 {
-
+    initAllPatterns();
 }
 
 FxseqAudioProcessor::~FxseqAudioProcessor()
@@ -167,24 +167,23 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
         auto playposinfo=phead->getPosition();
         ppq=*(*playposinfo).getPpqPosition();
         
-        
         for (int i=0;i<sequencerCount;i++) // FOR EACH SEQUENCER
-        {
-               
+        {   
+            sequencerClockMult[i]=(int)pow(2,(pluginParameters.getParameter("seq"+std::__cxx11::to_string(i+1)+"_clockDiv")->getValue()*7));     
             sequencerPositions[i]=int(std::floor( std::modf(ppq/sequencerClockMult[i],&unused)*(16*resolution))); // compute position on pattern
-            if (not (bool)pluginParameters.getParameter("sequencerMode")->getValue())           
-            {
-              selected_pattern[i]=(int)getParameterValue("seq"+std::__cxx11::to_string(i+1)+"_pattern"); 
-            } else {
-             int selectedSequence=(int)pluginParameters.getParameter("sequenceNumber")->getValue()*15;  // get selected sequence (SEQUENCE MODE ONLY)   
-              int sequencePosition;
-              sequenceLength=(int)getParameterValue("sequenceLength")+2;
-              
-              if (ppq >= (float)sequenceLength ) {sequencePosition=int(std::floor(ppq/greatestClockMult)-sequenceLength*std::floor(ppq/(sequenceLength*greatestClockMult)));} else {sequenceLength=std::floor(ppq/greatestClockMult);}         // compute positon on sequence (SEQUENCE MODE ONLY)             
-              //selected_pattern[i]=sequences[selectedSequence][sequencePosition];
+            if (not (bool)pluginParameters.getParameter("sequencerMode")->getValue()){  // PATTERN MODE          
+                selected_pattern[i]=(int)getParameterValue("seq"+std::__cxx11::to_string(i+1)+"_pattern"); 
+            } else {                                                                   // SEQUENCE MODE
+                int selectedSequence=(int)(pluginParameters.getParameter("sequenceNumber")->getValue()*15); // get selected sequence (SEQUENCE MODE ONLY)                 
+                int sequencePosition;
+                sequenceLength=(int)getParameterValue("sequenceLength")+2;
+                if (ppq >= (float)sequenceLength ) {sequencePosition=int(std::floor(ppq/greatestClockMult)-sequenceLength*std::floor(ppq/(sequenceLength*greatestClockMult)));} else {sequenceLength=std::floor(ppq/greatestClockMult);}         // compute positon on sequence (SEQUENCE MODE ONLY)             
+                
+                if ((sequencePosition >15) or (sequencePosition<0)) {sequencePosition=0;}
+                selected_pattern[i]=sequences[selectedSequence][sequencePosition]; // update selected pattern
             }
-            //lastFxDepths[i]=fxDepths_smoothed[i].getNextValue(); // get smoothed value from previous value
-            //fxDepths_smoothed[i].setTargetValue(gainPatterns[i][selected_pattern[i]][sequencerPositions[i]]);// get data from pattern and set it for smoothed value target );           
+            lastFxDepths[i]=fxDepths_smoothed[i].getNextValue(); // get smoothed value from previous value
+            fxDepths_smoothed[i].setTargetValue(gainPatterns[i][selected_pattern[i]][sequencerPositions[i]]);// get data from pattern and set it for smoothed value target );           
         }
         
        
@@ -196,7 +195,8 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
-
+        //buffer.applyGain(fxDepths_smoothed[0].getNextValue());
+        buffer.applyGainRamp(channel,0,buffer.getNumSamples(),lastFxDepths[0],fxDepths_smoothed[0].getNextValue());
         // ..do something to the data...
     }
 }
@@ -235,13 +235,15 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 
 void FxseqAudioProcessor::initAllPatterns()
 {
-    
     for (int i=0;i<sequencerCount;i++) 
     {
+        std::vector<std::vector<float>> gainPatts;
         for (int j=0;j<patternsPerSequencer;j++)
         {
-            gainPatterns[i][j]=generateGainPattern(i,j);
+            
+            gainPatts.push_back(generateGainPattern(i,j));
         }
+        gainPatterns.push_back(gainPatts);
     }
 }
 

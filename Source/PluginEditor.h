@@ -43,6 +43,8 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         std::vector<int> getSequence(int seqIndex);
         void updateSequence(int seqIndex, std::vector<int> sequence);
         void changeSequenceMode(bool mode);
+        void updateSequenceLength(int length);
+        void changeSelectedSequence(int seqIndex);
         
         int greatestClockMult=4;
         std::string skinPath="/home/pwner/dev/fxseq/Ressources/skins/default/";

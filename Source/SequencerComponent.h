@@ -35,6 +35,7 @@ class SequencerComponent   : public juce::Component
         std::string imagePath=skinPath+ "images/";
 
         int index;
+        int position;
         const int stepCount=16;
         int stepMaxValue=1;
         std::vector<int> pattern;

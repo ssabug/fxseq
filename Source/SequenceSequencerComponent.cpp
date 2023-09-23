@@ -10,7 +10,7 @@ SequenceSequencerComponent::SequenceSequencerComponent(FxseqAudioProcessorEditor
 
     APE=ape; 
 
-    initSlider2(sequenceLengthSlider,1,16,1);
+    initSlider2(sequenceLengthSlider,2,16,1);
     sequenceLengthSlider.setValue(4);
     sequenceLengthSlider.onValueChange = [this] {changeSequenceLength();};
     
@@ -69,16 +69,19 @@ void SequenceSequencerComponent::initSlider2(juce::Slider& slider,float min,floa
 /////////////////////////////////////////////// CALLBACKS///////////////////////////////////////////////
 void SequenceSequencerComponent::changeSelectedSequence()
 {
-    sequence=APE->getSequence(sequenceSelect.getSelectedItemIndex());
+    int SelectedSequence=sequenceSelect.getSelectedItemIndex();
+    APE->changeSelectedSequence(SelectedSequence);
+    sequence=APE->getSequence(SelectedSequence);
     for (int j=0;j<16;j++) {
         sequenceStep[j].setSelectedItemIndex(sequence[j]);
     }
-    selectedSequence=sequenceSelect.getSelectedItemIndex();
+    selectedSequence=SelectedSequence;
 }
 
 void SequenceSequencerComponent::changeSequenceLength()
 {
     int sequenceLength=sequenceLengthSlider.getValue();
+    APE->updateSequenceLength(sequenceLength);
     for (int i=0;i<16;i++) 
     {
         int mask=0xffffffff,mask2;

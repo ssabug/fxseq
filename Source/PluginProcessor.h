@@ -69,14 +69,13 @@ public:
     int patternsPerSequencer=16;
     int stepsPerPattern=16;
     int sequencerPositions[4];
-    int sequencerClockMult[4]={4,4,4,4};// TEMPORARY
+    int sequencerClockMult[4]={4,4,4,4};
     int selected_pattern[4];
     int greatestClockMult=4; 
-    int sequenceLength=4;
-    
-    
+    int sequenceLength=4;    
 
     std::vector<std::vector<std::vector<float>>> gainPatterns;
+    std::vector<float> testGainPatterns;
     std::vector<std::vector<std::vector<int>>> patterns={   {   {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0},{1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
