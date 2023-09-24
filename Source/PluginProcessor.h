@@ -72,7 +72,8 @@ public:
     int sequencerClockMult[4]={4,4,4,4};
     int selected_pattern[4];
     int greatestClockMult=4; 
-    int sequenceLength=4;    
+    int sequenceLength=4;
+    std::vector<int> fxPositions={0,1,2,3};  
 
     std::vector<std::vector<std::vector<float>>> gainPatterns;
     std::vector<float> testGainPatterns;

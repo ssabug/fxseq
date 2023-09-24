@@ -15,6 +15,7 @@ class OptionsComponent   : public juce::Component
         void savePreset();
         void changeSequencerMode();
         void switchScroll();
+        void debugFunction();
 
         FxseqAudioProcessorEditor *APE;
 
@@ -30,8 +31,10 @@ class OptionsComponent   : public juce::Component
         void initSlider1(std::string name,juce::Slider& slider,juce::Label& label,float min,float max,float def);
 
         juce::ComboBox presetSelected,sequencerMode;
-        juce::TextButton savePresetButton,scrollPatterns;
+        juce::TextButton savePresetButton,scrollPatterns,debugButton;
         juce::Label presetSelectedLabel,savePresetLabel,sequencerModeLabel,scrollPatternsLabel;
+
+        int counter;
         
         
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OptionsComponent)

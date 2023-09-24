@@ -11,15 +11,15 @@
 
 SequencerComponent::SequencerComponent(int Index,FxseqAudioProcessorEditor *ape,std::string StepSeqTemplate,std::string ComboTemplate)
 {
+    APE=ape;
     index=Index;
-    position=index;
+    position=index;//APE->getSequencerPosition(index);
     stepSeqTemplate=StepSeqTemplate;
     comboTemplate=ComboTemplate;
     
     juce::Colour color_stepseq_1=juce::Colour(stepSeqColors[0][1]);
     juce::Colour color_stepseq_2=juce::Colour(stepSeqColors[1][1]);
-
-    APE=ape; 
+    
     setSize (1200, 80);
 
     for (int i=0;i<stepCount;i++)
@@ -60,6 +60,12 @@ SequencerComponent::SequencerComponent(int Index,FxseqAudioProcessorEditor *ape,
     effectTypeSelect.setSelectedItemIndex(index);
     effectTypeSelect.onChange = [this] {changeEffect();};
     addAndMakeVisible (effectTypeSelect);
+
+    
+    seqMoveUpButton.onClick = [this] {changeSequencerPosition(true);};
+    seqMoveDownButton.onClick = [this] {changeSequencerPosition(false);};
+    addAndMakeVisible (seqMoveUpButton);
+    addAndMakeVisible (seqMoveDownButton);
     
 }
 
@@ -78,6 +84,8 @@ void SequencerComponent::resized()
     patternSelect.setBounds       (15,40,50,16);   
     clockMultSelectLabel.setBounds(70,25,60,16);
     clockMultSelect.setBounds     (70,40,50,16);
+    seqMoveUpButton.setBounds     (0,15,10,10);
+    seqMoveDownButton.setBounds   (0,30,10,10);
     
     
 }
@@ -105,6 +113,14 @@ void SequencerComponent::skinChange()
     }
     patternSelectLabel.setColour(0x1000281,color_stepseq_1);
     clockMultSelectLabel.setColour(0x1000281,color_stepseq_1);
+
+    seqMoveUpButton.setColour(0x1000c00,color_stepseq_2);
+    seqMoveUpButton.setColour(0x1000100,juce::Colours::black);
+    seqMoveUpButton.setColour(0x1000101,color_stepseq_2);
+
+    seqMoveDownButton.setColour(0x1000c00,color_stepseq_2);
+    seqMoveDownButton.setColour(0x1000100,juce::Colours::black);
+    seqMoveDownButton.setColour(0x1000101,color_stepseq_2);
 }
 
 void SequencerComponent::seqStepClick(int stepIndex)
@@ -168,4 +184,17 @@ void SequencerComponent::changeEffect()
 int SequencerComponent::getSelectedPattern()
 {
     return patternSelect.getSelectedItemIndex();
+}
+
+void SequencerComponent::changeSequencerPosition(bool up)
+{
+    int newPosition=position;
+    if (up) {
+        if (position>0) {newPosition--;}
+        else {newPosition=APE->getSequencerCount()-1;};
+    } else {
+        if (position<APE->getSequencerCount()-1) {newPosition++;}
+        else {newPosition=0;};
+    }
+    APE->changeFxPosition(index,newPosition);
 }

@@ -41,6 +41,9 @@ OptionsComponent::OptionsComponent(FxseqAudioProcessorEditor *ape,std::string Co
     scrollPatternsLabel.setText("Autoscroll",juce::dontSendNotification);
     addAndMakeVisible (scrollPatterns);
     addAndMakeVisible (scrollPatternsLabel);
+
+    debugButton.onClick = [this] {debugFunction();};
+    addAndMakeVisible (debugButton);
 }   
 
 void OptionsComponent::resized()
@@ -52,7 +55,8 @@ void OptionsComponent::resized()
     sequencerModeLabel.setBounds    (40,50,50,20);
     sequencerMode.setBounds         (30,65,100,20);    
     scrollPatternsLabel.setBounds   (140,50,80,20);
-    scrollPatterns.setBounds        (160,65,40,20);    
+    scrollPatterns.setBounds        (160,65,40,20); 
+    debugButton.setBounds           (160,100,40,20);   
 }
 
 void OptionsComponent::skinChange()
@@ -111,4 +115,11 @@ void OptionsComponent::switchScroll()
         scroll=true;
         scrollPatterns.setColour(juce::TextButton::buttonColourId,juce::Colour(imageButtonColors[0][1]));
     }
+}
+
+void OptionsComponent::debugFunction()
+{
+    APE->changeFxPosition(0,counter);
+    if (counter <3) {counter++;}
+    else {counter=0;}
 }

@@ -78,8 +78,8 @@ void FxseqAudioProcessorEditor::paint (juce::Graphics& g)
     g.setFont (15.0f);
     for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) {
         g.setColour (juce::Colour(sequencers[i].stepSeqColors[1][1]));
-        g.drawRect (juce::Rectangle(0,i*80,140,70), 2);
-        g.drawRect (juce::Rectangle(0,i*80,1120,70), 2);
+        g.drawRect (juce::Rectangle(0,sequencers[i].position*80,140,70), 2);
+        g.drawRect (juce::Rectangle(0,sequencers[i].position*80,1120,70), 2);
         g.drawRect (juce::Rectangle(i*282,370,272,130), 2);
     }
     g.setColour (juce::Colour(0xFF3F3F7F));
@@ -120,7 +120,8 @@ void FxseqAudioProcessorEditor::timerCallback()
     int sequenceLength=sequenceSeq.getSequenceLength();
     greatestClockMult=(int)greatest(sequencers[0].clockMult,sequencers[1].clockMult,sequencers[2].clockMult,sequencers[3].clockMult);
     audioProcessor.greatestClockMult=greatestClockMult;
-    
+
+    refreshSequencerPositions();
 
     if (ppq >= sequenceLength ) {sequencePosition=int(std::floor(ppq/greatestClockMult)-sequenceLength*std::floor(ppq/(sequenceLength*greatestClockMult)));} else {sequenceLength=std::floor(ppq/greatestClockMult);}
     sequenceSeq.updatePosition(sequencePosition);
@@ -204,6 +205,43 @@ void FxseqAudioProcessorEditor::updateSequenceLength(int length)
 void FxseqAudioProcessorEditor::changeSelectedSequence(int seqIndex)
 {
     audioProcessor.updateParameter("sequenceNumber",(float) seqIndex);
+}
+
+void FxseqAudioProcessorEditor::changeFxPosition(int seqIndex,int newPosition)
+{
+    int indexAtNewPosition,replacePosition;
+    for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) {  if (sequencers[i].position==newPosition) {indexAtNewPosition=i;}    } 
+    replacePosition=sequencers[seqIndex].position;
+    sequencers[indexAtNewPosition].position=replacePosition;
+    sequencers[seqIndex].position=newPosition;
+    for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) { audioProcessor.fxPositions[i]=sequencers[i].position;}
+    resized();
+    repaint();
+}
+
+void FxseqAudioProcessorEditor::refreshSequencerPositions()
+{
+    bool change=false;
+    for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) { 
+        if (sequencers[i].position != audioProcessor.fxPositions[i]) {
+            sequencers[i].position=audioProcessor.fxPositions[i];
+            change=true;
+        }
+    }
+    if (change) {
+        resized();
+        repaint();
+    }
+}
+
+int FxseqAudioProcessorEditor::getSequencerPosition(int seqIndex)
+{
+    return audioProcessor.fxPositions[seqIndex];
+}
+
+int FxseqAudioProcessorEditor::getSequencerCount()
+{
+    return (int)(sizeof(sequencers)/sizeof(sequencers[0]));
 }
 ////////////////////////////////////////////////////////////////////////////////////// UTILS //////////////////////////////////////////////////////////////////////////////////////
 std::vector<std::string> FxseqAudioProcessorEditor::split(std::string s, std::string delimiter) 

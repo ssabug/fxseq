@@ -28,6 +28,7 @@ class SequencerComponent   : public juce::Component
         void changeEffect();
         int getSelectedPattern();
         void remoteChangeSelectedPattern(int patternToSelect);
+        void changeSequencerPosition(bool up);
 
         FxseqAudioProcessorEditor *APE;
 
@@ -55,7 +56,8 @@ class SequencerComponent   : public juce::Component
         
         juce::ImageButton seqStep[16];
         juce::ComboBox  patternSelect,clockMultSelect,effectTypeSelect;
-        juce::Label     seqStepMkr[4],patternSelectLabel,clockMultSelectLabel;  
+        juce::Label     seqStepMkr[4],patternSelectLabel,clockMultSelectLabel;
+        juce::TextButton seqMoveUpButton,seqMoveDownButton;  
         //==============================================================================
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SequencerComponent)
 };

@@ -45,6 +45,10 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         void changeSequenceMode(bool mode);
         void updateSequenceLength(int length);
         void changeSelectedSequence(int seqIndex);
+        void changeFxPosition(int seqIndex,int newPosition);
+        int getSequencerPosition(int seqIndex);
+        void refreshSequencerPositions();
+        int getSequencerCount();
         
         int greatestClockMult=4;
         std::string skinPath="/home/pwner/dev/fxseq/Ressources/skins/default/";
