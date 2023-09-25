@@ -50,6 +50,7 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         void refreshSequencerPositions();
         int getSequencerCount();
         void updateFxDryWet(int fxIndex, float fxValue);
+        void updateFxParam(int fxIndex, float paramIndex,float paramValue);
 
         void echoTest();
         

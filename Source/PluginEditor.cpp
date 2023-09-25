@@ -248,6 +248,20 @@ void FxseqAudioProcessorEditor::updateFxDryWet(int fxIndex, float fxValue)
     std::string paramName=effects[fxIndex].name +"_dry/wet";
     audioProcessor.pluginParameters.getParameter(paramName)->setValue(fxValue);
 }
+
+void FxseqAudioProcessorEditor::updateFxParam(int fxIndex, float paramIndex,float paramValue)
+{
+    std::string paramName=effects[fxIndex].name +"_dry/wet";
+    if (effects[fxIndex].name == "Echo") {
+        if (paramIndex==0) {
+            audioProcessor.echo_setDelay(paramValue);
+        }
+        if (paramIndex==1) {
+            audioProcessor.echo_setFeedback(paramValue);
+        }
+    }
+
+}
 ////////////////////////////////////////////////////////////////////////////////////// UTILS //////////////////////////////////////////////////////////////////////////////////////
 std::vector<std::string> FxseqAudioProcessorEditor::split(std::string s, std::string delimiter) 
 {

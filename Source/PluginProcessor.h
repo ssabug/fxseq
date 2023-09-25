@@ -161,6 +161,8 @@ private:
     float bitcrusher_bitReduction(float sample, float bitReduction);
     float bitcrusher_sampleRateReduction(float sample, int reductionFactor);
     int bitcrusher_count ;
+
+    void filter_process(juce::AudioBuffer<float>& buffer);
     //juce::AudioProcessorValueTreeState pluginParameters;   
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FxseqAudioProcessor)

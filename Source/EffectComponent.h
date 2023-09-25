@@ -14,6 +14,7 @@ class EffectComponent   : public juce::Component
         void changeProgram();
         void changeMix();
         void changeGain();
+        void changeParam(int paramIndex);
 
         std::string name;
         int index;
@@ -38,9 +39,9 @@ class EffectComponent   : public juce::Component
     private:
         void initSlider1(std::string name,juce::Slider& slider,juce::Label& label,float min,float max,float def);
 
-        juce::Slider outGain,outMix,param1,param2,param3;
+        juce::Slider outGain,outMix,params[3];
         juce::ImageButton presetChange;
-        juce::Label effectName,outGainLabel,outMixLabel;
+        juce::Label effectName,outGainLabel,outMixLabel,paramsLabel[3];
         juce::ImageButton programButton;
         
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EffectComponent)

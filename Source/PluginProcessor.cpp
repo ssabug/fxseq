@@ -245,18 +245,29 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
     }*/
     
     float fx3mix=getParameterValue("Filter_dry/wet");
-          
-    chopper_process(buffer,fx1drybuffer);//FX1  
-  
-    echo_process(buffer); // FX2
+    for (int i=0;i<sequencerCount;i++)
+    {
+        switch (fxPositions[i])
+        {
+            case 0:
+               chopper_process(buffer,fx1drybuffer);//FX1  
+               break;
+            case 1: 
+                echo_process(buffer); // FX2
+                break;
+            case 2:
+                //filter_process(buffer); // FX4
+                break;
+            case 3:               
+                bitcrush_process(buffer); // FX4
+                break;
+            
+        }
+    }
 
-    for (int channel = 0; channel < totalNumOutputChannels; ++channel) { //FX3
-        juce::dsp::AudioBlock<float> audioBlock(buffer);   // Ladder filter
-        juce::dsp::ProcessContextReplacing<float> context(audioBlock);// Ladder filter
-        //filter.process(context);// Ladder filter
-    }   
+    
 
-    bitcrush_process(buffer); // FX4
+    
     
 
   
@@ -402,6 +413,15 @@ void FxseqAudioProcessor::bitcrush_process(juce::AudioBuffer<float>& buffer)
              if (reduction > 1) {if (i%reduction != 0) channelData[i] = crusherMix*fx4mix*channelData[i - i%reduction]+(1-crusherMix*fx4mix)*channelData[i];} // sample rate reduction
         }
     }
+}
+
+void FxseqAudioProcessor::filter_process(juce::AudioBuffer<float>& buffer)
+{
+    for (int channel = 0; channel < 2; ++channel) { //FX3
+        juce::dsp::AudioBlock<float> audioBlock(buffer);   // Ladder filter
+        juce::dsp::ProcessContextReplacing<float> context(audioBlock);// Ladder filter
+        filter.process(context);// Ladder filter
+    }   
 }
 
 //////////////////////////// FX /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
