@@ -119,7 +119,5 @@ void OptionsComponent::switchScroll()
 
 void OptionsComponent::debugFunction()
 {
-    APE->changeFxPosition(0,counter);
-    if (counter <3) {counter++;}
-    else {counter=0;}
+    APE->echoTest();
 }

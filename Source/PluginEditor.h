@@ -49,6 +49,9 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         int getSequencerPosition(int seqIndex);
         void refreshSequencerPositions();
         int getSequencerCount();
+        void updateFxDryWet(int fxIndex, float fxValue);
+
+        void echoTest();
         
         int greatestClockMult=4;
         std::string skinPath="/home/pwner/dev/fxseq/Ressources/skins/default/";
@@ -74,10 +77,10 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
 
         SequenceSequencerComponent sequenceSeq={SequenceSequencerComponent(this,"combo1","slider1","imagebutton1")};
 
-        EffectComponent effects[4]=      {EffectComponent(0,this,"CHOPPER","combo1","slider1","programbutton1"),
-                                          EffectComponent(1,this,"FILTER","combo2","slider2","programbutton2"),
-                                          EffectComponent(2,this,"ECHO","combo3","slider3","programbutton3"),
-                                          EffectComponent(3,this,"CRUSHER","combo4","slider4","programbutton4")
+        EffectComponent effects[4]=      {EffectComponent(0,this,"Chopper","combo1","slider1","programbutton1"),
+                                          EffectComponent(1,this,"Echo","combo2","slider2","programbutton2"),
+                                          EffectComponent(2,this,"Filter","combo3","slider3","programbutton3"),
+                                          EffectComponent(3,this,"Crusher","combo4","slider4","programbutton4")
                                          };
 
         OptionsComponent options= OptionsComponent(this,"combo1","slider1","textbutton1");

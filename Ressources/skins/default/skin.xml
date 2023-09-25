@@ -140,7 +140,10 @@
          <imagebutton4>
             <images>
                 <entry>stepseq_circle_off_big.png</entry>
-                <entry>stepseq_circle_on_big_3.png</entry>
+                <entry>stepseq_circle_1_big_3.png</entry>
+                <entry>stepseq_circle_2_big_3.png</entry>
+                <entry>stepseq_circle_3_big_3.png</entry>
+                <entry>stepseq_circle_4_big_3.png</entry>
                 <entry>stepseq_circle_on_big_3.png</entry>
             </images>
             <colors>

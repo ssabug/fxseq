@@ -2,6 +2,17 @@
 
 ## Change records
 
+### v0.03 25092023 Init project
+#### TODO
+- [ ] define processor fx parameters
+- [ ] put all effect in functions   
+- [ ] load all pluginParameters value at editor start (clockDiv,fx,....)
+- [ ] implement load/save XML presets
+- [ ] write get/Set state information for all processor parameters
+- [ ] continue definition of EffectComponent & OptionsComponent
+- [ ] add more effects  **fine tuning TBD**
+- [ ] cleaner way to pass colortemplates
+
 ### v0.03 24092023 Init project
 #### TODO
 - [ ] define processor fx parameters
@@ -9,6 +20,7 @@
 - [ ] implement load/save XML presets
 - [ ] write get/Set state information for all processor parameters
 - [ ] continue definition of EffectComponent & OptionsComponent
+- [x] add more effects : echo, filter **fine tuning TBD**
 - [x] SequenceSequencerComponent fully implemented
 - [x] reimplement chopper
 - [x] update processor gainpPatterns while modifying patterns on GUI (**crashes**)

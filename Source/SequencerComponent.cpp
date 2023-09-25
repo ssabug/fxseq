@@ -55,7 +55,7 @@ SequencerComponent::SequencerComponent(int Index,FxseqAudioProcessorEditor *ape,
     clockMultSelectLabel.setText("CLOCK",juce::dontSendNotification);
     addAndMakeVisible (clockMultSelectLabel);
 
-    effectTypeSelect.addItem(TRANS("CHOPPER"),1);effectTypeSelect.addItem(TRANS("FILTER"),2);effectTypeSelect.addItem(TRANS("ECHO"),3);effectTypeSelect.addItem(TRANS("CRUSHER"),4);
+    effectTypeSelect.addItem(TRANS("CHOPPER"),1);effectTypeSelect.addItem(TRANS("ECHO"),2);effectTypeSelect.addItem(TRANS("FILTER"),3);effectTypeSelect.addItem(TRANS("CRUSHER"),4);
     for(int i=0;i<comboColors.size();i++) {  effectTypeSelect.setColour(comboColors[i][0],juce::Colour(comboColors[i][1]));   }
     effectTypeSelect.setSelectedItemIndex(index);
     effectTypeSelect.onChange = [this] {changeEffect();};

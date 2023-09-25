@@ -12,6 +12,8 @@ class EffectComponent   : public juce::Component
         //CALLBACKS
         void skinChange();
         void changeProgram();
+        void changeMix();
+        void changeGain();
 
         std::string name;
         int index;

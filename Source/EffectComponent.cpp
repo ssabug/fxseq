@@ -15,6 +15,8 @@ EffectComponent::EffectComponent(int Index,FxseqAudioProcessorEditor *ape,std::s
 
     initSlider1("Out gain",outGain,outGainLabel,0.0f,2.0f,0.1f);outGain.setValue(1.0f);
     initSlider1("Dry/wet",outMix,outMixLabel,0.0f,1.0f,0.1f);outMix.setValue(1.0f);
+    outGain.onValueChange = [this] { changeGain();};
+    outMix.onValueChange = [this] { changeMix();};
 
     programButton.setImages (false, true, true,programButtonImages[programSelected], 1.000f, juce::Colour(programButtonColors[1][1]),juce::Image(), 1.000f, juce::Colour(programButtonColors[0][1]),programButtonImages[programButtonImages.size()-1], 1.000f, juce::Colour(programButtonColors[0][1]));
     programButton.onClick = [this] { changeProgram();};
@@ -46,6 +48,16 @@ void EffectComponent::skinChange()
 
     programButton.setImages (false, true, true,programButtonImages[programSelected], 1.000f, juce::Colour(programButtonColors[1][1]),juce::Image(), 1.000f, juce::Colour(programButtonColors[0][1]),programButtonImages[programButtonImages.size()-1], 1.000f, juce::Colour(programButtonColors[0][1]));
     
+}
+
+void EffectComponent::changeMix()
+{
+    APE->updateFxDryWet(index,outMix.getValue());
+}
+
+void EffectComponent::changeGain()
+{
+    //APE->updateFxDryWet(index,outMix.getValue());
 }
 ////////////////////////////////////////////// TEMPLATES //////////////////////////////////////////////
 void EffectComponent::initSlider1(std::string name,juce::Slider& slider,juce::Label& label,float min,float max,float def)

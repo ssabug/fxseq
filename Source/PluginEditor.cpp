@@ -147,7 +147,7 @@ void FxseqAudioProcessorEditor::timerCallback()
                        +"selected pattern : " + std::__cxx11::to_string(audioProcessor.selected_pattern[0])+" " + std::__cxx11::to_string(audioProcessor.selected_pattern[1])+ " " + std::__cxx11::to_string(audioProcessor.selected_pattern[2]) + " " + std::__cxx11::to_string(audioProcessor.selected_pattern[3]) + "\n"
                        +"seq length: " + std::__cxx11::to_string(procSeqLength) +"\n"
                        +"seqmode :"+ std::__cxx11::to_string(options.sequenceMode) +" scroll :" + std::__cxx11::to_string(options.scroll) + "\n"
-                       
+                       //+std::__cxx11::to_string(audioProcessor.debug)
                     );
 }
 
@@ -243,6 +243,11 @@ int FxseqAudioProcessorEditor::getSequencerCount()
 {
     return (int)(sizeof(sequencers)/sizeof(sequencers[0]));
 }
+void FxseqAudioProcessorEditor::updateFxDryWet(int fxIndex, float fxValue)
+{
+    std::string paramName=effects[fxIndex].name +"_dry/wet";
+    audioProcessor.pluginParameters.getParameter(paramName)->setValue(fxValue);
+}
 ////////////////////////////////////////////////////////////////////////////////////// UTILS //////////////////////////////////////////////////////////////////////////////////////
 std::vector<std::string> FxseqAudioProcessorEditor::split(std::string s, std::string delimiter) 
 {
@@ -280,6 +285,12 @@ int FxseqAudioProcessorEditor::lowest(int n1,int n2,int n3,int n4)
     return Lowest;
 }
 
+void FxseqAudioProcessorEditor::echoTest()
+{
+    audioProcessor.echo_setFeedback(0.5f);
+    audioProcessor.echo_setDelay(0.5f);
+    
+}
 ////////////////////////////////////////////////////////////////////////////////////// XML //////////////////////////////////////////////////////////////////////////////////////
 std::string FxseqAudioProcessorEditor::readXMLParam(std::string xmlFilePath,std::string paramPath)
 {
