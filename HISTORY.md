@@ -15,6 +15,7 @@
 #### BUGS
 - [x] effectComponent : trying to get param value at object creation crashes => fix : move slider value update to resize()
 - [ ] dry/wet for filter cracks
+- [ ] step on->off clicks for echo
 
 ### v0.03 24092023 Init project
 #### TODO

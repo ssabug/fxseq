@@ -256,7 +256,7 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
                 echo_process(buffer); // FX2
                 break;
             case 2:
-                filter_process(buffer,fx3drybuffer); // FX4
+                //filter_process(buffer,fx3drybuffer); // FX4
                 break;
             case 3:               
                 bitcrush_process(buffer); // FX4
