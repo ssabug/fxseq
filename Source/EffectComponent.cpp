@@ -10,6 +10,7 @@ EffectComponent::EffectComponent(int Index,FxseqAudioProcessorEditor *ape,std::s
     imageButtonTemplate=ImageButtonTemplate;
     comboTemplate=ComboTemplate;
     sliderTemplate=SliderTemplate;
+
     setSize (272, 120);
     APE=ape; 
 
@@ -27,8 +28,16 @@ EffectComponent::EffectComponent(int Index,FxseqAudioProcessorEditor *ape,std::s
 
     for (int i=0;i<sizeof(params)/sizeof(params[0]);i++)
     {
-        initSlider1("param"+std::__cxx11::to_string(i),params[i],paramsLabel[i],0.0f,1.0f,0.1f);
-        outGain.setValue(1.0f);
+        std::vector<std::string> range=(APE->getFxParamProperty(index,i,0,"range"));//APE->getFxParamRange(index,i);
+        initSlider1("param"+std::__cxx11::to_string(i),params[i],paramsLabel[i],std::stof(range[0]),std::stof(range[1]),std::stof(range[2]));
+        params[i].setTextBoxStyle (juce::Slider::TextBoxBelow, true, 10, 10);
+
+        std::string paramName = (APE->getFxParamProperty(index,i,0,"name"))[0];//APE->getFxParameterName(index,i);
+        if (paramName == "") {params[i].setVisible(0); paramsLabel[i].setVisible(0);} 
+        if (paramName == "Frequency") {params[i].setNormalisableRange(juce::NormalisableRange<double>(20.0f, 20000.0f, 1.0f, 0.2f));}
+
+        paramsLabel[i].setText(paramName,juce::dontSendNotification);
+    
     }
     
     params[0].onValueChange = [this] { changeParam(0);};
@@ -45,11 +54,22 @@ void EffectComponent::resized()
     outMixLabel.setBounds (195,58,80,20);
     outMix.setBounds      (185,68,80,60);
     programButton.setBounds(0,0,43,20);
+
+    
     for (int i=0;i<sizeof(params)/sizeof(params[0]);i++)
     {
-        paramsLabel[i].setBounds(i*80,10,80,60);
-        params[i].setBounds(i*80,20,80,80);
+        paramsLabel[i].setBounds(i*65,35,60,20);
+        params[i].setBounds     (i*65,40,60,90);
+
+        if (paramsLabel[i].getText() != "") {
+            float paramValue=std::stof((APE->getFxParamProperty(index,i,programSelected,"value")[0]));
+            if (paramValue != -100.0f) {
+                params[i].setValue(paramValue);
+            }
+        }
+
     }
+    
 }
 
 void EffectComponent::skinChange()
@@ -57,12 +77,14 @@ void EffectComponent::skinChange()
     for(auto templateColor : sliderColors) {
         outGain.setColour(templateColor[0],juce::Colour(templateColor[1]));
         outMix.setColour(templateColor[0],juce::Colour(templateColor[1]));
-        for (int i=0;i<sizeof(params)/sizeof(params[0]);i++)
-        { 
-            params[i].setColour(templateColor[0],juce::Colour(templateColor[1]));
-            paramsLabel[i].setColour(0x1000281,juce::Colour(sliderColors[3][1]));
-        }
-    }                   
+        for (int i=0;i<sizeof(params)/sizeof(params[0]);i++) { params[i].setColour(templateColor[0],juce::Colour(templateColor[1])); }
+    }
+
+    for (int i=0;i<sizeof(params)/sizeof(params[0]);i++) 
+    {
+        paramsLabel[i].setColour(0x1000281,juce::Colour(sliderColors[3][1]));    
+    }
+                   
     outGainLabel.setColour(0x1000281,juce::Colour(sliderColors[3][1]));
     outMixLabel.setColour(0x1000281,juce::Colour(sliderColors[3][1]));
     effectName.setColour(0x1000281,juce::Colour(sliderColors[3][1]));
@@ -82,8 +104,8 @@ void EffectComponent::changeGain()
 }
 
 void EffectComponent::changeParam(int paramIndex)
-{
-    APE->updateFxParam(index,0,params[paramIndex].getValue());
+{   
+    APE->updateFxParam(index,programSelected+1,paramIndex,params[paramIndex].getValue());   
 }
 ////////////////////////////////////////////// TEMPLATES //////////////////////////////////////////////
 void EffectComponent::initSlider1(std::string name,juce::Slider& slider,juce::Label& label,float min,float max,float def)
@@ -107,4 +129,18 @@ void EffectComponent::changeProgram()
         programSelected++;
     }
     programButton.setImages (false, true, true,programButtonImages[programSelected], 1.000f, juce::Colour(programButtonColors[1][1]),juce::Image(), 1.000f, juce::Colour(programButtonColors[1][1]),programButtonImages[programButtonImages.size()-1], 1.000f, juce::Colour(programButtonColors[0][1]));
+
+    for (int i=0;i<sizeof(params)/sizeof(params[0]);i++) 
+    {
+        if (  paramsLabel[i].getText() != "" ) {
+            //debug="fxIndex " + std::__cxx11::to_string(index) + " programIndex " + std::__cxx11::to_string(programSelected) + " paramIndex " + std::__cxx11::to_string(i);
+            params[i].setValue(std::stof((APE->getFxParamProperty(index,i,programSelected,"value")[0])));//(APE->getFxParamValue(index,programSelected,i));
+        }
+    }
+     
+}
+
+void EffectComponent::hidePrograms()
+{
+    if (programButton.isVisible()) {    programButton.setVisible(false); }
 }

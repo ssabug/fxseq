@@ -50,13 +50,14 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         void refreshSequencerPositions();
         int getSequencerCount();
         void updateFxDryWet(int fxIndex, float fxValue);
-        void updateFxParam(int fxIndex, float paramIndex,float paramValue);
-
-        void echoTest();
+        void updateFxParam(int fxIndex,int programIndex, float paramIndex,float paramValue);
+        std::vector<std::string> getFxParamProperty(int fxIndex, int paramIndex, int programIndex,std::string paramProperty);
         
         int greatestClockMult=4;
         std::string skinPath="/home/pwner/dev/fxseq/Ressources/skins/default/";
         std::string imagePath=skinPath+"images/";
+
+
     private:
         void timerCallback();
         //UTILS
@@ -69,7 +70,9 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         std::vector<std::vector<int>> readXMLVector2Param(std::string xmlFilePath,std::string paramPath);
 
         juce::Component scene;
+
         juce::TextEditor debugLog;
+        
         SequencerComponent sequencers[4]={SequencerComponent(0,this,"imagebutton1","combo1"),
                                           SequencerComponent(1,this,"imagebutton2","combo2"),
                                           SequencerComponent(2,this,"imagebutton3","combo3"),

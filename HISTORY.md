@@ -12,6 +12,9 @@
 - [ ] continue definition of EffectComponent & OptionsComponent
 - [ ] add more effects  **fine tuning TBD**
 - [ ] cleaner way to pass colortemplates
+#### BUGS
+- [x] effectComponent : trying to get param value at object creation crashes => fix : move slider value update to resize()
+- [ ] dry/wet for filter cracks
 
 ### v0.03 24092023 Init project
 #### TODO

@@ -119,5 +119,6 @@ void OptionsComponent::switchScroll()
 
 void OptionsComponent::debugFunction()
 {
-    APE->echoTest();
+    
+     
 }

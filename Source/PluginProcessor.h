@@ -66,6 +66,7 @@ public:
     void updateParameter(std::string paramName,float paramValue);
     float getParameterValue(std::string paramName);
     void updateEffectProgramParameter(int effectIndex,int programIndex,int parameterIndex,float parameterValue); 
+    float getEffectProgramParameterValue(int fxIndex,int programIndex,int paramIndex);
 
     double ppq;
     float unused;
@@ -78,7 +79,9 @@ public:
     int selected_pattern[4];
     int greatestClockMult=4; 
     int sequenceLength=4;
-    std::vector<int> fxPositions={0,1,2,3};  
+    std::vector<int> fxPositions={0,1,2,3};
+
+    std::string debug;  
 
     std::vector<std::vector<std::vector<float>>> gainPatterns;
     std::vector<float> testGainPatterns;
@@ -92,13 +95,13 @@ public:
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0}           
                                                               },
-                                                            {   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0},{1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                                                            {   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
+                                                                {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},{1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
-                                                                {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
-                                                                {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0}           
+                                                                {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0}     
                                                               },
-                                                            {   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0},{1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                                                                {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
+                                                            {   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
+                                                                {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},{1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0}           
                                                               },                                                        
@@ -118,19 +121,21 @@ public:
                                                         {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15},{15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0},{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2}
                                                     };
 
-    std::vector<std::vector<std::vector<float>>> fxPrograms={ { {20000.0f   ,0.0f},  // FILTER
-                                                                {50.0f      ,0.5f},
-                                                                {100.0f     ,0.5f},
-                                                                {150.0f     ,0.5f},
-                                                                {200.0f     ,0.5f},
-                                                                {250.0f     ,0.5f},
-                                                                {300.0f     ,0.5f}
+    std::vector<std::vector<std::vector<float>>> fxPrograms={ {},                    // CHOPPER
+                                                              {},                    // ECHO
+                                                              { {20000.0f  ,0.0f,  1.0f},  // FILTER     : frequency, resonance,drive
+                                                                {50.0f,     0.5f,   1.0f},
+                                                                {100.0f,    0.5f,   1.0f},
+                                                                {150.0f,    0.5f,   1.0f},
+                                                                {200.0f,    0.5f,   1.0f},
+                                                                {250.0f,    0.5f,   1.0f},
+                                                                {300.0f,    0.5f,   1.0f}
                                                                },
-                                                              { {00.00f     ,0.0f},  // bitcrusher
-                                                                {06.0f      ,0.5f},
-                                                                {08.0f      ,0.5f},
-                                                                {10.0f      ,0.5f},
-                                                                {12.0f      ,0.5f}
+                                                              { {00.0f,    16.00f},  // bitcrusher : sampleReduction, bitdepth
+                                                                {06.0f,     8.00f},
+                                                                {08.0f,     6.00f},
+                                                                {10.0f,     8.00f},
+                                                                {12.0f,    10.00f}
                                                               }
                                                             };
     
@@ -138,8 +143,8 @@ public:
     juce::dsp::DryWetMixer<float> fx1dryWetMixer,fx2dryWetMixer,fx3dryWetMixer,fx4dryWetMixer;
     float lastFxDepths[4];
     juce::SmoothedValue<float,juce::ValueSmoothingTypes::Multiplicative> fxDepths_smoothed[4];
-    juce::SmoothedValue<float,juce::ValueSmoothingTypes::Linear> filterFreq_smoothed;
-    float filterFreq_last;
+    
+
     juce::AudioProcessorValueTreeState pluginParameters; 
 
     //=====FAUST=ECHO=================================================================   
@@ -156,13 +161,14 @@ private:
     dsp* echoDSP;
     float **echoInputs;
     float **echoOutputs;
+     //====FILTER===================================================================
+    void filter_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer);
+    juce::SmoothedValue<float,juce::ValueSmoothingTypes::Linear> filterFreq_smoothed;
+    float lastFilterFrequency=20000.0f;
+    float lastFilterResonance=0.0f;
+    float lastFilterDrive=0.0f;
     //====BITCRUSHER===================================================================
-    void bitcrush_process(juce::AudioBuffer<float>& buffer);
-    float bitcrusher_bitReduction(float sample, float bitReduction);
-    float bitcrusher_sampleRateReduction(float sample, int reductionFactor);
-    int bitcrusher_count ;
-
-    void filter_process(juce::AudioBuffer<float>& buffer);
+    void bitcrush_process(juce::AudioBuffer<float>& buffer);  
     //juce::AudioProcessorValueTreeState pluginParameters;   
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FxseqAudioProcessor)
