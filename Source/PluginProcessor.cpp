@@ -256,7 +256,7 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
                 echo_process(buffer); // FX2
                 break;
             case 2:
-                //filter_process(buffer,fx3drybuffer); // FX4
+                filter_process(buffer,fx3drybuffer); // FX4
                 break;
             case 3:               
                 bitcrush_process(buffer); // FX4
@@ -418,6 +418,11 @@ void FxseqAudioProcessor::bitcrush_process(juce::AudioBuffer<float>& buffer)
     for (int channel = 0; channel < 2; ++channel) {
         float* channelData = buffer.getWritePointer(channel);
         for (int i = 0; i < buffer.getNumSamples(); i++){
+
+            float totalQLevels =powf(2, bitDepth);
+			float val = channelData[i];
+            
+			channelData[i] =val*(1-crusherMix*fx4mix) + (val - std::fmod(val, 1/totalQLevels )) * crusherMix*fx4mix;//*crusherMix*fx4mix + (1-crusherMix*fx4mix)*val;       // Bit Quantizing      
  
              if (reduction > 1) {if (i%reduction != 0) channelData[i] = crusherMix*fx4mix*channelData[i - i%reduction]+(1-crusherMix*fx4mix)*channelData[i];} // sample rate reduction
         }

@@ -316,7 +316,7 @@ std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxInd
         }
         if (paramIndex==1) {
             if (paramProperty == "name")  {return {"Bitdepth"}; }
-            if (paramProperty == "range") {return {"1.00","16.00","1.0"}; }
+            if (paramProperty == "range") {return {"1.00","32.00","1.0"}; }
             if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.fxPrograms[fxIndex][programIndex+1][paramIndex])};} 
         }
     }

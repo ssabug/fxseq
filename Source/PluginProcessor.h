@@ -131,11 +131,11 @@ public:
                                                                 {250.0f,    0.5f,   1.0f},
                                                                 {300.0f,    0.5f,   1.0f}
                                                                },
-                                                              { {00.0f,    16.00f},  // bitcrusher : sampleReduction, bitdepth
-                                                                {06.0f,     8.00f},
-                                                                {08.0f,     6.00f},
-                                                                {10.0f,     8.00f},
-                                                                {12.0f,    10.00f}
+                                                              { {00.0f,    10.00f},  // bitcrusher : sampleReduction, bitdepth
+                                                                {06.0f,    08.00f},
+                                                                {08.0f,    32.00f},
+                                                                {10.0f,    32.00f},
+                                                                {12.0f,    32.00f}
                                                               }
                                                             };
     

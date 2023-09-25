@@ -5,7 +5,10 @@
 ### v0.03 25092023 Init project
 #### TODO
 - [ ] define processor fx parameters
-- [ ] put all effect in functions   
+- [x] put all effect in functions 
+- [ ] implement master dry/wet & gain
+- [x] implement bitcrush part of bitcrusher
+- [ ] add utility copy/paste/clear/reset buttons  
 - [ ] load all pluginParameters value at editor start (clockDiv,fx,....)
 - [ ] implement load/save XML presets
 - [ ] write get/Set state information for all processor parameters
@@ -16,6 +19,8 @@
 - [x] effectComponent : trying to get param value at object creation crashes => fix : move slider value update to resize()
 - [ ] dry/wet for filter cracks
 - [ ] step on->off clicks for echo
+- [ ] crusher clicks 
+- [ ] buffer seems wrongly initialised on press play(sequence mode)
 
 ### v0.03 24092023 Init project
 #### TODO
