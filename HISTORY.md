@@ -15,8 +15,8 @@
 - [ ] write get/Set state information for all processor parameters
 - [x] continue definition of EffectComponent & OptionsComponent
 - [ ] add more effects  **fine tuning TBD**
-- [ ] replace effect name comboboxes with label
-- [ ] cleaner way to pass colortemplates
+- [x] resize sequencers' effect name comboboxes to 1 item
+- [ ] cleaner way to pass colortemplates & skin/image paths
 #### BUGS
 - [x] effectComponent : trying to get param value at object creation crashes => fix : move slider value update to resize()
 - [ ] dry/wet for filter cracks

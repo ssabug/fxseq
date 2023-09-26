@@ -58,7 +58,7 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         float getMasterParam(std::string parameterName);
 
         int greatestClockMult=4;
-        std::string fxNamesStr[4]={"Chopper","Echo","Filter","Crusher"};
+        std::vector<std::string> fxNamesStr={"Chopper","Echo","Filter","Crusher"};
         std::string skinPath="/home/pwner/dev/fxseq/Ressources/skins/default/";
         std::string imagePath=skinPath+"images/";
         std::vector<int> clipboard;
