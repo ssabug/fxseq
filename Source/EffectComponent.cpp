@@ -111,12 +111,12 @@ void EffectComponent::changeGain()
 
 float EffectComponent::getMix()
 {
-    return APE->getMasterParam(fxNamesStr[index]+"_dry/wet");
+    return APE->getMasterParam(APE->fxNamesStr[index]+"_dry/wet");
 }
 
 float EffectComponent::getGain()
 {
-    return APE->getMasterParam(fxNamesStr[index]+"_gain");
+    return APE->getMasterParam(APE->fxNamesStr[index]+"_gain");
 }
 
 void EffectComponent::changeParam(int paramIndex)
