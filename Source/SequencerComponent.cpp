@@ -32,6 +32,7 @@ SequencerComponent::SequencerComponent(int Index,FxseqAudioProcessorEditor *ape,
     for (int i=0;i<stepCount/4;i++)
     {
         seqStepMkr[i].setText("______", juce::dontSendNotification);
+        seqStepMkr[i].setFont (juce::Font (15.0f, juce::Font::bold));
         addAndMakeVisible (seqStepMkr[i]);
     }
     seqStep[0].onClick = [this] { seqStepClick(0);};seqStep[4].onClick = [this] { seqStepClick(4);};seqStep[8].onClick = [this] { seqStepClick(8);};seqStep[12].onClick = [this] { seqStepClick(12);};
@@ -198,3 +199,4 @@ void SequencerComponent::changeSequencerPosition(bool up)
     }
     APE->changeFxPosition(index,newPosition);
 }
+

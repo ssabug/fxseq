@@ -137,21 +137,15 @@ void FxseqAudioProcessorEditor::timerCallback()
         
         if ( getFxParamProperty(i,0,0,"hasPrograms")[0] == "0") {  effects[i].hidePrograms();/*programButton.setVisible(false);*/}   
     }
-    /*std::string dbg="GainMaps:\n";
-    for (int i = 0;i<16;i++) {
-        for (int j=0;j<8;j++) {
-            dbg+=std::__cxx11::to_string(audioProcessor.gainPatterns[0][0][i*8+j]) +"||";
-        }
-        dbg+="\n";
-    }*/
+    
     int procSeqLength=audioProcessor.sequenceLength;
-   /* debugLog.setText(    "ppq " + std::__cxx11::to_string(ppq) + "\n"
+    debugLog.setText(    "ppq " + std::__cxx11::to_string(ppq) + "\n"
                        +"selected pattern : " + std::__cxx11::to_string(audioProcessor.selected_pattern[0])+" " + std::__cxx11::to_string(audioProcessor.selected_pattern[1])+ " " + std::__cxx11::to_string(audioProcessor.selected_pattern[2]) + " " + std::__cxx11::to_string(audioProcessor.selected_pattern[3]) + "\n"
                        +"seq length: " + std::__cxx11::to_string(procSeqLength) +"\n"
                        +"seqmode :"+ std::__cxx11::to_string(options.sequenceMode) +" scroll :" + std::__cxx11::to_string(options.scroll) + "\n"
-                       //+effects[3].debug +"\n"
-                       //+effects[1].debug +"\n"
-                    );*/
+                       +std::__cxx11::to_string(getMasterParam("Chopper_gain")) +"\n"
+                       +std::__cxx11::to_string(getMasterParam("Chopper_dry/wet")) +"\n"
+                    );
 }
 
 void FxseqAudioProcessorEditor::updateSeqPattern(int sequencerIndex,int patternIndex)
@@ -246,10 +240,27 @@ int FxseqAudioProcessorEditor::getSequencerCount()
 {
     return (int)(sizeof(sequencers)/sizeof(sequencers[0]));
 }
+
 void FxseqAudioProcessorEditor::updateFxDryWet(int fxIndex, float fxValue)
 {
     std::string paramName=effects[fxIndex].name +"_dry/wet";
     audioProcessor.pluginParameters.getParameter(paramName)->setValue(fxValue);
+}
+
+void FxseqAudioProcessorEditor::updateFxGain(int fxIndex, float fxValue)
+{
+    std::string paramName=effects[fxIndex].name +"_gain";
+    audioProcessor.pluginParameters.getParameter(paramName)->setValue(fxValue);
+}
+
+void FxseqAudioProcessorEditor::updateMaster(std::string parameterName,float value)
+{
+    audioProcessor.updateParameter(parameterName,value);
+}
+
+float FxseqAudioProcessorEditor::getMasterParam(std::string parameterName)
+{
+    return audioProcessor.getParameterValue(parameterName);
 }
 
 void FxseqAudioProcessorEditor::updateFxParam(int fxIndex,int programIndex, float paramIndex,float paramValue)
@@ -297,12 +308,12 @@ std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxInd
         if (paramIndex==0) {
             if (paramProperty == "name")  {return {"Time"}; }
             if (paramProperty == "range") {return {"0.00","1.00","0.10"};}
-            if (paramProperty == "value") {}//return {"0.00","1.00","0.10"};}           
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.echo_time)};}       
         }
         if (paramIndex==1) {
             if (paramProperty == "name")  {return {"Feedback"}; }
             if (paramProperty == "range") {return {"0.00","1.00","0.10"};}
-            if (paramProperty == "value") {}//return {"0.00","1.00","0.10"};} 
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.echo_feedback)};}
         }
     }
 
@@ -311,7 +322,7 @@ std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxInd
 
         if (paramIndex==0) {
             if (paramProperty == "name")  {return {"Reduction"}; }
-            if (paramProperty == "range") {return {"0.00","20.00","0.10"}; }
+            if (paramProperty == "range") {return {"0.00","30.00","0.10"}; }
             if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.fxPrograms[fxIndex][programIndex+1][paramIndex])};} 
         }
         if (paramIndex==1) {
@@ -348,6 +359,40 @@ std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxInd
     if (paramProperty == "value") {return {"-100"};}
 
     return {};
+}
+
+void FxseqAudioProcessorEditor::patternUtils(std::string action,int seqIndex)
+{
+    int index;
+    for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++)
+    {
+        if (sequencers[i].position == seqIndex) {index=i;}
+    }
+
+    if (action == "copy")
+    {
+        clipboard=sequencers[index].pattern;
+    }
+    if (action == "paste")
+    {
+        sequencers[index].pattern=clipboard;
+        updateProcessorPattern(index,sequencers[index].getSelectedPattern());
+    }
+    if (action == "clear")
+    {
+        sequencers[index].pattern={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        updateProcessorPattern(seqIndex,sequencers[index].getSelectedPattern());
+    }
+    if (action == "reset")
+    {
+        for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++)
+        {
+            sequencers[i].pattern={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+            updateProcessorPattern(i,sequencers[i].getSelectedPattern());
+        }
+    }
+    
+    
 }
 ////////////////////////////////////////////////////////////////////////////////////// UTILS //////////////////////////////////////////////////////////////////////////////////////
 std::vector<std::string> FxseqAudioProcessorEditor::split(std::string s, std::string delimiter) 

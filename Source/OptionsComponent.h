@@ -16,6 +16,7 @@ class OptionsComponent   : public juce::Component
         void changeSequencerMode();
         void switchScroll();
         void debugFunction();
+        void patternUtils(std::string action);
 
         FxseqAudioProcessorEditor *APE;
 
@@ -30,8 +31,8 @@ class OptionsComponent   : public juce::Component
     private:
         void initSlider1(std::string name,juce::Slider& slider,juce::Label& label,float min,float max,float def);
 
-        juce::ComboBox presetSelected,sequencerMode;
-        juce::TextButton savePresetButton,scrollPatterns,debugButton;
+        juce::ComboBox presetSelected,sequencerMode,patternSelect;
+        juce::TextButton savePresetButton,scrollPatterns,debugButton,copy,paste,clear,reset;
         juce::Label presetSelectedLabel,savePresetLabel,sequencerModeLabel,scrollPatternsLabel;
 
         int counter;

@@ -80,6 +80,7 @@ public:
     int greatestClockMult=4; 
     int sequenceLength=4;
     std::vector<int> fxPositions={0,1,2,3};
+    std::string fxNamesStr[4]={"Chopper","Echo","Filter","Crusher"};
 
     std::string debug;  
 
@@ -139,7 +140,7 @@ public:
                                                               }
                                                             };
     
-    juce::AudioBuffer<float> fx1drybuffer,fx2drybuffer,fx3drybuffer,fx4dryBuffer; 
+    juce::AudioBuffer<float> masterDryBuffer,fx1drybuffer,fx2drybuffer,fx3drybuffer,fx4dryBuffer; 
     juce::dsp::DryWetMixer<float> fx1dryWetMixer,fx2dryWetMixer,fx3dryWetMixer,fx4dryWetMixer;
     float lastFxDepths[4];
     juce::SmoothedValue<float,juce::ValueSmoothingTypes::Multiplicative> fxDepths_smoothed[4];
@@ -150,6 +151,7 @@ public:
     //=====FAUST=ECHO=================================================================   
     void echo_setDelay(float delay);
     void echo_setFeedback(float feedback);
+    float echo_time=0.25f,echo_feedback=0.5f;
     //=====FILTER=================================================================
     juce::dsp::LadderFilter<float> filter;
 private:

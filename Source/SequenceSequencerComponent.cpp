@@ -63,7 +63,7 @@ void SequenceSequencerComponent::skinChange()
 void SequenceSequencerComponent::initSlider2(juce::Slider& slider,float min,float max,float def)
 {   slider.setSliderStyle (juce::Slider::LinearHorizontal );
     slider.setRange (min, max, def);
-    slider.setTextBoxStyle (juce::Slider::TextBoxBelow, true, 80, 20);       
+    slider.setTextBoxStyle (juce::Slider::TextBoxBelow, true, 70, 20);       
     addAndMakeVisible(slider);
 }
 /////////////////////////////////////////////// CALLBACKS///////////////////////////////////////////////

@@ -13,6 +13,8 @@ class OutputComponent   : public juce::Component
         FxseqAudioProcessorEditor *APE;
         //CALLBACKS
         void skinChange();
+        void updateMix();
+        void updateGain();
 
         std::string comboTemplate="combo1",sliderTemplate="slider1",imageButtonTemplate="imagebutton1";
         std::vector<std::vector<int>> comboColors;

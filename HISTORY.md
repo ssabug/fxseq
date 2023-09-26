@@ -4,16 +4,18 @@
 
 ### v0.03 25092023 Init project
 #### TODO
-- [ ] define processor fx parameters
+- [x] define processor fx parameters **not all used tbc**
 - [x] put all effect in functions 
-- [ ] implement master dry/wet & gain
+- [x] implement master dry/wet & gain
+- [x] implement fx gains
 - [x] implement bitcrush part of bitcrusher
-- [ ] add utility copy/paste/clear/reset buttons  
-- [ ] load all pluginParameters value at editor start (clockDiv,fx,....)
+- [x] add utility copy/paste/clear/reset buttons  
+- [x] load all pluginParameters value at editor start (clockDiv,fx,....)
 - [ ] implement load/save XML presets
 - [ ] write get/Set state information for all processor parameters
-- [ ] continue definition of EffectComponent & OptionsComponent
+- [x] continue definition of EffectComponent & OptionsComponent
 - [ ] add more effects  **fine tuning TBD**
+- [ ] replace effect name comboboxes with label
 - [ ] cleaner way to pass colortemplates
 #### BUGS
 - [x] effectComponent : trying to get param value at object creation crashes => fix : move slider value update to resize()

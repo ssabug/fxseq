@@ -16,10 +16,13 @@ class EffectComponent   : public juce::Component
         void changeGain();
         void changeParam(int paramIndex);
         void hidePrograms();
+        float getMix();
+        float getGain();
 
         std::string name;
         int index;
         int programSelected=0;
+        std::string fxNamesStr[4]={"Chopper","Echo","Filter","Crusher"};
         FxseqAudioProcessorEditor *APE;
 
         std::string skinPath="/home/pwner/dev/fxseq/Ressources/skins/default/"; 
