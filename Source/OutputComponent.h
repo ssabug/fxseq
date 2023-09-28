@@ -21,10 +21,12 @@ class OutputComponent   : public juce::Component
         std::vector<std::vector<int>> sliderColors;
         std::vector<std::vector<int>> imageButtonColors;
 
+        juce::Slider outGain,outMix;
+
     private:
         void initSlider1(std::string name,juce::Slider& slider,juce::Label& label,float min,float max,float def);
 
-        juce::Slider outGain,outMix;
+        
         juce::Label outGainLabel,outMixLabel;
         
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OutputComponent)

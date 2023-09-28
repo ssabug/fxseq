@@ -12,20 +12,16 @@ class EffectComponent   : public juce::Component
         //CALLBACKS
         void skinChange();
         void changeProgram();
-        void changeMix();
-        void changeGain();
         void changeParam(int paramIndex);
         void hidePrograms();
-        float getMix();
-        float getGain();
 
         std::string name;
         int index;
         int programSelected=0;
         FxseqAudioProcessorEditor *APE;
 
-        std::string skinPath="/home/pwner/dev/fxseq/Ressources/skins/default/"; 
-        std::string imagePath=skinPath+ "images/";
+        std::string skinPath; 
+        std::string imagePath;
 
         std::string comboTemplate="combo1";
         std::vector<std::vector<int>> comboColors={{(int)0x1000b00,(int)0xFF000000},{(int)0x1000c00,(int)0xFF00FF00},{(int)0x1000e00,(int)0xFF00FF00},{(int)0x1000a00,(int)0xFF00AF00}};
@@ -38,11 +34,12 @@ class EffectComponent   : public juce::Component
                                                 juce::ImageFileFormat::loadFrom(juce::File(imagePath+"preset_3.png")),
                                                 juce::ImageFileFormat::loadFrom(juce::File(imagePath+"preset_4.png")),
                                                 juce::ImageFileFormat::loadFrom(juce::File(imagePath+"preset_0.png"))
-                                                };      
+                                                };
+        juce::Slider outGain,outMix,params[3];      
     private:
         void initSlider1(std::string name,juce::Slider& slider,juce::Label& label,float min,float max,float def);
 
-        juce::Slider outGain,outMix,params[3];
+        
         juce::ImageButton presetChange;
         juce::Label effectName,outGainLabel,outMixLabel,paramsLabel[3];
         juce::ImageButton programButton;

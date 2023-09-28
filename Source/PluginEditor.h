@@ -37,31 +37,30 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
 
         void updateSeqPattern(int sequencerIndex,int patternIndex);
         void updateProcessorPattern(int sequencerIndex,int patternIndex);
-        void updateSelectedProcessorPattern(int sequencerIndex,int patternIndex);
-        void updateSelectedProcessorClock(int sequencerIndex,int clockIndex);
         void updateSelectedProcessorEffect(int sequencerIndex,int effectIndex);
         std::vector<int> getSequence(int seqIndex);
         void updateSequence(int seqIndex, std::vector<int> sequence);
-        void changeSequenceMode(bool mode);
-        void updateSequenceLength(int length);
-        void changeSelectedSequence(int seqIndex);
         void changeFxPosition(int seqIndex,int newPosition);
         int getSequencerPosition(int seqIndex);
         void refreshSequencerPositions();
         int getSequencerCount();
-        void updateFxDryWet(int fxIndex, float fxValue);
-        void updateFxGain(int fxIndex, float fxValue);
         void updateFxParam(int fxIndex,int programIndex, float paramIndex,float paramValue);
         std::vector<std::string> getFxParamProperty(int fxIndex, int paramIndex, int programIndex,std::string paramProperty);
         void patternUtils(std::string action,int seqIndex);
         void updateMaster(std::string parameterName,float value);
         float getMasterParam(std::string parameterName);
+        std::string getPath(std::string path);
+        void initDirectories();
+        void saveXMLPreset();
 
         int greatestClockMult=4;
         std::vector<std::string> fxNamesStr={"Chopper","Echo","Filter","Crusher"};
+        std::vector<int> clipboard;
+
+        std::string currentSkin="default",currentPreset,rootPath="/home/pwner/dev/fxseq/Ressources/";
+
         std::string skinPath="/home/pwner/dev/fxseq/Ressources/skins/default/";
         std::string imagePath=skinPath+"images/";
-        std::vector<int> clipboard;
 
     private:
         void timerCallback();
@@ -95,6 +94,11 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         OptionsComponent options= OptionsComponent(this,"combo1","slider1","textbutton1");
     
         OutputComponent output= OutputComponent(this,"combo1","slider1","imagebutton1");
+
+        std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> outMixAttachement,outGainAttachement;
+        std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> fxOutMixAttachement[4],fxOutGainAttachement[4],sequenceLengthAttachment;
+
+        std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> patternSelectAttachement[4],clockMultSelectAttachment[4],sequencerModeAttachment,sequenceSelectedAttachment;
         
         FxseqAudioProcessor& audioProcessor;
 

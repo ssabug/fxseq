@@ -13,10 +13,12 @@ SequencerComponent::SequencerComponent(int Index,FxseqAudioProcessorEditor *ape,
 {
     APE=ape;
     index=Index;
-    position=index;//APE->getSequencerPosition(index);
+    position=index;//APE->getSequencerPosition(index);audioProcessor.updateParameter(fxNamesStr[i]+"_position",(float)sequencers[i].position); 
     stepSeqTemplate=StepSeqTemplate;
     comboTemplate=ComboTemplate;
-    
+    skinPath=APE->skinPath;
+    imagePath=APE->imagePath;
+
     juce::Colour color_stepseq_1=juce::Colour(stepSeqColors[0][1]);
     juce::Colour color_stepseq_2=juce::Colour(stepSeqColors[1][1]);
     
@@ -98,7 +100,7 @@ void SequencerComponent::skinChange()
 
     juce::Colour color_stepseq_1=juce::Colour(stepSeqColors[0][1]);
     juce::Colour color_stepseq_2=juce::Colour(stepSeqColors[1][1]);
-    
+   
     for(int i=0;i<stepCount;i++)
     {
         seqStep[i].setImages (false, true, true,stepSeqImages[0], 1.000f, color_stepseq_1,juce::Image(), 1.000f, color_stepseq_2,stepSeqImages[1], 1.000f, color_stepseq_1);
@@ -124,6 +126,10 @@ void SequencerComponent::skinChange()
     seqMoveDownButton.setColour(0x1000c00,color_stepseq_2);
     seqMoveDownButton.setColour(0x1000100,juce::Colours::black);
     seqMoveDownButton.setColour(0x1000101,color_stepseq_2);
+
+    position=(int)(APE->getMasterParam(APE->fxNamesStr[index]+"_position"))+1; 
+    clockMultSelect.setSelectedItemIndex(int(APE->getMasterParam(APE->fxNamesStr[index]+"_clockDiv")));
+    patternSelect.setSelectedItemIndex(int(APE->getMasterParam(APE->fxNamesStr[index]+"_pattern")));
 }
 
 void SequencerComponent::seqStepClick(int stepIndex)
@@ -169,19 +175,19 @@ void SequencerComponent::remoteChangeSelectedPattern(int patternToSelect)
 void SequencerComponent::changeSelectedPattern()
 {
     APE->updateSeqPattern(index,patternSelect.getSelectedItemIndex());
-    APE->updateSelectedProcessorPattern(index,patternSelect.getSelectedItemIndex());
+    //APE->updateSelectedProcessorPattern(index,patternSelect.getSelectedItemIndex());
 }
 
 void SequencerComponent::changeClockMult()
 {
-    clockMult=std::stoi(clockMultSelect.getItemText(clockMultSelect.getSelectedItemIndex()).toStdString());
-    APE->updateSelectedProcessorClock(index,clockMultSelect.getSelectedItemIndex());
+    clockMult=pow(2,clockMultSelect.getSelectedItemIndex());
+    //APE->updateSelectedProcessorClock(index,clockMultSelect.getSelectedItemIndex());
 }
 
 void SequencerComponent::changeEffect()
 {
-    clockMult=std::stoi(clockMultSelect.getItemText(clockMultSelect.getSelectedItemIndex()).toStdString());
-    APE->updateSelectedProcessorEffect(index,effectTypeSelect.getSelectedItemIndex());
+    //clockMult=std::stoi(clockMultSelect.getItemText(clockMultSelect.getSelectedItemIndex()).toStdString());
+    //APE->updateSelectedProcessorEffect(index,effectTypeSelect.getSelectedItemIndex());
 }
 
 int SequencerComponent::getSelectedPattern()

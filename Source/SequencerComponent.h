@@ -32,8 +32,8 @@ class SequencerComponent   : public juce::Component
 
         FxseqAudioProcessorEditor *APE;
 
-        std::string skinPath="/home/pwner/dev/fxseq/Ressources/skins/default/"; 
-        std::string imagePath=skinPath+ "images/";
+        std::string skinPath; 
+        std::string imagePath;
 
         int index;
         int position;
@@ -50,12 +50,14 @@ class SequencerComponent   : public juce::Component
 
         std::string comboTemplate="combo1";
         std::vector<std::vector<int>> comboColors={{(int)0x1000b00,(int)0xFF000000},{(int)0x1000c00,(int)0xFF00FF00},{(int)0x1000e00,(int)0xFF00FF00},{(int)0x1000a00,(int)0xFF00AF00}};
-          
+        
+        juce::ComboBox  patternSelect,clockMultSelect,effectTypeSelect;
+  
     private:
         void seqStepClick(int stepIndex); 
         
         juce::ImageButton seqStep[16];
-        juce::ComboBox  patternSelect,clockMultSelect,effectTypeSelect;
+        
         juce::Label     seqStepMkr[4],patternSelectLabel,clockMultSelectLabel;
         juce::TextButton seqMoveUpButton,seqMoveDownButton;  
         //==============================================================================

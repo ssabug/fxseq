@@ -8,30 +8,29 @@
 #include "FaustEchoEffect.h"
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include <cmath>
 
 //==============================================================================
 juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
 {
     juce::AudioProcessorValueTreeState::ParameterLayout params;
     std::string fxNamesStr[4]={"Chopper","Echo","Filter","Crusher"};
-    juce::StringArray fxNames=juce::StringArray({"Chopper","Echo","Filter","Crusher"});
  
     params.add (std::make_unique<juce::AudioParameterFloat> ("drywet","Dry/Wet", 0.0f, 1.0f, 1.0f));
     params.add (std::make_unique<juce::AudioParameterFloat> ("outgain","Out Gain",0.0f, 2.0f, 1.0f));
-
-    for (int i = 1; i < 4+1; ++i)
-    {
-        std::string prefix="seq"+std::__cxx11::to_string(i)+"_";
-        params.add (std::make_unique<juce::AudioParameterInt> (prefix+"pattern",prefix+"pattern", 1, 16, 1));
-        params.add (std::make_unique<juce::AudioParameterChoice> (prefix+"clockDiv",prefix+"clockDiv",juce::StringArray({ "4","2","1","1/2","1/4","1/8","1/16","1/32" }), 2));
-        params.add (std::make_unique<juce::AudioParameterChoice> (prefix+"fx",prefix+"fx",juce::StringArray(fxNames), i));
-          
-    }
 
     params.add (std::make_unique<juce::AudioParameterBool> ("sequencerMode","sequencerMode", false));
     params.add (std::make_unique<juce::AudioParameterInt> ("sequenceNumber","sequenceNumber", 1, 16, 1));
     params.add (std::make_unique<juce::AudioParameterInt> ("sequenceLength","sequenceLength", 2, 16, 4));
 
+    for (int i = 1; i < 4+1; ++i)
+    {
+        std::string prefix=fxNamesStr[i-1]+"_";
+        params.add (std::make_unique<juce::AudioParameterInt> (prefix+"pattern",prefix+"pattern", 1, 16, 1));
+        params.add (std::make_unique<juce::AudioParameterChoice> (prefix+"clockDiv",prefix+"clockDiv",juce::StringArray({ "4","2","1","1/2","1/4","1/8","1/16","1/32" }), 2));
+        params.add (std::make_unique<juce::AudioParameterInt> (prefix+"position",prefix+"position",0, 3, 1));
+          
+    }
 
     std::string prefx=fxNamesStr[0]+"_";//chopper
     params.add (std::make_unique<juce::AudioParameterFloat> (prefx+"gain",prefx+"gain", 0.0f, 2.0f, 0.1f));
@@ -81,8 +80,9 @@ FxseqAudioProcessor::FxseqAudioProcessor()
     {
         updateParameter(fxNamesStr[i]+"_dry/wet",1.0f);
         updateParameter(fxNamesStr[i]+"_gain",1.0f);
+        updateParameter(fxNamesStr[i]+"_position",(float) i);
     }
-    
+    updateParameter("sequencerMode",(float)0);
 }
 
 FxseqAudioProcessor::~FxseqAudioProcessor()
@@ -175,6 +175,9 @@ void FxseqAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 
     masterDryBuffer.setSize(2, samplesPerBlock); 
 
+    repeater_buffer.clear();
+    buffer_pos=0;
+
     //filter.setSampleRate(sampleRate);
     //filter.prepare({ sampleRate, (double)maximumBlockSize, (double)getTotalNumInputChannels() });
 }
@@ -190,6 +193,8 @@ void FxseqAudioProcessor::releaseResources()
     }
     delete [] echoInputs;
     delete [] echoOutputs;
+    repeater_buffer.clear();
+    buffer_pos=0;
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -225,22 +230,24 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
     juce::AudioPlayHead* phead = getPlayHead();
-    if (phead != nullptr)
+    if (phead != nullptr) // Compute positions on patterns/sequence 
     {
-        auto playposinfo=phead->getPosition();
-        ppq=*(*playposinfo).getPpqPosition();
+        auto playposinfo=phead->getPosition(); // get DAW play position
+        ppq=*(*playposinfo).getPpqPosition(); // get DAW ppq
+        bpm=*(*playposinfo).getBpm();
+        isPlaying=(*playposinfo).getIsPlaying();
         
         for (int i=0;i<sequencerCount;i++) // FOR EACH SEQUENCER
         {   
-            sequencerClockMult[i]=(int)pow(2,(pluginParameters.getParameter("seq"+std::__cxx11::to_string(i+1)+"_clockDiv")->getValue()*7));    // get clock mult 
+            sequencerClockMult[i]=(int)pow(2,(pluginParameters.getParameter(fxNamesStr[i] + "_clockDiv")->getValue()*7));    // get clock mult 
             sequencerPositions[i]=int(std::floor( std::modf(ppq/sequencerClockMult[i],&unused)*(16*resolution))); // compute position on pattern
             if (not (bool)pluginParameters.getParameter("sequencerMode")->getValue()){  // PATTERN MODE          
-                selected_pattern[i]=(int)getParameterValue("seq"+std::__cxx11::to_string(i+1)+"_pattern"); //get selected pattern
+                selected_pattern[i]=(int)getParameterValue(fxNamesStr[i] + "_pattern"); //get selected pattern
             } else {                                                                   // SEQUENCE MODE
-                int selectedSequence=(int)(pluginParameters.getParameter("sequenceNumber")->getValue()*15); // get selected sequence (SEQUENCE MODE ONLY)                 
+                int selectedSequence=(int)(pluginParameters.getParameter("sequenceNumber")->getValue()*15); // get selected sequence                
                 int sequencePosition;
                 sequenceLength=(int)getParameterValue("sequenceLength")+2;
-                if (ppq >= (float)sequenceLength ) {sequencePosition=int(std::floor(ppq/greatestClockMult)-sequenceLength*std::floor(ppq/(sequenceLength*greatestClockMult)));} else {sequenceLength=std::floor(ppq/greatestClockMult);}         // compute positon on sequence (SEQUENCE MODE ONLY)             
+                if (ppq >= (float)sequenceLength ) {sequencePosition=int(std::floor(ppq/greatestClockMult)-sequenceLength*std::floor(ppq/(sequenceLength*greatestClockMult)));} else {sequenceLength=std::floor(ppq/greatestClockMult);}         // compute positon on sequence            
                 
                 sequencePosition=std::clamp(sequencePosition,0,15); // safety 
                 selected_pattern[i]=sequences[selectedSequence][sequencePosition]; // update selected pattern
@@ -251,25 +258,7 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
         
        
     }
-    /*
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-    {
-        buffer.clear (i, 0, buffer.getNumSamples());
-    }
 
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i) {  // Faust echo 
-            for (int j = 0; j < buffer.getNumSamples(); j++) {echoInputs[i][j] = *buffer.getWritePointer(i,j); }
-    }
-    echoDSP->compute(buffer.getNumSamples(),echoInputs,echoOutputs); // Faust echo
-
-    for (int channel = 0; channel < totalNumInputChannels; ++channel) 
-    {
-        auto* channelData = buffer.getWritePointer (channel);
-        //buffer.applyGain(fxDepths_smoothed[0].getNextValue()); // Chopper gain (clicks)
-        buffer.applyGainRamp(channel,0,buffer.getNumSamples(),lastFxDepths[0],fxDepths_smoothed[0].getNextValue());// Chopper gain (ramp)
-        //for (int i = 0; i < buffer.getNumSamples(); i++){ *buffer.getWritePointer(channel,i) = echoOutputs[channel][i];       } // Faust echo        
-
-    }*/
     float outMix=getParameterValue("drywet");
     float outGain=getParameterValue("outgain");
     float dry=(1.0f-outMix)*outGain,wet=outMix*outGain;
@@ -291,19 +280,21 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
                 break;
             case 2:
                 filter_process(buffer,fx3drybuffer);
+                //repeater_process(buffer,fx3drybuffer);
                 break;
             case 3:               
                 bitcrush_process(buffer);
                 break;
-            
+            default:
+                break;
         }
     }
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel) 
     {
-        juce::FloatVectorOperations::multiply(masterDryBuffer.getWritePointer(channel), dry, buffer.getNumSamples());
-        juce::FloatVectorOperations::multiply(buffer.getWritePointer(channel), wet, buffer.getNumSamples());
-	    juce::FloatVectorOperations::add(buffer.getWritePointer(channel), masterDryBuffer.getReadPointer(channel), buffer.getNumSamples());    
+        juce::FloatVectorOperations::multiply(masterDryBuffer.getWritePointer(channel), dry, buffer.getNumSamples()); // multiply dry buffer by gain * 1-wetvolume
+        juce::FloatVectorOperations::multiply(buffer.getWritePointer(channel), wet, buffer.getNumSamples()); // multiply wet buffer by gain * wetvolume
+	    juce::FloatVectorOperations::add(buffer.getWritePointer(channel), masterDryBuffer.getReadPointer(channel), buffer.getNumSamples());  // add dry to wet   
     } 
  
 }
@@ -322,15 +313,21 @@ juce::AudioProcessorEditor* FxseqAudioProcessor::createEditor()
 //==============================================================================
 void FxseqAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    auto state = pluginParameters.copyState();
+    std::unique_ptr<juce::XmlElement> xml (state.createXml());
+    std::ofstream file("/home/pwner/dev/fxseq/Ressources/presets/default.xml");
+    
+    file<<(*xml).toString();
+    copyXmlToBinary (*xml, destData);
 }
 
 void FxseqAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+    std::unique_ptr<juce::XmlElement> xmlState (getXmlFromBinary (data, sizeInBytes));
+
+    if (xmlState.get() != nullptr)
+        if (xmlState->hasTagName (pluginParameters.state.getType()))
+            pluginParameters.replaceState (juce::ValueTree::fromXml (*xmlState));
 }
 
 //==============================================================================
@@ -517,6 +514,109 @@ void FxseqAudioProcessor::filter_process(juce::AudioBuffer<float>& buffer,juce::
     
 }
 
+void FxseqAudioProcessor::repeater_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer)
+{
+    int sampleCount=buffer.getNumSamples();
+    int sampleRate= getSampleRate();
+    int maxBufferSize= int(sampleRate * 60.0 / 1.0 * 4.0); //Nombre d'échantillons lorsque bpm=1
+    int bufferSize =int( sampleRate * (60.0 /(float) (bpm) * 4.0));
+    int repeatSize=int( sampleRate * (60.0 / (float) (bpm) * repeater_divison));
+    
+
+    
+    if (isPlaying) {
+            if (repeater_buffer.size() != 2) {
+                repeater_buffer.resize(2);
+                for (int i = 0; i < repeater_buffer.size(); i++) {
+                    repeater_buffer[i].clear();
+                }
+                buffer_pos=0;
+            }
+
+            if (repeater_buffer[0].size() >= bufferSize) 
+            {
+                for (int i = 0; i < repeater_buffer.size(); i++) {
+                    repeater_buffer[i].clear();
+                }
+                buffer_pos=0;
+            }
+
+        for (int channel = 0; channel < 2; ++channel) 
+        {
+            auto* channelData = buffer.getWritePointer(channel);
+            if (buffer_pos>repeatSize-sampleCount) {
+                buffer_smoothed.setTargetValue(repeater_buffer[channel][0]);
+                for (int sample = 0; sample < sampleCount; sample++)
+                {
+                    repeater_buffer[channel].insert(repeater_buffer[channel].end(),channelData[sample]);                   
+                    channelData[sample]=buffer_smoothed.getNextValue();
+                }             
+            } else {
+                for (int sample = 0; sample < sampleCount; sample++)
+                {
+                    repeater_buffer[channel].insert(repeater_buffer[channel].end(),channelData[sample]);
+                    channelData[sample]=repeater_buffer[channel][buffer_pos+sample];
+                }
+            }
+        }
+      
+        if (buffer_pos < repeatSize ) {
+            buffer_pos+=sampleCount;
+        } else {
+            buffer_pos=0;
+        }
+        //debug=std::__cxx11::to_string(buffer_pos);
+
+
+    }
+}
+
+/*void FxseqAudioProcessor::repeater_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer)
+{
+    auto sampleRate = getSampleRate();
+    const int bufferSize = repeater_buffer.getNumSamples();
+    
+    if (repeater_buffer.size() != 2) {
+        repeater_buffer.resize(2);
+        for (int i = 0; i < repeater_buffer.size(); i++) {
+            repeater_buffer[i].clear();
+        }
+    }
+         
+    for (auto i = 0; i < 2; ++i) {
+        count = 0;
+        repeater_buffer.clear();
+    }
+
+    for (int channel = 0; channel < 2; ++channel)
+    {
+        auto* channelData = buffer.getWritePointer (channel);
+        maxBufferSize = sampleRate * 60.0 / 1.0 * 4.0; 
+        bufferSize = sampleRate * (60.0 / bpm * 4.0); 
+
+        for (int i = 0; i < bufferSize; i++) {           
+                if (enablePush) {
+                    if (repeater_buffer.size() < maxBufferSize) {
+                        repeater_buffer.push_back(channelData[i]);
+                    }
+                    if (repeater_buffer.size() == maxBufferSize) enablePush = false;
+                }                
+                if (interval != 0) {
+                    int divSize = (double)bufferSize / (double)interval;
+                    int divCount = count % divSize;
+                    const int fadeSize = 100;
+                    channelData[i] = buffer[divCount];
+                    if (divCount < fadeSize) {
+                        channelData[i] *= juce::jmap((double)(divCount), 0.0, (double)(fadeSize - 1), 0.0, 1.0);
+                    }
+                    else if (divCount > (divSize - fadeSize)) {
+                        channelData[i] *= juce::jmap((double)(divCount), (double)(divSize - fadeSize), (double)(divSize - 1), 1.0, 0.0);
+                    }
+                }
+                count++;
+        }
+    }
+}*/
 //////////////////////////// FX /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void FxseqAudioProcessor::echo_setDelay(float delay)
 {

@@ -9,11 +9,8 @@ OutputComponent::OutputComponent(FxseqAudioProcessorEditor *ape,std::string Comb
     
     APE=ape;
 
-    initSlider1("Out gain",outGain,outGainLabel,0.0f,2.0f,0.1f);outGain.setValue(1.0f);
-    initSlider1("Dry/wet",outMix,outMixLabel,0.0f,1.0f,0.1f);outMix.setValue(1.0f);
-
-    outGain.onValueChange = [this] { updateGain();};
-    outMix.onValueChange = [this] { updateMix();};
+    initSlider1("Out gain",outGain,outGainLabel,0.0f,2.0f,0.1f);
+    initSlider1("Dry/wet",outMix,outMixLabel,0.0f,1.0f,0.1f);
 
 }   
 
@@ -33,9 +30,6 @@ void OutputComponent::skinChange()
     }
     outGainLabel.setColour(0x1000281,juce::Colour(sliderColors[3][1]));
     outMixLabel.setColour(0x1000281,juce::Colour(sliderColors[3][1]));
-
-    outMix.setValue(APE->getMasterParam("drywet"));
-    outGain.setValue(APE->getMasterParam("outgain"));
 }
 ////////////////////////////////////////////// TEMPLATES //////////////////////////////////////////////
 void OutputComponent::initSlider1(std::string name,juce::Slider& slider,juce::Label& label,float min,float max,float def)
@@ -49,12 +43,3 @@ void OutputComponent::initSlider1(std::string name,juce::Slider& slider,juce::La
     addAndMakeVisible(label);
 }
 
-void OutputComponent::updateMix()
-{
-    APE->updateMaster("drywet",outMix.getValue());
-}
-
-void OutputComponent::updateGain()
-{
-    APE->updateMaster("outgain",outGain.getValue());
-}

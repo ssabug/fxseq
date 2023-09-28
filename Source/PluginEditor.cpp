@@ -15,48 +15,61 @@ FxseqAudioProcessorEditor::FxseqAudioProcessorEditor (FxseqAudioProcessor& p)
 {
     setSize (1400, 500);
 
+    //initDirectories();
+
+    std::string skinFilePath=getPath("currentSkinFile");
+
     for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) {
-        std::vector<std::string> images=readXMLVectorParam(skinPath+"skin.xml","skin/templates/"+sequencers[i].stepSeqTemplate+"/images");
-        sequencers[i].stepSeqColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+sequencers[i].stepSeqTemplate+"/colors");
-        sequencers[i].comboColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+sequencers[i].comboTemplate+"/colors");
+        std::vector<std::string> images=readXMLVectorParam(skinFilePath,"skin/templates/"+sequencers[i].stepSeqTemplate+"/images");
+        sequencers[i].stepSeqColors=readXMLVector2Param(skinFilePath,"skin/templates/"+sequencers[i].stepSeqTemplate+"/colors");
+        sequencers[i].comboColors=readXMLVector2Param(skinFilePath,"skin/templates/"+sequencers[i].comboTemplate+"/colors");
 
         sequencers[i].stepSeqImages.clear();
         for (int j=0;j<images.size();j++) {   sequencers[i].stepSeqImages.push_back(juce::ImageFileFormat::loadFrom(juce::File(imagePath+images[j])));    }
-        sequencers[i].stepMaxValue=sequencers[i].stepSeqImages.size()-2; 
+        sequencers[i].stepMaxValue=sequencers[i].stepSeqImages.size()-2;
+        //patternSelect,clockMultSelect
+        patternSelectAttachement[i].reset (new juce::AudioProcessorValueTreeState::ComboBoxAttachment (audioProcessor.pluginParameters, fxNamesStr[i] +  "_pattern", sequencers[i].patternSelect));
+        clockMultSelectAttachment[i].reset (new juce::AudioProcessorValueTreeState::ComboBoxAttachment (audioProcessor.pluginParameters, fxNamesStr[i] +  "_clockDiv", sequencers[i].clockMultSelect)); 
         updateSeqPattern(i,sequencers[i].getSelectedPattern());
         sequencers[i].skinChange();
         addAndMakeVisible(sequencers[i]);
     }
   
     for (int i=0;i<sizeof(effects)/sizeof(effects[0]);i++) {
-        effects[i].comboColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+effects[i].comboTemplate+"/colors");
-        effects[i].sliderColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+effects[i].sliderTemplate+"/colors");
-        effects[i].programButtonColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+effects[i].imageButtonTemplate+"/colors");
-        std::vector<std::string> imagesP=readXMLVectorParam(skinPath+"skin.xml","skin/templates/"+effects[i].imageButtonTemplate+"/images");
+        effects[i].comboColors=readXMLVector2Param(skinFilePath,"skin/templates/"+effects[i].comboTemplate+"/colors");
+        effects[i].sliderColors=readXMLVector2Param(skinFilePath,"skin/templates/"+effects[i].sliderTemplate+"/colors");
+        effects[i].programButtonColors=readXMLVector2Param(skinFilePath,"skin/templates/"+effects[i].imageButtonTemplate+"/colors");
+        std::vector<std::string> imagesP=readXMLVectorParam(skinFilePath,"skin/templates/"+effects[i].imageButtonTemplate+"/images");
         effects[i].programButtonImages.clear();
         for (int j=0;j<imagesP.size();j++) {   effects[i].programButtonImages.push_back(juce::ImageFileFormat::loadFrom(juce::File(imagePath+imagesP[j])));    }
         
+        fxOutMixAttachement[i].reset (new juce::AudioProcessorValueTreeState::SliderAttachment (audioProcessor.pluginParameters, fxNamesStr[i] + "_dry/wet", effects[i].outMix));
+        fxOutGainAttachement[i].reset (new juce::AudioProcessorValueTreeState::SliderAttachment (audioProcessor.pluginParameters,fxNamesStr[i] +  "_gain", effects[i].outGain));
         effects[i].skinChange();
         addAndMakeVisible(effects[i]);
     }
 
-    options.comboColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+options.comboTemplate+"/colors");
-    options.sliderColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+options.sliderTemplate+"/colors");
-    options.imageButtonColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+options.imageButtonTemplate+"/colors");
+    options.comboColors=readXMLVector2Param(skinFilePath,"skin/templates/"+options.comboTemplate+"/colors");
+    options.sliderColors=readXMLVector2Param(skinFilePath,"skin/templates/"+options.sliderTemplate+"/colors");
+    options.imageButtonColors=readXMLVector2Param(skinFilePath,"skin/templates/"+options.imageButtonTemplate+"/colors");
+    sequencerModeAttachment.reset (new juce::AudioProcessorValueTreeState::ComboBoxAttachment (audioProcessor.pluginParameters,"sequencerMode", options.sequencerMode)); 
     options.skinChange();
     addAndMakeVisible(options);
 
-    output.comboColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+output.comboTemplate+"/colors");
-    output.sliderColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+output.sliderTemplate+"/colors");
-    output.imageButtonColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+output.imageButtonTemplate+"/colors");
+    output.comboColors=readXMLVector2Param(skinFilePath,"skin/templates/"+output.comboTemplate+"/colors");
+    output.sliderColors=readXMLVector2Param(skinFilePath,"skin/templates/"+output.sliderTemplate+"/colors");
+    output.imageButtonColors=readXMLVector2Param(skinFilePath,"skin/templates/"+output.imageButtonTemplate+"/colors");
+    outMixAttachement.reset (new juce::AudioProcessorValueTreeState::SliderAttachment (audioProcessor.pluginParameters, "drywet", output.outMix));
+    outGainAttachement.reset (new juce::AudioProcessorValueTreeState::SliderAttachment (audioProcessor.pluginParameters, "outgain", output.outGain));
     output.skinChange();
     addAndMakeVisible(output);
 
-    sequenceSeq.comboColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+sequenceSeq.comboTemplate+"/colors");
-    sequenceSeq.sliderColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+sequenceSeq.sliderTemplate+"/colors");
-    sequenceSeq.imageButtonColors=readXMLVector2Param(skinPath+"skin.xml","skin/templates/"+sequenceSeq.imageButtonTemplate+"/colors");
+    sequenceSeq.comboColors=readXMLVector2Param(skinFilePath,"skin/templates/"+sequenceSeq.comboTemplate+"/colors");
+    sequenceSeq.sliderColors=readXMLVector2Param(skinFilePath,"skin/templates/"+sequenceSeq.sliderTemplate+"/colors");
+    sequenceSeq.imageButtonColors=readXMLVector2Param(skinFilePath,"skin/templates/"+sequenceSeq.imageButtonTemplate+"/colors");
+    sequenceSelectedAttachment.reset (new juce::AudioProcessorValueTreeState::ComboBoxAttachment (audioProcessor.pluginParameters, "sequenceNumber", sequenceSeq.sequenceSelect));
+    sequenceLengthAttachment.reset (new juce::AudioProcessorValueTreeState::SliderAttachment (audioProcessor.pluginParameters, "sequenceLength", sequenceSeq.sequenceLengthSlider));
     sequenceSeq.skinChange();
-    sequenceSeq.changeSelectedSequence();
     addAndMakeVisible(sequenceSeq);
 
     addAndMakeVisible(debugLog);
@@ -143,8 +156,12 @@ void FxseqAudioProcessorEditor::timerCallback()
                        +"selected pattern : " + std::__cxx11::to_string(audioProcessor.selected_pattern[0])+" " + std::__cxx11::to_string(audioProcessor.selected_pattern[1])+ " " + std::__cxx11::to_string(audioProcessor.selected_pattern[2]) + " " + std::__cxx11::to_string(audioProcessor.selected_pattern[3]) + "\n"
                        +"seq length: " + std::__cxx11::to_string(procSeqLength) +"\n"
                        +"seqmode :"+ std::__cxx11::to_string(options.sequenceMode) +" scroll :" + std::__cxx11::to_string(options.scroll) + "\n"
-                       +std::__cxx11::to_string(getMasterParam("Chopper_gain")) +"\n"
-                       +std::__cxx11::to_string(getMasterParam("Chopper_dry/wet")) +"\n"
+                       +std::__cxx11::to_string(audioProcessor.getParameterValue(fxNamesStr[0]+"_position")) +"\n"
+                       +std::__cxx11::to_string(getMasterParam("sequencerMode"))
+                      // +std::__cxx11::to_string(this->getNumChildComponents()) +"\n"
+                  //     +std::__cxx11::to_string(effects[1].getNumChildComponents()) +"\n"
+                  //     +std::__cxx11::to_string(sequencers[0].getNumChildComponents()) +"\n"
+                       //+std::__cxx11::to_string(getMasterParam("Chopper_dry/wet")) +"\n"
                     );
 }
 
@@ -159,23 +176,10 @@ void FxseqAudioProcessorEditor::updateProcessorPattern(int sequencerIndex,int pa
     audioProcessor.updateGainPattern(sequencerIndex,patternIndex);
 }
 
-void FxseqAudioProcessorEditor::updateSelectedProcessorPattern(int sequencerIndex,int patternIndex) 
-{
-    std::string paramName="seq"+std::__cxx11::to_string(sequencerIndex+1)+"_pattern";
-    audioProcessor.updateParameter(paramName,(float)patternIndex);
-    //  audioProcessor.updateGainPattern(sequencerIndex,patternIndex);
-}
-
-void FxseqAudioProcessorEditor::updateSelectedProcessorClock(int sequencerIndex,int clockIndex) 
-{
-    std::string paramName="seq"+std::__cxx11::to_string(sequencerIndex+1)+"_clockDiv";
-    audioProcessor.updateParameter(paramName,(float)clockIndex);
-}
-
 void FxseqAudioProcessorEditor::updateSelectedProcessorEffect(int sequencerIndex,int effectIndex) 
 {
-    std::string paramName="seq"+std::__cxx11::to_string(sequencerIndex+1)+"_fx";
-    audioProcessor.updateParameter(paramName,(float)effectIndex);
+    //std::string paramName=fxNamesStr[sequencerIndex] + "_fx";
+    //audioProcessor.updateParameter(paramName,(float)effectIndex);
 }
 
 std::vector<int> FxseqAudioProcessorEditor::getSequence(int seqIndex)
@@ -189,21 +193,6 @@ void FxseqAudioProcessorEditor::updateSequence(int seqIndex, std::vector<int> se
     audioProcessor.sequences[seqIndex]=sequence;
 }
 
-void FxseqAudioProcessorEditor::changeSequenceMode(bool mode)
-{
-    audioProcessor.updateParameter("sequencerMode",(float) mode);
-}
-
-void FxseqAudioProcessorEditor::updateSequenceLength(int length)
-{
-     audioProcessor.pluginParameters.getParameter("sequenceLength")->setValue((float)(length-2)/14);
-}
-
-void FxseqAudioProcessorEditor::changeSelectedSequence(int seqIndex)
-{
-    audioProcessor.updateParameter("sequenceNumber",(float) seqIndex);
-}
-
 void FxseqAudioProcessorEditor::changeFxPosition(int seqIndex,int newPosition)
 {
     int indexAtNewPosition,replacePosition;
@@ -211,7 +200,10 @@ void FxseqAudioProcessorEditor::changeFxPosition(int seqIndex,int newPosition)
     replacePosition=sequencers[seqIndex].position;
     sequencers[indexAtNewPosition].position=replacePosition;
     sequencers[seqIndex].position=newPosition;
-    for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) { audioProcessor.fxPositions[i]=sequencers[i].position;}
+    for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) { 
+        audioProcessor.fxPositions[i]=sequencers[i].position;
+        audioProcessor.updateParameter(fxNamesStr[i]+"_position",(float)sequencers[i].position); 
+    }
     resized();
     repaint();
 }
@@ -241,17 +233,6 @@ int FxseqAudioProcessorEditor::getSequencerCount()
     return (int)(sizeof(sequencers)/sizeof(sequencers[0]));
 }
 
-void FxseqAudioProcessorEditor::updateFxDryWet(int fxIndex, float fxValue)
-{
-    std::string paramName=effects[fxIndex].name +"_dry/wet";
-    audioProcessor.pluginParameters.getParameter(paramName)->setValue(fxValue);
-}
-
-void FxseqAudioProcessorEditor::updateFxGain(int fxIndex, float fxValue)
-{
-    std::string paramName=effects[fxIndex].name +"_gain";
-    audioProcessor.pluginParameters.getParameter(paramName)->setValue(fxValue);
-}
 
 void FxseqAudioProcessorEditor::updateMaster(std::string parameterName,float value)
 {
@@ -392,8 +373,8 @@ void FxseqAudioProcessorEditor::patternUtils(std::string action,int seqIndex)
         }
     }
     
-    
 }
+
 ////////////////////////////////////////////////////////////////////////////////////// UTILS //////////////////////////////////////////////////////////////////////////////////////
 std::vector<std::string> FxseqAudioProcessorEditor::split(std::string s, std::string delimiter) 
 {
@@ -430,9 +411,71 @@ int FxseqAudioProcessorEditor::lowest(int n1,int n2,int n3,int n4)
 
     return Lowest;
 }
+////////////////////////////////////////////////////////////////////////////////////// PATHS ////////////////////////////////////////////////////////////////////////////////////
+void FxseqAudioProcessorEditor::initDirectories()
+{
+    // /!\ PLATFORM SPECIFIC CODE
+    juce::File homeDir = juce::File(juce::File::getSpecialLocation (juce::File::userHomeDirectory));
+    const std::string homePath=homeDir.getFullPathName().toStdString();
+    std::string devPath=homePath+"/.ssabug/";
+    rootPath=devPath+"fxseq/";
+    
+    if ( not std::filesystem::exists(devPath) )  {
+        std::filesystem::create_directory(devPath);
+    }
 
+    if ( not std::filesystem::exists(rootPath) )  {
+        std::filesystem::create_directory(rootPath);
+        std::filesystem::create_directory(getPath("config"));
+        std::filesystem::create_directory(getPath("presets"));
+        std::filesystem::create_directory(getPath("skins"));
+
+        std::filesystem::create_directory(getPath("currentSkin"));
+        std::filesystem::create_directory(getPath("images"));
+    }
+   
+}
+
+
+std::string FxseqAudioProcessorEditor::getPath(std::string path)
+{
+    if (path ==  "root") {
+        return rootPath;
+    }
+    if (path ==  "config") {
+        return rootPath + "config/";
+    }
+    if (path ==  "configFile") {
+        return rootPath + "config/config.xml";
+    }
+    if (path ==  "skins") {
+        return rootPath + "skins/";
+    }
+    if (path ==  "currentSkin") {
+        return rootPath + "skins/" + currentSkin + "/";
+    }
+    if (path ==  "currentSkinFile") {
+        return rootPath + "skins/" + currentSkin + "/skin.xml";
+    }
+    if (path ==  "images") {
+        return rootPath + "skins/" + currentSkin + "/images/";
+    }
+    if (path ==  "presets") {
+        return rootPath + "presets/";
+    }
+    if (path ==  "currentPreset") {
+        return rootPath + "presets/" + currentPreset +".xml";
+    }
+
+    return "";
+}
 
 ////////////////////////////////////////////////////////////////////////////////////// XML //////////////////////////////////////////////////////////////////////////////////////
+void FxseqAudioProcessorEditor::saveXMLPreset()
+{
+    //audioProcessor.getStateInformation();
+}
+
 std::string FxseqAudioProcessorEditor::readXMLParam(std::string xmlFilePath,std::string paramPath)
 {
     std::string rootTagName,categoryTagName,paramTagName,delimiter="/";

@@ -69,6 +69,8 @@ public:
     float getEffectProgramParameterValue(int fxIndex,int programIndex,int paramIndex);
 
     double ppq;
+    double bpm=1.0f;
+    bool isPlaying;
     float unused;
     int resolution=8;
     const int sequencerCount=4;
@@ -154,6 +156,8 @@ public:
     float echo_time=0.25f,echo_feedback=0.5f;
     //=====FILTER=================================================================
     juce::dsp::LadderFilter<float> filter;
+    //====REPEATER======================================================================
+    float repeater_divison=1.0;
 private:
     //=====CHOPPER===================================================================
     void chopper_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer);
@@ -171,6 +175,20 @@ private:
     float lastFilterDrive=0.0f;
     //====BITCRUSHER===================================================================
     void bitcrush_process(juce::AudioBuffer<float>& buffer);  
+    //====REPEATER======================================================================
+    void repeater_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer);
+    std::vector<std::vector<float>> repeater_buffer;
+    int buffer_pos=0;
+
+    int count = 0; 
+    int maxBufferSize;
+    int bufferSize;
+    bool enablePush = false;
+    int interval = 0;
+    int preserveInterval = 0;
+    //repeater_maxBufferSize;
+    //repeater_bufferSize;
+    juce::SmoothedValue<float,juce::ValueSmoothingTypes::Linear> buffer_smoothed;
     //juce::AudioProcessorValueTreeState pluginParameters;   
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FxseqAudioProcessor)

@@ -116,6 +116,8 @@ void OptionsComponent::skinChange()
     sequencerModeLabel.setColour(0x1000281,juce::Colour(comboColors[1][1]));
     scrollPatternsLabel.setColour(0x1000281,juce::Colour(comboColors[1][1]));
 
+    sequencerMode.setSelectedItemIndex(int(APE->getMasterParam("sequencerMode")));
+
     if (not scroll) { scrollPatterns.setColour(juce::TextButton::buttonColourId,juce::Colours::black);}
     else {scrollPatterns.setColour(juce::TextButton::buttonColourId,juce::Colour(imageButtonColors[0][1]));}
 }
@@ -143,8 +145,7 @@ void OptionsComponent::savePreset()
 
 void OptionsComponent::changeSequencerMode()
 {
-    sequenceMode=sequencerMode.getSelectedItemIndex();
-    APE->changeSequenceMode(sequenceMode); 
+    sequenceMode=(bool)sequencerMode.getSelectedItemIndex();
 }
 
 void OptionsComponent::switchScroll()
@@ -160,8 +161,19 @@ void OptionsComponent::switchScroll()
 
 void OptionsComponent::debugFunction()
 {
-    
-     
+
+    /*std::vector<float> values={0.5f,1.0f,2.0f,4.0f};
+
+    APE->debugRepeater(values[debugCounter]);
+
+
+    if (debugCounter>=values.size()-1) 
+    {
+        debugCounter=0;
+    } else {
+        debugCounter++;
+    }*/
+    APE->saveXMLPreset();
 }
 
 void OptionsComponent::patternUtils(std::string action)

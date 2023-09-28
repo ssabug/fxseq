@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PARAMETERS>
+  <PARAM id="Chopper_clockDiv" value="2.0"/>
+  <PARAM id="Chopper_dry/wet" value="0.09999999403953552"/>
+  <PARAM id="Chopper_gain" value="0.09999999403953552"/>
+  <PARAM id="Chopper_pattern" value="6.0"/>
+  <PARAM id="Chopper_position" value="1.0"/>
+  <PARAM id="Crusher_bitdepth" value="1.0"/>
+  <PARAM id="Crusher_clockDiv" value="2.0"/>
+  <PARAM id="Crusher_dry/wet" value="0.9699999690055847"/>
+  <PARAM id="Crusher_gain" value="0.09999999403953552"/>
+  <PARAM id="Crusher_pattern" value="1.0"/>
+  <PARAM id="Crusher_position" value="1.0"/>
+  <PARAM id="Crusher_reduction" value="1.0"/>
+  <PARAM id="Echo_clockDiv" value="2.0"/>
+  <PARAM id="Echo_dry/wet" value="1.0"/>
+  <PARAM id="Echo_feedback" value="0.09999999403953552"/>
+  <PARAM id="Echo_gain" value="0.09999999403953552"/>
+  <PARAM id="Echo_pattern" value="1.0"/>
+  <PARAM id="Echo_position" value="1.0"/>
+  <PARAM id="Echo_time" value="0.09999999403953552"/>
+  <PARAM id="Filter_clockDiv" value="2.0"/>
+  <PARAM id="Filter_drive" value="1.0"/>
+  <PARAM id="Filter_dry/wet" value="1.0"/>
+  <PARAM id="Filter_frequency" value="20.0"/>
+  <PARAM id="Filter_gain" value="0.09999999403953552"/>
+  <PARAM id="Filter_pattern" value="1.0"/>
+  <PARAM id="Filter_position" value="1.0"/>
+  <PARAM id="Filter_resonance" value="0.09999999403953552"/>
+  <PARAM id="drywet" value="1.0"/>
+  <PARAM id="outgain" value="1.0"/>
+  <PARAM id="sequenceLength" value="4.0"/>
+  <PARAM id="sequenceNumber" value="1.0"/>
+  <PARAM id="sequencerMode" value="0.0"/>
+</PARAMETERS>

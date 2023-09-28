@@ -18,6 +18,8 @@ class OptionsComponent   : public juce::Component
         void debugFunction();
         void patternUtils(std::string action);
 
+        int debugCounter;
+
         FxseqAudioProcessorEditor *APE;
 
         bool scroll=true;
@@ -28,10 +30,12 @@ class OptionsComponent   : public juce::Component
         std::vector<std::vector<int>> sliderColors={{(int)0x1001300,(int)0xFF00FF00},{(int)0x1001312,(int)0xFF000000},{(int)0x1001311,(int)0xFF00FF00},{(int)0x1001400,(int)0xFF00AF00},{(int)0x1001700,(int)0xFF000000}};;
         std::vector<std::vector<int>> imageButtonColors={{(int)0x1000c00,(int)0xFF00AF00},{(int)0x1000100,(int)0xFF000000},{(int)0x1000101,(int)0xFF00FF00}};   
 
+        juce::ComboBox sequencerMode;
+
     private:
         void initSlider1(std::string name,juce::Slider& slider,juce::Label& label,float min,float max,float def);
 
-        juce::ComboBox presetSelected,sequencerMode,patternSelect;
+        juce::ComboBox presetSelected,patternSelect;
         juce::TextButton savePresetButton,scrollPatterns,debugButton,copy,paste,clear,reset;
         juce::Label presetSelectedLabel,savePresetLabel,sequencerModeLabel,scrollPatternsLabel;
 

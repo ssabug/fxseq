@@ -58,6 +58,9 @@ void SequenceSequencerComponent::skinChange()
     }
     sequenceLengthSliderLabel.setColour(sliderColors[2][0],juce::Colour(sliderColors[2][1]));
     sequenceSelectLabel.setColour(sliderColors[2][0],juce::Colour(sliderColors[2][1]));
+
+    sequenceSelect.setSelectedItemIndex(int(APE->getMasterParam("sequenceNumber")));
+    sequenceLengthSlider.setValue(int(APE->getMasterParam("sequenceLength"))+2);
 }
 ////////////////////////////////////////////// TEMPLATES //////////////////////////////////////////////
 void SequenceSequencerComponent::initSlider2(juce::Slider& slider,float min,float max,float def)
@@ -70,7 +73,6 @@ void SequenceSequencerComponent::initSlider2(juce::Slider& slider,float min,floa
 void SequenceSequencerComponent::changeSelectedSequence()
 {
     int SelectedSequence=sequenceSelect.getSelectedItemIndex();
-    APE->changeSelectedSequence(SelectedSequence);
     sequence=APE->getSequence(SelectedSequence);
     for (int j=0;j<16;j++) {
         sequenceStep[j].setSelectedItemIndex(sequence[j]);
@@ -81,7 +83,7 @@ void SequenceSequencerComponent::changeSelectedSequence()
 void SequenceSequencerComponent::changeSequenceLength()
 {
     int sequenceLength=sequenceLengthSlider.getValue();
-    APE->updateSequenceLength(sequenceLength);
+
     for (int i=0;i<16;i++) 
     {
         int mask=0xffffffff,mask2;
