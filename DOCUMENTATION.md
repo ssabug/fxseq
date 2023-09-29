@@ -6,7 +6,7 @@ Fxseq is a step sequencer based multi effect.
 There are 4 effects : chopper, echo, filter & bitcrusher:
 
 - **Chopper** is a trance gate with step-defined enveloppes.
-- **Echo** is a ![FAUST](https://faust.grame.fr/) example echo algorithm.
+- **Echo** is a [FAUST (https://faust.grame.fr/)][website] example echo algorithm.
 - **Filter** is a built-in JUCE 12dB ladder filter.
 - **bitcrusher** is a bit crusher/reducer based on ![dfilaretti](https://github.com/dfilaretti/bitcrusher-demo-2/tree/master) code.
 
