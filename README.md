@@ -5,7 +5,7 @@ Fxseq is a step sequencer-based multi effect unlike dblue glitch or effectrix.
 
 ![alt text](Ressources/images/GUI.png)
 
-see the ![alt text](DOCUMENTATION.md) for more details.
+see the ![DOCUMENTATION](DOCUMENTATION.md) for more details.
 
 ## Requirements
 JUCE Version 7.0.7
