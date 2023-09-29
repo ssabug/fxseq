@@ -5,7 +5,7 @@ Fxseq is a step sequencer-based multi effect unlike dblue glitch or effectrix.
 
 ![alt text](Ressources/images/GUI.png)
 
-see the ![DOCUMENTATION](DOCUMENTATION.md) for more details.
+see ![DOCUMENTATION](DOCUMENTATION.md) for more details.
 
 ## Requirements
 JUCE Version 7.0.7
@@ -33,3 +33,6 @@ It will create the folders and copy the plugin data in **${HOME}/.ssabug/fxseq/*
 Tested OSs  : Fedora
 
 Tested DAWs : Bitwig
+
+## History
+see ![HISTORY](HISTORY.md) for more details.
