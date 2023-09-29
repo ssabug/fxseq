@@ -51,17 +51,20 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         float getMasterParam(std::string parameterName);
         std::string getPath(std::string path);
         void initDirectories();
-        void saveXMLPreset();
+        std::vector<std::string> get_directories(const std::string& s);
+        std::vector<std::string> getPresetList();
+        std::vector<std::string> getSkinList();
+        std::string removeForbiddenCharacters(std::string text);
+        bool presetExists(std::string presetText);
+        void saveXMLPreset(std::string presetName);
+        void loadPreset(std::string presetName);
 
         int greatestClockMult=4;
         std::vector<std::string> fxNamesStr={"Chopper","Echo","Filter","Crusher"};
         std::vector<int> clipboard;
 
-        std::string currentSkin="default",currentPreset,rootPath="/home/pwner/dev/fxseq/Ressources/";
-
-        std::string skinPath="/home/pwner/dev/fxseq/Ressources/skins/default/";
-        std::string imagePath=skinPath+"images/";
-
+        std::string currentSkin="default",currentPreset="default",rootPath="/home/pwner/dev/fxseq/Ressources/";
+        std::string debugtext;
     private:
         void timerCallback();
         //UTILS
@@ -97,7 +100,6 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
 
         std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> outMixAttachement,outGainAttachement;
         std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> fxOutMixAttachement[4],fxOutGainAttachement[4],sequenceLengthAttachment;
-
         std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> patternSelectAttachement[4],clockMultSelectAttachment[4],sequencerModeAttachment,sequenceSelectedAttachment;
         
         FxseqAudioProcessor& audioProcessor;

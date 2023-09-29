@@ -28,8 +28,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
         std::string prefix=fxNamesStr[i-1]+"_";
         params.add (std::make_unique<juce::AudioParameterInt> (prefix+"pattern",prefix+"pattern", 1, 16, 1));
         params.add (std::make_unique<juce::AudioParameterChoice> (prefix+"clockDiv",prefix+"clockDiv",juce::StringArray({ "4","2","1","1/2","1/4","1/8","1/16","1/32" }), 2));
-        params.add (std::make_unique<juce::AudioParameterInt> (prefix+"position",prefix+"position",0, 3, 1));
-          
+        params.add (std::make_unique<juce::AudioParameterInt> (prefix+"position",prefix+"position",0, 3, 1)); 
     }
 
     std::string prefx=fxNamesStr[0]+"_";//chopper
@@ -312,12 +311,11 @@ juce::AudioProcessorEditor* FxseqAudioProcessor::createEditor()
 
 //==============================================================================
 void FxseqAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
-{
+{   
     auto state = pluginParameters.copyState();
     std::unique_ptr<juce::XmlElement> xml (state.createXml());
-    std::ofstream file("/home/pwner/dev/fxseq/Ressources/presets/default.xml");
-    
-    file<<(*xml).toString();
+    juce::XmlElement* patternDef=getAllPatternsXml();
+    xml->addChildElement(patternDef);
     copyXmlToBinary (*xml, destData);
 }
 
@@ -328,7 +326,9 @@ void FxseqAudioProcessor::setStateInformation (const void* data, int sizeInBytes
     if (xmlState.get() != nullptr)
         if (xmlState->hasTagName (pluginParameters.state.getType()))
             pluginParameters.replaceState (juce::ValueTree::fromXml (*xmlState));
+            //loadPatternsAndSequencesFromXML(xmlState.get());
 }
+
 
 //==============================================================================
 // This creates new instances of the plugin..
@@ -339,6 +339,7 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 
 void FxseqAudioProcessor::initAllPatterns()
 {
+    gainPatterns.clear();
     for (int i=0;i<sequencerCount;i++) 
     {
         std::vector<std::vector<float>> gainPatts;
@@ -629,4 +630,149 @@ void FxseqAudioProcessor::echo_setFeedback(float feedback)
     echoUI->setParamValue("feedback",feedback);
     echo_feedback=feedback;
 }
+////////////////////////////// XML /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+std::vector<unsigned long long int> FxseqAudioProcessor::getPatterns(int seqIndex)
+{
+    
+    std::vector<unsigned long long int> patternsData;
+    
+    for (int pattern=0;pattern<patternsPerSequencer;pattern++) 
+    {  
+        unsigned long long int patternData=0;//(n >> k) & 1
+        for (int step=0;step<stepsPerPattern;step++)
+        {
+            for (int bit=0;bit<4;bit++) 
+            {
+                patternData+=(((unsigned long long int)patterns[seqIndex][pattern][step] >> bit) & 1) * (unsigned long long int)(pow(2,step*4+bit));
+            }
+        }
+        patternsData.push_back(patternData);
+    }
+    return patternsData;
+}
 
+std::vector<unsigned long long int> FxseqAudioProcessor::getSequences()
+{
+    
+    std::vector<unsigned long long int> sequencesData;
+    
+    for (int sequence=0;sequence<sequenceCount;sequence++) 
+    {  
+        unsigned long long int sequenceData=0;//(n >> k) & 1
+        for (int step=0;step<stepsPerPattern;step++)
+        {
+            for (int bit=0;bit<4;bit++) 
+            {
+                sequenceData+=(((unsigned long long int)sequences[sequence][step] >> bit) & 1) * (unsigned long long int)(pow(2,step*4+bit));
+            }
+        }
+        sequencesData.push_back(sequenceData);
+    }
+    return sequencesData;
+}
+
+juce::XmlElement* FxseqAudioProcessor::getAllPatternsXml()
+{
+    juce::XmlElement* rootElement =new juce::XmlElement ("PATTERNS");
+    for (int sequencer=0;sequencer<sequencerCount;sequencer++)
+    {
+        juce::XmlElement* sequencerElement= new juce::XmlElement (TRANS(fxNamesStr[sequencer]));
+        std::vector<unsigned long long int> patternsData=getPatterns(sequencer);
+        for (int pat=0;pat<patternsPerSequencer;pat++)
+        {
+            juce::XmlElement* patXML = new juce::XmlElement (TRANS("PATTERN"+std::__cxx11::to_string(pat)));
+            patXML->addTextElement (std::__cxx11::to_string(patternsData[pat]) );
+            sequencerElement->addChildElement (patXML);   
+        }
+        rootElement->addChildElement (sequencerElement); 
+
+         
+    }
+    return rootElement;
+}
+
+juce::XmlElement* FxseqAudioProcessor::getAllSequencesXml()
+{
+    juce::XmlElement* rootElement =new juce::XmlElement ("SEQUENCES");
+
+    std::vector<unsigned long long int> sequencesData=getSequences();
+    for (int sequence=0;sequence<sequenceCount;sequence++)
+    {
+        juce::XmlElement* seqXML = new juce::XmlElement (TRANS("SEQUENCE"+std::__cxx11::to_string(sequence)));
+        seqXML->addTextElement (std::__cxx11::to_string(sequencesData[sequence]) );
+        rootElement->addChildElement (seqXML);   
+    }
+        
+    return rootElement;
+}
+
+void FxseqAudioProcessor::loadPatternsAndSequencesFromXMLFile(std::string fileName)
+{
+    if ( not std::filesystem::exists(fileName) )  {
+
+    } else 
+    {
+        juce::File xmlFile(fileName);
+        juce::XmlDocument xmlDoc(xmlFile);
+
+        if (juce::XmlDocument::parse(xmlFile))
+        {
+            auto rootElement = xmlDoc.getDocumentElement();
+            loadPatternsAndSequencesFromXML(rootElement.get());
+            pluginParameters.replaceState (juce::ValueTree::fromXml (*rootElement.get()));
+        }
+        
+        initAllPatterns();
+    }
+}
+
+void FxseqAudioProcessor::loadPatternsAndSequencesFromXML(juce::XmlElement* rootElement)
+{   
+    //juce::XmlElement* rootElement=&element;
+    if (rootElement->hasTagName("PARAMETERS")) 
+    {
+        int sequencerNum=0; 
+        for (auto* e : rootElement->getChildByName("PATTERNS")->getChildIterator())
+        {
+            int patternNum=0;
+            for (auto* f : e->getChildIterator()) 
+            {
+                std::string paramName = f->getTagName().toStdString();
+                std::string paramValue = f->getAllSubText().toStdString();
+                //debug+="\n"+ paramName + " : " ;
+                for (int i=0;i<stepsPerPattern;i++) 
+                {
+                    unsigned long long int value=0;
+                    for (int j=0;j<4;j++) 
+                    {
+                        value+=((stoull(paramValue) >> i*4+j) & 1)*(unsigned long long int) (pow(2,j));
+                    }
+                    patterns[sequencerNum][patternNum][i]=(int)value;
+                    //debug+=std::__cxx11::to_string(value) + " " ;
+                }  
+                patternNum++;
+             } 
+             sequencerNum++;                            
+         }
+         int sequenceNum=0;
+         for (auto* g : rootElement->getChildByName("SEQUENCES")->getChildIterator())
+        {
+            std::string paramName = g->getTagName().toStdString();
+            std::string paramValue = g->getAllSubText().toStdString();
+            //ebug+="\n"+ paramName + " : " + paramValue;
+            for (int i=0;i<stepsPerPattern;i++) 
+            {
+                unsigned long long int value=0;
+                for (int j=0;j<4;j++) 
+                {
+                    value+=((stoull(paramValue) >> i*4+j) & 1)*(unsigned long long int) (pow(2,j));
+                }
+                sequences[sequenceNum][i]=(int)value;
+                //debug+=std::__cxx11::to_string(value) + " " ;
+            }  
+            sequenceNum++;                            
+         }
+    } 
+       
+    
+}

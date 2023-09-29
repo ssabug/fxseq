@@ -16,8 +16,8 @@ SequencerComponent::SequencerComponent(int Index,FxseqAudioProcessorEditor *ape,
     position=index;//APE->getSequencerPosition(index);audioProcessor.updateParameter(fxNamesStr[i]+"_position",(float)sequencers[i].position); 
     stepSeqTemplate=StepSeqTemplate;
     comboTemplate=ComboTemplate;
-    skinPath=APE->skinPath;
-    imagePath=APE->imagePath;
+    skinPath=APE->getPath("currentSkin");
+    imagePath=APE->getPath("images");
 
     juce::Colour color_stepseq_1=juce::Colour(stepSeqColors[0][1]);
     juce::Colour color_stepseq_2=juce::Colour(stepSeqColors[1][1]);

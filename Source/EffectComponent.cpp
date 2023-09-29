@@ -14,8 +14,8 @@ EffectComponent::EffectComponent(int Index,FxseqAudioProcessorEditor *ape,std::s
     setSize (272, 120);
     APE=ape; 
 
-    skinPath=APE->skinPath;
-    imagePath=APE->imagePath;
+    skinPath=APE->getPath("currentSkin");
+    imagePath=APE->getPath("images");
 
     initSlider1("Out gain",outGain,outGainLabel,0.0f,2.0f,0.1f);
     initSlider1("Dry/wet",outMix,outMixLabel,0.0f,1.0f,0.1f);

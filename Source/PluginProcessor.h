@@ -59,6 +59,12 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+    std::vector<unsigned long long int> getPatterns(int seqIndex);
+    juce::XmlElement* getAllPatternsXml();
+    std::vector<unsigned long long int> getSequences();
+    juce::XmlElement* getAllSequencesXml();
+    void loadPatternsAndSequencesFromXML(juce::XmlElement* rootElement);
+    void loadPatternsAndSequencesFromXMLFile(std::string fileName);
     //==============================================================================
     void initAllPatterns();
     std::vector<float> generateGainPattern(int sequencerIndex,int patternIndex);
@@ -74,6 +80,7 @@ public:
     float unused;
     int resolution=8;
     const int sequencerCount=4;
+    const int sequenceCount=16;
     int patternsPerSequencer=16;
     int stepsPerPattern=16;
     int sequencerPositions[4];
@@ -82,7 +89,7 @@ public:
     int greatestClockMult=4; 
     int sequenceLength=4;
     std::vector<int> fxPositions={0,1,2,3};
-    std::string fxNamesStr[4]={"Chopper","Echo","Filter","Crusher"};
+    const std::string fxNamesStr[4]={"Chopper","Echo","Filter","Crusher"};
 
     std::string debug;  
 
@@ -126,7 +133,7 @@ public:
 
     std::vector<std::vector<std::vector<float>>> fxPrograms={ {},                    // CHOPPER
                                                               {},                    // ECHO
-                                                              { {20000.0f  ,0.0f,  1.0f},  // FILTER     : frequency, resonance,drive
+                                                              { {20000.0f  ,0.0f,   1.0f},  // FILTER     : frequency, resonance,drive
                                                                 {50.0f,     0.5f,   1.0f},
                                                                 {100.0f,    0.5f,   1.0f},
                                                                 {150.0f,    0.5f,   1.0f},

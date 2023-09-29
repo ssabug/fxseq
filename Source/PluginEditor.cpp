@@ -18,6 +18,7 @@ FxseqAudioProcessorEditor::FxseqAudioProcessorEditor (FxseqAudioProcessor& p)
     //initDirectories();
 
     std::string skinFilePath=getPath("currentSkinFile");
+    std::string imagePath=getPath("images");
 
     for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) {
         std::vector<std::string> images=readXMLVectorParam(skinFilePath,"skin/templates/"+sequencers[i].stepSeqTemplate+"/images");
@@ -73,7 +74,7 @@ FxseqAudioProcessorEditor::FxseqAudioProcessorEditor (FxseqAudioProcessor& p)
     addAndMakeVisible(sequenceSeq);
 
     addAndMakeVisible(debugLog);
-
+    
     startTimerHz(30);
 }
 
@@ -151,18 +152,20 @@ void FxseqAudioProcessorEditor::timerCallback()
         if ( getFxParamProperty(i,0,0,"hasPrograms")[0] == "0") {  effects[i].hidePrograms();/*programButton.setVisible(false);*/}   
     }
     
+
     int procSeqLength=audioProcessor.sequenceLength;
-    debugLog.setText(    "ppq " + std::__cxx11::to_string(ppq) + "\n"
+    /*debugLog.setText(    "ppq " + std::__cxx11::to_string(ppq) + "\n"
                        +"selected pattern : " + std::__cxx11::to_string(audioProcessor.selected_pattern[0])+" " + std::__cxx11::to_string(audioProcessor.selected_pattern[1])+ " " + std::__cxx11::to_string(audioProcessor.selected_pattern[2]) + " " + std::__cxx11::to_string(audioProcessor.selected_pattern[3]) + "\n"
                        +"seq length: " + std::__cxx11::to_string(procSeqLength) +"\n"
                        +"seqmode :"+ std::__cxx11::to_string(options.sequenceMode) +" scroll :" + std::__cxx11::to_string(options.scroll) + "\n"
                        +std::__cxx11::to_string(audioProcessor.getParameterValue(fxNamesStr[0]+"_position")) +"\n"
-                       +std::__cxx11::to_string(getMasterParam("sequencerMode"))
+                       +std::__cxx11::to_string(getMasterParam("sequencerMode")) + "\n"
+                       + audioProcessor.debug
                       // +std::__cxx11::to_string(this->getNumChildComponents()) +"\n"
                   //     +std::__cxx11::to_string(effects[1].getNumChildComponents()) +"\n"
                   //     +std::__cxx11::to_string(sequencers[0].getNumChildComponents()) +"\n"
                        //+std::__cxx11::to_string(getMasterParam("Chopper_dry/wet")) +"\n"
-                    );
+                    );*/
 }
 
 void FxseqAudioProcessorEditor::updateSeqPattern(int sequencerIndex,int patternIndex)
@@ -375,6 +378,16 @@ void FxseqAudioProcessorEditor::patternUtils(std::string action,int seqIndex)
     
 }
 
+void FxseqAudioProcessorEditor::loadPreset(std::string presetName)
+{
+    audioProcessor.loadPatternsAndSequencesFromXMLFile(getPath("presets")+presetName + ".xml");
+    //debugLog.setText(audioProcessor.debug);
+    for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++)
+    {
+        updateSeqPattern(i,sequencers[i].getSelectedPattern());
+    }
+    
+}
 ////////////////////////////////////////////////////////////////////////////////////// UTILS //////////////////////////////////////////////////////////////////////////////////////
 std::vector<std::string> FxseqAudioProcessorEditor::split(std::string s, std::string delimiter) 
 {
@@ -439,6 +452,7 @@ void FxseqAudioProcessorEditor::initDirectories()
 
 std::string FxseqAudioProcessorEditor::getPath(std::string path)
 {
+    // /!\ PLATFORM SPECIFIC CODE
     if (path ==  "root") {
         return rootPath;
     }
@@ -470,10 +484,87 @@ std::string FxseqAudioProcessorEditor::getPath(std::string path)
     return "";
 }
 
-////////////////////////////////////////////////////////////////////////////////////// XML //////////////////////////////////////////////////////////////////////////////////////
-void FxseqAudioProcessorEditor::saveXMLPreset()
+std::vector<std::string> FxseqAudioProcessorEditor::get_directories(const std::string& s)
 {
-    //audioProcessor.getStateInformation();
+    std::vector<std::string> r;
+    for(auto& p : std::filesystem::recursive_directory_iterator(s))
+        if (p.is_directory())
+            r.push_back(p.path().string());
+    return r;
+}
+
+std::vector<std::string> FxseqAudioProcessorEditor::getPresetList()
+{
+    std::vector<std::string> presetFiles;
+    for (const auto & entry : std::filesystem::directory_iterator(getPath("presets"))) {
+        std::string file=entry.path();
+        if (file.find(".xml") != std::string::npos ) {
+            presetFiles.push_back(file);
+        }
+    }
+    return presetFiles;
+}
+
+std::vector<std::string> FxseqAudioProcessorEditor::getSkinList()
+{
+    // /!\ PLATFORM SPECIFIC CODE
+    auto folders=get_directories(getPath("skins"));//get available folders in /skins
+    std::vector<std::string> skinList;//={"default","red","green","yellow","purple","turquoise"};
+    for (auto folder : folders) {      
+        if ( std::filesystem::exists(folder+"/skin.xml") ) {            // look for skin file
+            std::string folderShort=folder.substr(getPath("skins").length()); // get skin folder name
+            //debug.setText(debug.getText()+"\nfound skin "+folderShort);
+            skinList.push_back(folderShort);  // add to skin list
+        }        
+    }
+    return skinList;
+}
+
+std::string FxseqAudioProcessorEditor::removeForbiddenCharacters(std::string text)
+{
+    std::vector<std::string> forbiddenCharacters={".",",","/",":","*","?","<",">","|",};
+    std::string character,result=text;   
+    character=(char) 34;forbiddenCharacters.push_back(character);
+    character=(char) 92;forbiddenCharacters.push_back(character);
+
+    for (auto c:forbiddenCharacters) {
+        while (text.find(c) != std::string::npos) {         
+            text.erase(text.find(c), c.length());
+            result=text;
+        }
+    }
+    return result;
+}
+
+bool FxseqAudioProcessorEditor::presetExists(std::string presetText)
+{
+    /*std::vector<std::string> presetList=getPresetList();
+    for (auto p:presetList) {
+        if( readXMLParam(p,"preset/options/name").find(presetText)  != std::string::npos) {   return true;     }
+    }*/
+    if ( std::filesystem::exists(std::string(getPath("presets")+presetText+".xml")) )
+    {
+        return true;
+    }
+
+    return false;
+}
+////////////////////////////////////////////////////////////////////////////////////// XML //////////////////////////////////////////////////////////////////////////////////////
+void FxseqAudioProcessorEditor::saveXMLPreset(std::string presetName)
+{
+    auto state = audioProcessor.pluginParameters.copyState();
+    std::unique_ptr<juce::XmlElement> xml (state.createXml());
+
+    juce::XmlElement* patternDef=audioProcessor.getAllPatternsXml();
+    juce::XmlElement* sequenceDef=audioProcessor.getAllSequencesXml();
+
+    xml->addChildElement(patternDef);
+    xml->addChildElement(sequenceDef);
+
+    std::ofstream file(getPath("presets")+presetName+".xml");
+    debugtext=getPath("presets")+presetName+".xml";
+    file<<(*xml).toString();
+    //file<<patternDef.toString();
 }
 
 std::string FxseqAudioProcessorEditor::readXMLParam(std::string xmlFilePath,std::string paramPath)

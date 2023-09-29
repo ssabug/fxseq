@@ -2,7 +2,23 @@
 
 ## Change records
 
-### v0.04 25092023 Init 
+### v0.05 29092023  
+#### TODO
+- [x] load all pluginParameters value at editor start **to be really betatested**
+- [x] implement load/save XML presets/**config + audioparameters  + programParameters TBD**
+- [x] write get/Set state information for all processor parameters **(restoring patterns/sequences from xml binary still crashes)**
+- [ ] add more effects  **repeater is a miss for now**
+- [ ] cleaner way to pass colortemplates & skin/image paths
+#### BUGS
+- [ ] saved presets are corrupted (empty pattern/sequence fields)
+- [ ] some crashes in sequence mode while hiding/showing GUI
+- [ ] dry/wet for filter cracks
+- [ ] step on->off clicks for echo
+- [ ] crusher clicks 
+- [ ] buffer seems wrongly initialised on press play(sequence mode)
+- [ ] latency (same problem as choppah) -> maybe due to chopper gain ramp
+
+### v0.04 25092023  
 #### TODO
 - [x] processor audio parameters definition cleaned & updated
 - [x] added listeners to GUI

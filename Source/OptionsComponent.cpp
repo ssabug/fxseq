@@ -11,7 +11,16 @@ OptionsComponent::OptionsComponent(FxseqAudioProcessorEditor *ape,std::string Co
     imageButtonTemplate=ImageButtonTemplate;
     APE=ape; 
     
-    presetSelected.addItem(TRANS("Default"),1);presetSelected.addItem(TRANS("Demo"),2);
+    auto presetList=APE->getPresetList();
+    for(int i=0;i<presetList.size();i++) 
+    {
+        auto preset=presetList[i];
+        /*presetSelected.addItem(TRANS("Default"),1);presetSelected.addItem(TRANS("Demo"),2);*/
+        preset=preset.substr(0,preset.size()-4);
+        int begin=APE->getPath("presets").size();
+        preset=preset.substr(begin);
+        presetSelected.addItem(TRANS(preset),i+1);
+    }
     presetSelected.setEditableText (true);
     for(int i=0;i<comboColors.size();i++) {  presetSelected.setColour(comboColors[i][0],juce::Colour(comboColors[i][1]));   }
     presetSelected.setSelectedItemIndex(0);
@@ -135,12 +144,22 @@ void OptionsComponent::initSlider1(std::string name,juce::Slider& slider,juce::L
 /////////////////////////////////////////////// CALLBACKS///////////////////////////////////////////////
 void OptionsComponent::changeSelectedPreset()
 {
-
+    //std::string presetText = APE->removeForbiddenCharacters(presetSelected.getText().toStdString());
+    //presetSelected.setText(presetText); 
+    APE->loadPreset(presetSelected.getText().toStdString());
 }
 
 void OptionsComponent::savePreset()
 {
-
+    std::string presetText = APE->removeForbiddenCharacters(presetSelected.getText().toStdString());
+    
+    if (presetText  != "" ) {
+        //writeXMLPreset("/home/pwner/.ssabug/choppah/presets/test.xml");    
+        if ( not APE->presetExists(presetText)) {
+            presetSelected.addItem (TRANS(presetText), presetSelected.getNumItems()+1);
+        } 
+        APE->saveXMLPreset(presetText);
+    }
 }
 
 void OptionsComponent::changeSequencerMode()
@@ -173,7 +192,9 @@ void OptionsComponent::debugFunction()
     } else {
         debugCounter++;
     }*/
-    APE->saveXMLPreset();
+    //APE->saveXMLPreset();
+    //fileName="/home/pwner/dev/fxseq/Ressources/presets/default.xml";
+    APE->loadPreset(APE->getPath("presets") + presetSelected.getText().toStdString() + ".xml");
 }
 
 void OptionsComponent::patternUtils(std::string action)
