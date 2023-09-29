@@ -314,8 +314,15 @@ void FxseqAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {   
     auto state = pluginParameters.copyState();
     std::unique_ptr<juce::XmlElement> xml (state.createXml());
-    juce::XmlElement* patternDef=getAllPatternsXml();
+    juce::XmlElement* patternDef=new juce::XmlElement(*(getAllPatternsXml()));
+    juce::XmlElement* sequenceDef=new juce::XmlElement(*(getAllSequencesXml()));
+
+    xml->removeChildElement(xml->getChildByName("PATTERNS"),true);
+    xml->removeChildElement(xml->getChildByName("SEQUENCES"),true);
+
     xml->addChildElement(patternDef);
+    xml->addChildElement(sequenceDef);
+
     copyXmlToBinary (*xml, destData);
 }
 
@@ -326,7 +333,7 @@ void FxseqAudioProcessor::setStateInformation (const void* data, int sizeInBytes
     if (xmlState.get() != nullptr)
         if (xmlState->hasTagName (pluginParameters.state.getType()))
             pluginParameters.replaceState (juce::ValueTree::fromXml (*xmlState));
-            //loadPatternsAndSequencesFromXML(xmlState.get());
+            loadPatternsAndSequencesFromXML(xmlState.get());
 }
 
 

@@ -555,16 +555,18 @@ void FxseqAudioProcessorEditor::saveXMLPreset(std::string presetName)
     auto state = audioProcessor.pluginParameters.copyState();
     std::unique_ptr<juce::XmlElement> xml (state.createXml());
 
-    juce::XmlElement* patternDef=audioProcessor.getAllPatternsXml();
-    juce::XmlElement* sequenceDef=audioProcessor.getAllSequencesXml();
+    juce::XmlElement* patternDef=new juce::XmlElement(*(audioProcessor.getAllPatternsXml()));
+    juce::XmlElement* sequenceDef=new juce::XmlElement(*(audioProcessor.getAllSequencesXml()));
 
-    xml->addChildElement(patternDef);
+    xml->removeChildElement(xml->getChildByName("PATTERNS"),true);
+    xml->removeChildElement(xml->getChildByName("SEQUENCES"),true);
+    
+    xml->addChildElement(patternDef);  
     xml->addChildElement(sequenceDef);
 
     std::ofstream file(getPath("presets")+presetName+".xml");
-    debugtext=getPath("presets")+presetName+".xml";
+    
     file<<(*xml).toString();
-    //file<<patternDef.toString();
 }
 
 std::string FxseqAudioProcessorEditor::readXMLParam(std::string xmlFilePath,std::string paramPath)

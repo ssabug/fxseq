@@ -23,7 +23,7 @@ OptionsComponent::OptionsComponent(FxseqAudioProcessorEditor *ape,std::string Co
     }
     presetSelected.setEditableText (true);
     for(int i=0;i<comboColors.size();i++) {  presetSelected.setColour(comboColors[i][0],juce::Colour(comboColors[i][1]));   }
-    presetSelected.setSelectedItemIndex(0);
+    presetSelected.setSelectedItemIndex(0,juce::dontSendNotification);
     presetSelected.onChange = [this] {changeSelectedPreset();};
     addAndMakeVisible (presetSelected);
     presetSelectedLabel.setText("Preset",juce::dontSendNotification);

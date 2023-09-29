@@ -5,13 +5,13 @@
 ### v0.05 29092023  
 #### TODO
 - [x] load all pluginParameters value at editor start **to be really betatested**
-- [x] implement load/save XML presets/**config + audioparameters  + programParameters TBD**
-- [x] write get/Set state information for all processor parameters **(restoring patterns/sequences from xml binary still crashes)**
+- [x] implement load/save XML presets/**config + programParameters TBD**
+- [x] write get/Set state information for all processor parameters & patterns & sequences
 - [ ] add more effects  **repeater is a miss for now**
 - [ ] cleaner way to pass colortemplates & skin/image paths
 #### BUGS
-- [ ] saved presets are corrupted (empty pattern/sequence fields)
-- [ ] some crashes in sequence mode while hiding/showing GUI
+- [x] saved presets are corrupted (empty pattern/sequence fields)
+- [ ] some crashes in sequence mode while hiding/showing GUI (**bug to be confirmed**)
 - [ ] dry/wet for filter cracks
 - [ ] step on->off clicks for echo
 - [ ] crusher clicks 
