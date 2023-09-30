@@ -14,7 +14,7 @@
   <PARAM id="Crusher_position" value="1.0"/>
   <PARAM id="Crusher_reduction" value="1.0"/>
   <PARAM id="Echo_clockDiv" value="2.0"/>
-  <PARAM id="Echo_dry/wet" value="0.09999999403953552"/>
+  <PARAM id="Echo_dry/wet" value="1.0"/>
   <PARAM id="Echo_feedback" value="0.09999999403953552"/>
   <PARAM id="Echo_gain" value="0.09999999403953552"/>
   <PARAM id="Echo_pattern" value="1.0"/>

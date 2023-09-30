@@ -14,7 +14,7 @@
 juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
 {
     juce::AudioProcessorValueTreeState::ParameterLayout params;
-    std::string fxNamesStr[4]={"Chopper","Echo","Filter","Crusher"};
+    std::vector<std::string> fxNamesStr={"Chopper","Echo","Filter","Crusher"};
  
     params.add (std::make_unique<juce::AudioParameterFloat> ("drywet","Dry/Wet", 0.0f, 1.0f, 1.0f));
     params.add (std::make_unique<juce::AudioParameterFloat> ("outgain","Out Gain",0.0f, 2.0f, 1.0f));
@@ -23,7 +23,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
     params.add (std::make_unique<juce::AudioParameterInt> ("sequenceNumber","sequenceNumber", 1, 16, 1));
     params.add (std::make_unique<juce::AudioParameterInt> ("sequenceLength","sequenceLength", 2, 16, 4));
 
-    for (int i = 1; i < 4+1; ++i)
+    for (int i = 1; i < fxNamesStr.size()+1; ++i)
     {
         std::string prefix=fxNamesStr[i-1]+"_";
         params.add (std::make_unique<juce::AudioParameterInt> (prefix+"pattern",prefix+"pattern", 1, 16, 1));
@@ -65,11 +65,6 @@ FxseqAudioProcessor::FxseqAudioProcessor()
 {
     initAllPatterns();
     
-    filter.reset();
-    //filter.setMode(juce::dsp::LadderFilter<float>::Mode::LowPass);
-    filter.setCutoffFrequencyHz(20000.0f);
-    filter.setResonance(0.0f);
-
     fx1dryWetMixer.setWetMixProportion(1.0f);fx1dryWetMixer.setWetLatency(0.0f);
     fx2dryWetMixer.setWetMixProportion(1.0f);fx2dryWetMixer.setWetLatency(0.0f);
     fx3dryWetMixer.setWetMixProportion(1.0f);fx3dryWetMixer.setWetLatency(0.0f);
@@ -80,8 +75,16 @@ FxseqAudioProcessor::FxseqAudioProcessor()
         updateParameter(fxNamesStr[i]+"_dry/wet",1.0f);
         updateParameter(fxNamesStr[i]+"_gain",1.0f);
         updateParameter(fxNamesStr[i]+"_position",(float) i);
+
+        
     }
     updateParameter("sequencerMode",(float)0);
+
+    // filter
+    filter.reset();
+    //filter.setMode(juce::dsp::LadderFilter<float>::Mode::LowPass);
+    filter.setCutoffFrequencyHz(20000.0f);
+    filter.setResonance(0.0f);
 }
 
 FxseqAudioProcessor::~FxseqAudioProcessor()
@@ -153,6 +156,12 @@ void FxseqAudioProcessor::changeProgramName (int index, const juce::String& newN
 //==============================================================================
 void FxseqAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {   
+    fx1drybuffer.setSize(2, samplesPerBlock);
+    fx2drybuffer.setSize(2, samplesPerBlock);
+    fx3drybuffer.setSize(2, samplesPerBlock);
+    fx4dryBuffer.setSize(2, samplesPerBlock); 
+    masterDryBuffer.setSize(2, samplesPerBlock); 
+
     // FAUST ECHO
     echoDSP = new mydsp();
     echoDSP->init(sampleRate);
@@ -165,15 +174,10 @@ void FxseqAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
         echoOutputs[channel] = new float[samplesPerBlock];
     }
 
+    // filter
     filter.reset();
 
-    fx1drybuffer.setSize(2, samplesPerBlock);
-    fx2drybuffer.setSize(2, samplesPerBlock);
-    fx3drybuffer.setSize(2, samplesPerBlock);
-    fx4dryBuffer.setSize(2, samplesPerBlock); 
-
-    masterDryBuffer.setSize(2, samplesPerBlock); 
-
+    // REPEATER
     repeater_buffer.clear();
     buffer_pos=0;
 
@@ -192,6 +196,8 @@ void FxseqAudioProcessor::releaseResources()
     }
     delete [] echoInputs;
     delete [] echoOutputs;
+
+    // REPEATER
     repeater_buffer.clear();
     buffer_pos=0;
 }
@@ -261,6 +267,10 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
     float outMix=getParameterValue("drywet");
     float outGain=getParameterValue("outgain");
     float dry=(1.0f-outMix)*outGain,wet=outMix*outGain;
+    /*for (int i=0;i<sequencerCount;i++)
+    {
+        fxPositions[i]=(int) getParameterValue(fxNamesStr[i] +"_position");
+    }*/
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel) 
     {
@@ -280,6 +290,8 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
             case 2:
                 filter_process(buffer,fx3drybuffer);
                 //repeater_process(buffer,fx3drybuffer);
+                //distortion_process(buffer);
+                //hardclip_process(buffer);
                 break;
             case 3:               
                 bitcrush_process(buffer);
@@ -375,7 +387,9 @@ std::vector<float> FxseqAudioProcessor::generateGainPattern(int sequencerIndex,i
         for(int i=0;i<resolution;i++)
         {    
             if (value > 0) {
-                outVector.push_back(enveloppes[value-1][i]);
+                if (sequencerIndex == 0) { outVector.push_back(enveloppes[value-1][i]);}
+                else { outVector.push_back(std::clamp((float)value,0.0f,1.0f)); }
+                
             } else {
                 outVector.push_back(0.0);
             }
@@ -408,6 +422,8 @@ float FxseqAudioProcessor::getEffectProgramParameterValue(int fxIndex,int progra
     return 0.0f;
 }
 //////////////////////////// FX CALLBACKS ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// CHOPPER
 void FxseqAudioProcessor::chopper_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer)
 {
     float fx1mix=getParameterValue("Chopper_dry/wet");
@@ -431,6 +447,7 @@ void FxseqAudioProcessor::chopper_process(juce::AudioBuffer<float>& buffer,juce:
 	juce::FloatVectorOperations::add(buffer.getWritePointer(1), dryBuffer.getReadPointer(1), buffer.getNumSamples());    
 }
 
+// ECHO
 void FxseqAudioProcessor::echo_process(juce::AudioBuffer<float>& buffer)
 {
     float gain=getParameterValue("Echo_gain");
@@ -450,6 +467,7 @@ void FxseqAudioProcessor::echo_process(juce::AudioBuffer<float>& buffer)
     }
 }
 
+// BIT CRUSH
 void FxseqAudioProcessor::bitcrush_process(juce::AudioBuffer<float>& buffer)
 {
     int reduction = int(fxPrograms[3][patterns[3][selected_pattern[3]][int(sequencerPositions[3]/resolution)]][0]);// FX4
@@ -475,6 +493,7 @@ void FxseqAudioProcessor::bitcrush_process(juce::AudioBuffer<float>& buffer)
     }
 }
 
+// FILTER
 void FxseqAudioProcessor::filter_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer)
 {
     float fx3mix=getParameterValue("Filter_dry/wet");
@@ -517,11 +536,47 @@ void FxseqAudioProcessor::filter_process(juce::AudioBuffer<float>& buffer,juce::
 	juce::FloatVectorOperations::add(buffer.getWritePointer(0), dryBuffer.getReadPointer(0), buffer.getNumSamples());
 	juce::FloatVectorOperations::add(buffer.getWritePointer(1), dryBuffer.getReadPointer(1), buffer.getNumSamples());    
     
-
-
-    
 }
 
+// DISTORTION
+void FxseqAudioProcessor::distortion_process(juce::AudioBuffer<float>& buffer)
+{
+    float drive=0.9f;
+    float blend=fxDepths_smoothed[2].getNextValue()*getParameterValue("Filter_dry/wet");
+    float range=10.0f;
+    float volume=1.0f*getParameterValue("Filter_gain");
+
+
+    for (int channel = 0; channel < 2; ++channel)
+    {
+        auto* channelData = buffer.getWritePointer (channel);
+        for (int sample = 0; sample < buffer.getNumSamples(); sample++){
+            float cleanSig = *channelData;
+            *channelData *= drive*range;
+            *channelData = (((((2.0f/juce::float_Pi) * atan(*channelData))*blend*(range/40.0f))+(cleanSig * (1.0-blend))))*volume;
+            channelData++;
+        }
+    }
+}
+
+// HARD CLIP
+void FxseqAudioProcessor::hardclip_process(juce::AudioBuffer<float>& buffer)
+{
+    float saturationAmount = 100.0f * 0.7f;
+	for (int channel = 0; channel < 2; ++channel)
+    {
+        auto *channelData = buffer.getWritePointer(channel);
+
+        for (int sample = 0; sample < buffer.getNumSamples(); sample++)
+        {
+            float xn = channelData[sample];
+            // hard clipping 
+            channelData[sample] = std::min(1.f, std::max(-1.f, xn * (saturationAmount * 0.06f + 1.f))); // multiply audio on both channels by gain
+        }
+    }
+}
+
+// REPEATER
 void FxseqAudioProcessor::repeater_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer)
 {
     int sampleCount=buffer.getNumSamples();

@@ -89,7 +89,7 @@ public:
     int greatestClockMult=4; 
     int sequenceLength=4;
     std::vector<int> fxPositions={0,1,2,3};
-    const std::string fxNamesStr[4]={"Chopper","Echo","Filter","Crusher"};
+    const std::vector<std::string> fxNamesStr={"Chopper","Echo","Filter","Crusher"};
 
     std::string debug;  
 
@@ -182,6 +182,9 @@ private:
     float lastFilterDrive=0.0f;
     //====BITCRUSHER===================================================================
     void bitcrush_process(juce::AudioBuffer<float>& buffer);  
+    //====DISTORTION===================================================================
+    void distortion_process(juce::AudioBuffer<float>& buffer);
+    void hardclip_process(juce::AudioBuffer<float>& buffer);
     //====REPEATER======================================================================
     void repeater_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer);
     std::vector<std::vector<float>> repeater_buffer;

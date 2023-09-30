@@ -154,18 +154,19 @@ void FxseqAudioProcessorEditor::timerCallback()
     
 
     int procSeqLength=audioProcessor.sequenceLength;
-    /*debugLog.setText(    "ppq " + std::__cxx11::to_string(ppq) + "\n"
+    debugLog.setText(    "ppq " + std::__cxx11::to_string(ppq) + "\n"
                        +"selected pattern : " + std::__cxx11::to_string(audioProcessor.selected_pattern[0])+" " + std::__cxx11::to_string(audioProcessor.selected_pattern[1])+ " " + std::__cxx11::to_string(audioProcessor.selected_pattern[2]) + " " + std::__cxx11::to_string(audioProcessor.selected_pattern[3]) + "\n"
                        +"seq length: " + std::__cxx11::to_string(procSeqLength) +"\n"
                        +"seqmode :"+ std::__cxx11::to_string(options.sequenceMode) +" scroll :" + std::__cxx11::to_string(options.scroll) + "\n"
-                       +std::__cxx11::to_string(audioProcessor.getParameterValue(fxNamesStr[0]+"_position")) +"\n"
-                       +std::__cxx11::to_string(getMasterParam("sequencerMode")) + "\n"
-                       + audioProcessor.debug
+                       + std::__cxx11::to_string(audioProcessor.fxPositions[0]) + " " + std::__cxx11::to_string(audioProcessor.fxPositions[1]) + " " +std::__cxx11::to_string(audioProcessor.fxPositions[2]) + " "+ std::__cxx11::to_string(audioProcessor.fxPositions[3]) + "\n"
+                       +std::__cxx11::to_string(audioProcessor.getParameterValue(fxNamesStr[0]+"_position")) +" "+std::__cxx11::to_string(audioProcessor.getParameterValue(fxNamesStr[1]+"_position")) +" "+std::__cxx11::to_string(audioProcessor.getParameterValue(fxNamesStr[2]+"_position")) +" "+std::__cxx11::to_string(audioProcessor.getParameterValue(fxNamesStr[3]+"_position")) 
+                      // +std::__cxx11::to_string(getMasterParam("sequencerMode")) + "\n"
+                       //+ audioProcessor.debug
                       // +std::__cxx11::to_string(this->getNumChildComponents()) +"\n"
                   //     +std::__cxx11::to_string(effects[1].getNumChildComponents()) +"\n"
                   //     +std::__cxx11::to_string(sequencers[0].getNumChildComponents()) +"\n"
                        //+std::__cxx11::to_string(getMasterParam("Chopper_dry/wet")) +"\n"
-                    );*/
+                    );
 }
 
 void FxseqAudioProcessorEditor::updateSeqPattern(int sequencerIndex,int patternIndex)
@@ -203,9 +204,17 @@ void FxseqAudioProcessorEditor::changeFxPosition(int seqIndex,int newPosition)
     replacePosition=sequencers[seqIndex].position;
     sequencers[indexAtNewPosition].position=replacePosition;
     sequencers[seqIndex].position=newPosition;
-    for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) { 
-        audioProcessor.fxPositions[i]=sequencers[i].position;
-        audioProcessor.updateParameter(fxNamesStr[i]+"_position",(float)sequencers[i].position); 
+    for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) 
+    { 
+        audioProcessor.updateParameter(fxNamesStr[i]+"_position",(float)sequencers[i].position);
+        for (int j=0;j<sizeof(sequencers)/sizeof(sequencers[0]);j++) 
+        { 
+            if (sequencers[j].position == i)
+            {
+                audioProcessor.fxPositions[i]=j;
+            }
+        }
+
     }
     resized();
     repaint();
@@ -214,11 +223,14 @@ void FxseqAudioProcessorEditor::changeFxPosition(int seqIndex,int newPosition)
 void FxseqAudioProcessorEditor::refreshSequencerPositions()
 {
     bool change=false;
-    for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) { 
-        if (sequencers[i].position != audioProcessor.fxPositions[i]) {
-            sequencers[i].position=audioProcessor.fxPositions[i];
+    for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) 
+    {
+       if (int(std::find(std::begin(audioProcessor.fxPositions), std::end(audioProcessor.fxPositions), i) - std::begin(audioProcessor.fxPositions)) != sequencers[i].position )
+        {
             change=true;
-        }
+            sequencers[i].position=int(std::find(std::begin(audioProcessor.fxPositions), std::end(audioProcessor.fxPositions), i) - std::begin(audioProcessor.fxPositions));
+        }        
+
     }
     if (change) {
         resized();
@@ -387,6 +399,7 @@ void FxseqAudioProcessorEditor::loadPreset(std::string presetName)
         updateSeqPattern(i,sequencers[i].getSelectedPattern());
     }
     
+    refreshSequencerPositions();
 }
 ////////////////////////////////////////////////////////////////////////////////////// UTILS //////////////////////////////////////////////////////////////////////////////////////
 std::vector<std::string> FxseqAudioProcessorEditor::split(std::string s, std::string delimiter) 

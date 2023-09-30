@@ -12,7 +12,7 @@ There are 4 effects : chopper, echo, filter & bitcrusher:
 
 Using each effect sequencer, you can trigger each effect at given times.
 
-You can even program sequences of pattern using the sequence sequencer.
+You can even program sequences of patterns using the sequence sequencer.
 
 Each sequencer can have its own clock subdivision. 
 
@@ -31,7 +31,7 @@ You can copy/paste/clear/reset each sequencer pattern using the 4 buttons + comb
 
 You can define sequences of patterns to be played.
 
-Each step combobox represent a pattern to be selected on all sequencers.
+Each step combobox represents a pattern to be selected on all sequencers.
 
 You can switch between sequences using the left combobox.
 

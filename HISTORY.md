@@ -7,9 +7,10 @@
 - [x] load all pluginParameters value at editor start **to be really betatested**
 - [x] implement load/save XML presets/**config + programParameters TBD**
 - [x] write get/Set state information for all processor parameters & patterns & sequences
-- [ ] add more effects  **repeater is a miss for now**
+- [ ] add more effects : distortion / ring modulator / convolution verb / stretcher /  **repeater is a miss for now**
 - [ ] cleaner way to pass colortemplates & skin/image paths
 #### BUGS
+- [ ] effect position not restored on preset load (works with DAW save)
 - [x] saved presets are corrupted (empty pattern/sequence fields)
 - [ ] some crashes in sequence mode while hiding/showing GUI (**bug to be confirmed**)
 - [ ] dry/wet for filter cracks
