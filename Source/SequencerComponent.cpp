@@ -48,6 +48,7 @@ SequencerComponent::SequencerComponent(int Index,FxseqAudioProcessorEditor *ape,
     patternSelect.onChange = [this] {changeSelectedPattern();};
     addAndMakeVisible (patternSelect);
     patternSelectLabel.setText("PATTERN",juce::dontSendNotification);
+    patternSelectLabel.setFont (9.0f);
     addAndMakeVisible (patternSelectLabel);
 
     for(int i=0;i<8;i++) {clockMultSelect.addItem(TRANS(std::__cxx11::to_string((int)pow(2,i))),i+1);}
@@ -56,6 +57,7 @@ SequencerComponent::SequencerComponent(int Index,FxseqAudioProcessorEditor *ape,
     clockMultSelect.onChange = [this] {changeClockMult();};
     addAndMakeVisible (clockMultSelect);
     clockMultSelectLabel.setText("CLOCK",juce::dontSendNotification);
+    clockMultSelectLabel.setFont (9.0f);
     addAndMakeVisible (clockMultSelectLabel);
 
 
@@ -76,21 +78,22 @@ SequencerComponent::SequencerComponent(int Index,FxseqAudioProcessorEditor *ape,
 
 void SequencerComponent::resized()
 {
+    int y0=5;
     for (int i=0;i<stepCount;i++)
     {
-        seqStep[i].setBounds (150+i*60, 5, 46, 46);
+        seqStep[i].setBounds (150+i*60, y0, 46, 28);
     }
     for (int i=0;i<stepCount/4;i++)
     {
-        seqStepMkr[i].setBounds(150+i*60*4,5+37,46,16);
+        seqStepMkr[i].setBounds(150+i*60*4,y0+18/*37*/,46,16);
     }
-    effectTypeSelect.setBounds    (15,05,105,20);
-    patternSelectLabel.setBounds  (10,25,60,16);
-    patternSelect.setBounds       (15,40,50,16);   
-    clockMultSelectLabel.setBounds(70,25,60,16);
-    clockMultSelect.setBounds     (70,40,50,16);
-    seqMoveUpButton.setBounds     (0,15,10,10);
-    seqMoveDownButton.setBounds   (0,30,10,10);
+    effectTypeSelect.setBounds    (15,0,105,16);
+    patternSelectLabel.setBounds  (15,y0+11,60,10);
+    patternSelect.setBounds       (15,y0+20,50,14);   
+    clockMultSelectLabel.setBounds(75,y0+11,60,10);
+    clockMultSelect.setBounds     (70,y0+20,50,14);
+    seqMoveUpButton.setBounds     (0,y0,10,10);
+    seqMoveDownButton.setBounds   (0,y0+20,10,10);
     
     
 }

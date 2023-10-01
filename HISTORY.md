@@ -4,6 +4,7 @@
 
 ### v0.05 29092023  
 #### TODO
+- [x] switch to 8 fx + GUI resize
 - [x] load all pluginParameters value at editor start **to be really betatested**
 - [x] implement load/save XML presets/**config + programParameters TBD**
 - [x] write get/Set state information for all processor parameters & patterns & sequences
@@ -12,10 +13,10 @@
 #### BUGS
 - [ ] effect position not restored on preset load (works with DAW save)
 - [x] saved presets are corrupted (empty pattern/sequence fields)
-- [ ] some crashes in sequence mode while hiding/showing GUI (**bug to be confirmed**)
+- [ ] crashes in sequence mode
 - [ ] dry/wet for filter cracks
 - [ ] step on->off clicks for echo
-- [ ] crusher clicks 
+- [x] crusher clicks 
 - [ ] buffer seems wrongly initialised on press play(sequence mode)
 - [ ] latency (same problem as choppah) -> maybe due to chopper gain ramp
 

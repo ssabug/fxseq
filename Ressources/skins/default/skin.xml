@@ -53,6 +53,42 @@
                 <entry><id>0x1001700</id><color>0xFF000000</color></entry><!--juce::Slider::textBoxOutlineColourId -->
             </colors>
         </slider4>
+         <slider5>
+            <colors>
+                <entry><id>0x1001300</id><color>0xFFFF0000</color></entry> <!--juce::Slider::thumbColourId -->
+                <entry><id>0x1001312</id><color>0xFF000000</color></entry><!--juce::Slider::rotarySliderOutlineColourId -->
+                <entry><id>0x1001311</id><color>0xFFFF0000</color></entry><!--juce::Slider::rotarySliderFillColourId -->
+                <entry><id>0x1001400</id><color>0xFFAF0000</color></entry><!--juce::Slider::textBoxTextColourId -->
+                <entry><id>0x1001700</id><color>0xFF000000</color></entry><!--juce::Slider::textBoxOutlineColourId -->
+            </colors>
+        </slider5>
+        <slider6>
+            <colors>
+                <entry><id>0x1001300</id><color>0xFFFFFF00</color></entry> <!--juce::Slider::thumbColourId -->
+                <entry><id>0x1001312</id><color>0xFF000000</color></entry><!--juce::Slider::rotarySliderOutlineColourId -->
+                <entry><id>0x1001311</id><color>0xFFFFFF00</color></entry><!--juce::Slider::rotarySliderFillColourId -->
+                <entry><id>0x1001400</id><color>0xFFAFAF00</color></entry><!--juce::Slider::textBoxTextColourId -->
+                <entry><id>0x1001700</id><color>0xFF000000</color></entry><!--juce::Slider::textBoxOutlineColourId -->
+            </colors>
+        </slider6>
+        <slider7>
+            <colors>
+                <entry><id>0x1001300</id><color>0xFF7F7F7F</color></entry> <!--juce::Slider::thumbColourId -->
+                <entry><id>0x1001312</id><color>0xFF000000</color></entry><!--juce::Slider::rotarySliderOutlineColourId -->
+                <entry><id>0x1001311</id><color>0xFF7F7F7F</color></entry><!--juce::Slider::rotarySliderFillColourId -->
+                <entry><id>0x1001400</id><color>0xFFAFAFAF</color></entry><!--juce::Slider::textBoxTextColourId -->
+                <entry><id>0x1001700</id><color>0xFF000000</color></entry><!--juce::Slider::textBoxOutlineColourId -->
+            </colors>
+        </slider7>
+        <slider8>
+            <colors>
+                <entry><id>0x1001300</id><color>0xFF7F007F</color></entry> <!--juce::Slider::thumbColourId -->
+                <entry><id>0x1001312</id><color>0xFF000000</color></entry><!--juce::Slider::rotarySliderOutlineColourId -->
+                <entry><id>0x1001311</id><color>0xFF7F007F</color></entry><!--juce::Slider::rotarySliderFillColourId -->
+                <entry><id>0x1001400</id><color>0xFFAF00AF</color></entry><!--juce::Slider::textBoxTextColourId -->
+                <entry><id>0x1001700</id><color>0xFF000000</color></entry><!--juce::Slider::textBoxOutlineColourId -->
+            </colors>
+        </slider8>
         <combo1>
             <colors>
                 <entry><id>0x1000b00</id><color>0xFF000000</color></entry><!--juce::ComboBox::backgroundColourId -->
@@ -85,6 +121,38 @@
                 <entry><id>0x1000a00</id><color>0xFF7FFF00</color></entry><!--juce::ComboBox::textColourId -->
             </colors>
         </combo4>
+         <combo5>
+            <colors>
+                <entry><id>0x1000b00</id><color>0xFF000000</color></entry><!--juce::ComboBox::backgroundColourId -->
+                <entry><id>0x1000c00</id><color>0xFFFF0000</color></entry><!--juce::ComboBox::outlineColourId -->
+                <entry><id>0x1000e00</id><color>0xFFFF0000</color></entry><!--juce::ComboBox::arrowColourId -->
+                <entry><id>0x1000a00</id><color>0xFFFF0000</color></entry><!--juce::ComboBox::textColourId -->
+            </colors>
+        </combo5>
+        <combo6>
+            <colors>
+                <entry><id>0x1000b00</id><color>0xFF000000</color></entry><!--juce::ComboBox::backgroundColourId -->
+                <entry><id>0x1000c00</id><color>0xFFFFFF00</color></entry><!--juce::ComboBox::outlineColourId -->
+                <entry><id>0x1000e00</id><color>0xFFFFFF00</color></entry><!--juce::ComboBox::arrowColourId -->
+                <entry><id>0x1000a00</id><color>0xFFFFFF00</color></entry><!--juce::ComboBox::textColourId -->
+            </colors>
+        </combo6>
+        <combo7>
+            <colors>
+                <entry><id>0x1000b00</id><color>0xFF000000</color></entry><!--juce::ComboBox::backgroundColourId -->
+                <entry><id>0x1000c00</id><color>0xFF7F7F7F</color></entry><!--juce::ComboBox::outlineColourId -->
+                <entry><id>0x1000e00</id><color>0xFF7F7F7F</color></entry><!--juce::ComboBox::arrowColourId -->
+                <entry><id>0x1000a00</id><color>0xFF7F7F7F</color></entry><!--juce::ComboBox::textColourId -->
+            </colors>
+        </combo7>
+        <combo8>
+            <colors>
+                <entry><id>0x1000b00</id><color>0xFF000000</color></entry><!--juce::ComboBox::backgroundColourId -->
+                <entry><id>0x1000c00</id><color>0xFF7F007F</color></entry><!--juce::ComboBox::outlineColourId -->
+                <entry><id>0x1000e00</id><color>0xFF7F007F</color></entry><!--juce::ComboBox::arrowColourId -->
+                <entry><id>0x1000a00</id><color>0xFF7F007F</color></entry><!--juce::ComboBox::textColourId -->
+            </colors>
+        </combo8>
         <textbox1>
             <colors>
                 <entry><id>0x1000201</id><color>0xFF00AF00</color></entry><!--juce::TextEditor::textColourId -->
@@ -100,12 +168,12 @@
         </label1>
         <imagebutton1>
             <images>
-                <entry>stepseq_off_big.png</entry>
-                <entry>stepseq_flat_big.png</entry>
-                <entry>stepseq_saw_big.png</entry>
-                <entry>stepseq_tri_big.png</entry>
-                <entry>stepseq_ramp_big.png</entry>
-                <entry>stepseq_on_big.png</entry>
+                <entry>stepseq_off_small.png</entry>
+                <entry>stepseq_flat_small.png</entry>
+                <entry>stepseq_saw_small.png</entry>
+                <entry>stepseq_tri_small.png</entry>
+                <entry>stepseq_ramp_small.png</entry>
+                <entry>stepseq_on_small.png</entry>
             </images>
             <colors>
                 <entry><id>0x1000100</id><color>0xFF00FFFF</color></entry><!--juce::Label::textColourId -->
@@ -114,9 +182,9 @@
         </imagebutton1>
         <imagebutton2>
             <images>
-                <entry>stepseq_off_big.png</entry>
-                <entry>stepseq_on_big.png</entry>
-                <entry>stepseq_on_big.png</entry>
+                <entry>stepseq_off_small.png</entry>
+                <entry>stepseq_on_small.png</entry>
+                <entry>stepseq_on_small.png</entry>
             </images>
             <colors>
                 <entry><id>0x1000100</id><color>0xFFFF7F00</color></entry><!--juce::Label::textColourId -->
@@ -125,18 +193,12 @@
         </imagebutton2>
         <imagebutton3>
             <images>
-                <!--<entry>stepseq_circle_off_big.png</entry>
-                <entry>stepseq_circle_flat_big_3.png</entry>
-                <entry>stepseq_circle_saw_big_3.png</entry>
-                <entry>stepseq_circle_tri_big_3.png</entry>
-                <entry>stepseq_circle_ramp_big_3.png</entry>
-                <entry>stepseq_circle_on_big_3.png</entry>-->
-                <entry>stepseq_circle_off_big.png</entry>
-                <entry>stepseq_circle_1_big_3.png</entry>
-                <entry>stepseq_circle_2_big_3.png</entry>
-                <entry>stepseq_circle_3_big_3.png</entry>
-                <entry>stepseq_circle_4_big_3.png</entry>
-                <entry>stepseq_circle_on_big_3.png</entry>
+                <entry>stepseq_off_small.png</entry>
+                <entry>stepseq_11_small.png</entry>
+                <entry>stepseq_22_small.png</entry>
+                <entry>stepseq_33_small.png</entry>
+                <entry>stepseq_44_small.png</entry>
+                <entry>stepseq_on_small.png</entry>
             </images>
             <colors>
                 <entry><id>0x1000100</id><color>0xFF7F00FF</color></entry><!--juce::Label::textColourId -->
@@ -145,18 +207,71 @@
         </imagebutton3>
          <imagebutton4>
             <images>
-                <entry>stepseq_circle_off_big.png</entry>
-                <entry>stepseq_circle_1_big_3.png</entry>
-                <entry>stepseq_circle_2_big_3.png</entry>
-                <entry>stepseq_circle_3_big_3.png</entry>
-                <entry>stepseq_circle_4_big_3.png</entry>
-                <entry>stepseq_circle_on_big_3.png</entry>
+                <entry>stepseq_off_small.png</entry>
+                <entry>stepseq_11_small.png</entry>
+                <entry>stepseq_22_small.png</entry>
+                <entry>stepseq_33_small.png</entry>
+                <entry>stepseq_44_small.png</entry>
+                <entry>stepseq_on_small.png</entry>
             </images>
             <colors>
                 <entry><id>0x1000100</id><color>0xFF7FFF00</color></entry><!--juce::Label::textColourId -->
                 <entry><id>0x1000101</id><color>0xFF3F7F00</color></entry><!--juce::Label::textColourId -->
             </colors>
         </imagebutton4>
+        <imagebutton5>
+            <images>
+                <entry>stepseq_off_small.png</entry>
+                <entry>stepseq_on_small.png</entry>
+                <entry>stepseq_on_small.png</entry>
+            </images>
+            <colors>
+                <entry><id>0x1000100</id><color>0xFFFF0000</color></entry><!--juce::Label::textColourId -->
+                <entry><id>0x1000101</id><color>0xFF7F0000</color></entry><!--juce::Label::textColourId -->
+            </colors>
+        </imagebutton5>
+        <imagebutton6>
+            <images>
+                <entry>stepseq_off_small.png</entry>
+                <entry>stepseq_11_small.png</entry>
+                <entry>stepseq_22_small.png</entry>
+                <entry>stepseq_33_small.png</entry>
+                <entry>stepseq_44_small.png</entry>
+                <entry>stepseq_on_small.png</entry>
+            </images>
+            <colors>
+                <entry><id>0x1000100</id><color>0xFFFFFF00</color></entry><!--juce::Label::textColourId -->
+                <entry><id>0x1000101</id><color>0xFF7F7F00</color></entry><!--juce::Label::textColourId -->
+            </colors>
+        </imagebutton6>
+        <imagebutton7>
+            <images>
+                <entry>stepseq_off_small.png</entry>
+                <entry>stepseq_11_small.png</entry>
+                <entry>stepseq_22_small.png</entry>
+                <entry>stepseq_33_small.png</entry>
+                <entry>stepseq_44_small.png</entry>
+                <entry>stepseq_on_small.png</entry>
+            </images>
+            <colors>
+                <entry><id>0x1000100</id><color>0xFF7F7F7F</color></entry><!--juce::Label::textColourId -->
+                <entry><id>0x1000101</id><color>0xFF3F3F3F</color></entry><!--juce::Label::textColourId -->
+            </colors>
+        </imagebutton7>
+        <imagebutton8>
+            <images>
+                <entry>stepseq_off_small.png</entry>
+                <entry>stepseq_11_small.png</entry>
+                <entry>stepseq_22_small.png</entry>
+                <entry>stepseq_33_small.png</entry>
+                <entry>stepseq_44_small.png</entry>
+                <entry>stepseq_on_small.png</entry>
+            </images>
+            <colors>
+                <entry><id>0x1000100</id><color>0xFF7F007F</color></entry><!--juce::Label::textColourId -->
+                <entry><id>0x1000101</id><color>0xFF3F003F</color></entry><!--juce::Label::textColourId -->
+            </colors>
+        </imagebutton8>
         <programbutton1>
             <images>
                 <entry>preset_1_4.png</entry>
@@ -209,6 +324,58 @@
                 <entry><id>0x1000281</id><color>0xFF3F7F00</color></entry><!--juce::Label::textColourId -->
             </colors>
         </programbutton4>
+        <programbutton5>
+            <images>
+                <entry>preset_1_4.png</entry>
+                <entry>preset_2_4.png</entry>
+                <entry>preset_3_4.png</entry>
+                <entry>preset_4_4.png</entry>
+                <entry>preset_0_4.png</entry>
+            </images>
+            <colors>
+                <entry><id>0x1000281</id><color>0xFFFF0000</color></entry><!--juce::Label::textColourId -->
+                <entry><id>0x1000281</id><color>0xFF7F0000</color></entry><!--juce::Label::textColourId -->
+            </colors>
+        </programbutton5>
+        <programbutton6>
+            <images>
+                <entry>preset_1_4.png</entry>
+                <entry>preset_2_4.png</entry>
+                <entry>preset_3_4.png</entry>
+                <entry>preset_4_4.png</entry>
+                <entry>preset_0_4.png</entry>
+            </images>
+            <colors>
+                <entry><id>0x1000281</id><color>0xFFFFFF00</color></entry><!--juce::Label::textColourId -->
+                <entry><id>0x1000281</id><color>0xFF7F7F00</color></entry><!--juce::Label::textColourId -->
+            </colors>
+        </programbutton6>
+        <programbutton7>
+            <images>
+                <entry>preset_1_4.png</entry>
+                <entry>preset_2_4.png</entry>
+                <entry>preset_3_4.png</entry>
+                <entry>preset_4_4.png</entry>
+                <entry>preset_0_4.png</entry>
+            </images>
+            <colors>
+                <entry><id>0x1000281</id><color>0xFF7F7F7F</color></entry><!--juce::Label::textColourId -->
+                <entry><id>0x1000281</id><color>0xFF3F3F3F</color></entry><!--juce::Label::textColourId -->
+            </colors>
+        </programbutton7>
+        <programbutton8>
+            <images>
+                <entry>preset_1_4.png</entry>
+                <entry>preset_2_4.png</entry>
+                <entry>preset_3_4.png</entry>
+                <entry>preset_4_4.png</entry>
+                <entry>preset_0_4.png</entry>
+            </images>
+            <colors>
+                <entry><id>0x1000281</id><color>0xFF7F7F7F</color></entry><!--juce::Label::textColourId -->
+                <entry><id>0x1000281</id><color>0xFF3F3F3F</color></entry><!--juce::Label::textColourId -->
+            </colors>
+        </programbutton8>
         <textbutton1>
             <colors>
                 <entry><id>0x1000c00</id><color>0xFF00AF00</color></entry><!--juce::Label::textColourId -->

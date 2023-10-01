@@ -60,7 +60,7 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         void loadPreset(std::string presetName);
 
         int greatestClockMult=4;
-        std::vector<std::string> fxNamesStr={"Chopper","Echo","Filter","Crusher"};
+        std::vector<std::string> fxNamesStr={"Chopper","Echo","Filter","Crusher","Distortion","Repeater","Chorus","Stretcher"};
         std::vector<int> clipboard;
 
         std::string currentSkin="default",currentPreset="default",rootPath="/home/pwner/dev/fxseq/Ressources/";
@@ -80,18 +80,26 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
 
         juce::TextEditor debugLog;
         
-        SequencerComponent sequencers[4]={SequencerComponent(0,this,"imagebutton1","combo1"),
+        SequencerComponent sequencers[8]={SequencerComponent(0,this,"imagebutton1","combo1"),
                                           SequencerComponent(1,this,"imagebutton2","combo2"),
                                           SequencerComponent(2,this,"imagebutton3","combo3"),
-                                          SequencerComponent(3,this,"imagebutton4","combo4")
+                                          SequencerComponent(3,this,"imagebutton4","combo4"),
+                                          SequencerComponent(4,this,"imagebutton5","combo5"),
+                                          SequencerComponent(5,this,"imagebutton6","combo6"),
+                                          SequencerComponent(6,this,"imagebutton7","combo7"),
+                                          SequencerComponent(7,this,"imagebutton8","combo8")
                                          };
 
         SequenceSequencerComponent sequenceSeq={SequenceSequencerComponent(this,"combo1","slider1","imagebutton1")};
 
-        EffectComponent effects[4]=      {EffectComponent(0,this,"Chopper","combo1","slider1","programbutton1"),
+        EffectComponent effects[8]=      {EffectComponent(0,this,"Chopper","combo1","slider1","programbutton1"),
                                           EffectComponent(1,this,"Echo","combo2","slider2","programbutton2"),
                                           EffectComponent(2,this,"Filter","combo3","slider3","programbutton3"),
-                                          EffectComponent(3,this,"Crusher","combo4","slider4","programbutton4")
+                                          EffectComponent(3,this,"Crusher","combo4","slider4","programbutton4"),
+                                          EffectComponent(4,this,"Distortion","combo5","slider5","programbutton5"),
+                                          EffectComponent(5,this,"Repeater","combo6","slider6","programbutton6"),
+                                          EffectComponent(6,this,"Chorus","combo7","slider7","programbutton7"),
+                                          EffectComponent(7,this,"Stretcher","combo8","slider8","programbutton8"),
                                          };
 
         OptionsComponent options= OptionsComponent(this,"combo1","slider1","textbutton1");
@@ -99,8 +107,8 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         OutputComponent output= OutputComponent(this,"combo1","slider1","imagebutton1");
 
         std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> outMixAttachement,outGainAttachement;
-        std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> fxOutMixAttachement[4],fxOutGainAttachement[4],sequenceLengthAttachment;
-        std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> patternSelectAttachement[4],clockMultSelectAttachment[4],sequencerModeAttachment,sequenceSelectedAttachment;
+        std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> fxOutMixAttachement[8],fxOutGainAttachement[8],sequenceLengthAttachment;
+        std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> patternSelectAttachement[8],clockMultSelectAttachment[8],sequencerModeAttachment,sequenceSelectedAttachment;
         
         FxseqAudioProcessor& audioProcessor;
 

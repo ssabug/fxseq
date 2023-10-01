@@ -13,7 +13,9 @@
 FxseqAudioProcessorEditor::FxseqAudioProcessorEditor (FxseqAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    setSize (1400, 500);
+    setSize (1400, 800);
+    
+    //fxNamesStr=audioProcessor.fxNamesStr;
 
     //initDirectories();
 
@@ -85,20 +87,22 @@ FxseqAudioProcessorEditor::~FxseqAudioProcessorEditor()
 //==============================================================================
 void FxseqAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
+    int seqHeigth=60;
+    int seqsSize=(sizeof(sequencers)/sizeof(sequencers[0])-1)*seqHeigth;    
+
     g.fillAll (juce::Colours::black);
-    
     g.setFont (15.0f);
     for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) {
         g.setColour (juce::Colour(sequencers[i].stepSeqColors[1][1]));
-        g.drawRect (juce::Rectangle(0,sequencers[i].position*80,140,70), 2);
-        g.drawRect (juce::Rectangle(0,sequencers[i].position*80,1120,70), 2);
-        g.drawRect (juce::Rectangle(i*282,370,272,130), 2);
+        g.drawRect (juce::Rectangle(0,sequencers[i].position*seqHeigth,140,seqHeigth-10), 2);
+        g.drawRect (juce::Rectangle(0,sequencers[i].position*seqHeigth,1120,seqHeigth-10), 2);
+        if (i<4)
+        {g.drawRect (juce::Rectangle(i*282,seqsSize+110,272,130), 2);}
+        else {g.drawRect (juce::Rectangle((i-4)*282,/*370*/seqsSize+110+140,272,130), 2);};
     }
     g.setColour (juce::Colour(0xFF3F3F7F));
-    g.drawRect     (juce::Rectangle(0,320,140,40), 2);
-    g.drawRect     (juce::Rectangle(0,320,1120,40), 2);
+    g.drawRect     (juce::Rectangle(0,seqsSize+60,140,40), 2);
+    g.drawRect     (juce::Rectangle(0,seqsSize+60,1120,40), 2);
 
     g.drawRect     (juce::Rectangle(1130,0,260,150), 2);
     g.drawRect     (juce::Rectangle(1130,160,260,150), 2);
@@ -106,18 +110,23 @@ void FxseqAudioProcessorEditor::paint (juce::Graphics& g)
 
 void FxseqAudioProcessorEditor::resized()
 {
-    
-    debugLog.setBounds(1130,320,260,180);
+    int seqHeigth=60;
+    int seqsSize=(sizeof(sequencers)/sizeof(sequencers[0])-1)*seqHeigth;
+    int sequencerEndY=seqsSize+50;    
+
+    debugLog.setBounds(1130,320,260,200);
 
     for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) {
         //sequencers[i].setBounds(5,5+i*80,1200,80);
-        sequencers[i].setBounds(5,5+sequencers[i].position*80,1200,80);
+        sequencers[i].setBounds(5,5+sequencers[i].position*seqHeigth,1200,seqHeigth);
     }
 
-    sequenceSeq.setBounds(5,310,1200,80);
+    sequenceSeq.setBounds(5,sequencerEndY,1200,seqHeigth);
 
     for (int i=0;i<sizeof(effects)/sizeof(effects[0]);i++) {
-        effects[i].setBounds(5+i*282,375,262,120);
+        if (i<4)
+        {effects[i].setBounds(5+i*282,sequencerEndY+65,262,120);}
+        else {effects[i].setBounds(5+(i-4)*282,sequencerEndY+65+140,262,120);}
     }
 
     options.setBounds(1135,5,250,140);
@@ -140,7 +149,11 @@ void FxseqAudioProcessorEditor::timerCallback()
     if (ppq >= sequenceLength ) {sequencePosition=int(std::floor(ppq/greatestClockMult)-sequenceLength*std::floor(ppq/(sequenceLength*greatestClockMult)));} else {sequenceLength=std::floor(ppq/greatestClockMult);}
     sequenceSeq.updatePosition(sequencePosition);
 
-    for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) {       
+    std::string pos1,pos2,select;
+    for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) { 
+        pos1+=" " + std::__cxx11::to_string(audioProcessor.fxPositions[i]);
+        select+=" " + std::__cxx11::to_string(audioProcessor.selected_pattern[i]);
+
         positions.push_back(int(std::floor( std::modf(ppq/sequencers[i].clockMult,&unused)*(16))));
 
         if ( (options.scroll) and (options.sequenceMode) ) {
@@ -155,11 +168,10 @@ void FxseqAudioProcessorEditor::timerCallback()
 
     int procSeqLength=audioProcessor.sequenceLength;
     debugLog.setText(    "ppq " + std::__cxx11::to_string(ppq) + "\n"
-                       +"selected pattern : " + std::__cxx11::to_string(audioProcessor.selected_pattern[0])+" " + std::__cxx11::to_string(audioProcessor.selected_pattern[1])+ " " + std::__cxx11::to_string(audioProcessor.selected_pattern[2]) + " " + std::__cxx11::to_string(audioProcessor.selected_pattern[3]) + "\n"
                        +"seq length: " + std::__cxx11::to_string(procSeqLength) +"\n"
                        +"seqmode :"+ std::__cxx11::to_string(options.sequenceMode) +" scroll :" + std::__cxx11::to_string(options.scroll) + "\n"
-                       + std::__cxx11::to_string(audioProcessor.fxPositions[0]) + " " + std::__cxx11::to_string(audioProcessor.fxPositions[1]) + " " +std::__cxx11::to_string(audioProcessor.fxPositions[2]) + " "+ std::__cxx11::to_string(audioProcessor.fxPositions[3]) + "\n"
-                       +std::__cxx11::to_string(audioProcessor.getParameterValue(fxNamesStr[0]+"_position")) +" "+std::__cxx11::to_string(audioProcessor.getParameterValue(fxNamesStr[1]+"_position")) +" "+std::__cxx11::to_string(audioProcessor.getParameterValue(fxNamesStr[2]+"_position")) +" "+std::__cxx11::to_string(audioProcessor.getParameterValue(fxNamesStr[3]+"_position")) 
+                       +"selected pattern : " + select +  "\n"
+                       + "fx chain 1 " +  pos1 
                       // +std::__cxx11::to_string(getMasterParam("sequencerMode")) + "\n"
                        //+ audioProcessor.debug
                       // +std::__cxx11::to_string(this->getNumChildComponents()) +"\n"
@@ -245,7 +257,7 @@ int FxseqAudioProcessorEditor::getSequencerPosition(int seqIndex)
 
 int FxseqAudioProcessorEditor::getSequencerCount()
 {
-    return (int)(sizeof(sequencers)/sizeof(sequencers[0]));
+    return audioProcessor.sequencerCount;
 }
 
 
@@ -292,6 +304,17 @@ void FxseqAudioProcessorEditor::updateFxParam(int fxIndex,int programIndex, floa
         }
     }
 
+    if (effects[fxIndex].name == "Distortion") {
+        if (paramIndex==0) {
+            audioProcessor.updateParameter(effects[fxIndex].name + "_type",paramValue);
+       }
+    }
+
+     if (effects[fxIndex].name == "Repeater") {
+        if (paramIndex==0) {
+            audioProcessor.updateEffectProgramParameter(fxIndex,programIndex,paramIndex,paramValue);
+       }
+    }
 
 }
 
@@ -347,6 +370,26 @@ std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxInd
             if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.fxPrograms[fxIndex][programIndex+1][paramIndex])};} 
         }
     
+    }
+
+    if (effects[fxIndex].name == "Distortion") {
+        if (paramProperty == "hasPrograms") { return {"0"}; }
+        if (paramIndex==0) {
+            if (paramProperty == "name")  {return {"Type"}; }
+            if (paramProperty == "range") {return {"0.0","1.0","1.0"}; }
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("Distortion_type"))};} 
+        }
+        
+    }
+
+    if (effects[fxIndex].name == "Repeater") {
+        if (paramProperty == "hasPrograms") { return {"1"}; }
+        if (paramIndex==0) {
+            if (paramProperty == "name")  {return {"Length"}; }
+            if (paramProperty == "range") {return {"1.0","4.0","1.0"}; }
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.fxPrograms[fxIndex][programIndex+1][paramIndex])};} 
+        }
+        
     }
    
     if (paramProperty == "hasPrograms") { return {"0"}; } 

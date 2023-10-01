@@ -79,18 +79,24 @@ public:
     bool isPlaying;
     float unused;
     int resolution=8;
-    const int sequencerCount=4;
+    const int sequencerCount=8;
     const int sequenceCount=16;
     int patternsPerSequencer=16;
     int stepsPerPattern=16;
-    int sequencerPositions[4];
-    int sequencerClockMult[4]={4,4,4,4};
-    int selected_pattern[4];
+    std::vector<int> sequencerPositions;
+    std::vector<int> sequencerClockMult;//={4,4,4,4};
+    std::vector<int> selected_pattern;
+    std::vector<int> fxPositions;//={0,1,2,3};
+    std::vector<float> lastFxDepths;
+    const std::vector<std::string> fxNamesStr={"Chopper","Echo","Filter","Crusher","Distortion","Repeater","Chorus","Stretcher"};
     int greatestClockMult=4; 
     int sequenceLength=4;
-    std::vector<int> fxPositions={0,1,2,3};
-    const std::vector<std::string> fxNamesStr={"Chopper","Echo","Filter","Crusher"};
 
+    juce::SmoothedValue<float,juce::ValueSmoothingTypes::Multiplicative> fxDepths_smoothed[8];
+    juce::AudioBuffer<float> masterDryBuffer,fx1drybuffer,fx2drybuffer,fx3drybuffer,fx4dryBuffer; 
+    juce::dsp::DryWetMixer<float> fx1dryWetMixer,fx2dryWetMixer,fx3dryWetMixer,fx4dryWetMixer;
+    
+   
     std::string debug;  
 
     std::vector<std::vector<std::vector<float>>> gainPatterns;
@@ -111,6 +117,26 @@ public:
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0}     
                                                               },
                                                             {   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
+                                                                {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},{1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
+                                                                {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
+                                                                {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0}           
+                                                              },
+                                                             {   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
+                                                                {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},{1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
+                                                                {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
+                                                                {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0}           
+                                                              },
+                                                             {   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
+                                                                {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},{1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
+                                                                {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
+                                                                {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0}           
+                                                              },
+                                                             {   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
+                                                                {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},{1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
+                                                                {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
+                                                                {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0}           
+                                                              },
+                                                             {   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
                                                                 {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},{1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0}           
@@ -146,17 +172,16 @@ public:
                                                                 {08.0f,    32.00f},
                                                                 {10.0f,    32.00f},
                                                                 {12.0f,    32.00f}
-                                                              }
-                                                            };
-    
-    juce::AudioBuffer<float> masterDryBuffer,fx1drybuffer,fx2drybuffer,fx3drybuffer,fx4dryBuffer; 
-    juce::dsp::DryWetMixer<float> fx1dryWetMixer,fx2dryWetMixer,fx3dryWetMixer,fx4dryWetMixer;
-    float lastFxDepths[4];
-    juce::SmoothedValue<float,juce::ValueSmoothingTypes::Multiplicative> fxDepths_smoothed[4];
-    
-
+                                                              },
+                                                              {},                    // distortion
+                                                              { {1.0},                     //repeater :length
+                                                                {1.0},
+                                                                {2.0},
+                                                                {3.0},
+                                                                {4.0}
+                                                               }
+                                                            }; 
     juce::AudioProcessorValueTreeState pluginParameters; 
-
     //=====FAUST=ECHO=================================================================   
     void echo_setDelay(float delay);
     void echo_setFeedback(float feedback);
@@ -183,6 +208,7 @@ private:
     //====BITCRUSHER===================================================================
     void bitcrush_process(juce::AudioBuffer<float>& buffer);  
     //====DISTORTION===================================================================
+    void distortion_route(juce::AudioBuffer<float>& buffer);
     void distortion_process(juce::AudioBuffer<float>& buffer);
     void hardclip_process(juce::AudioBuffer<float>& buffer);
     //====REPEATER======================================================================
@@ -198,7 +224,8 @@ private:
     int preserveInterval = 0;
     //repeater_maxBufferSize;
     //repeater_bufferSize;
-    juce::SmoothedValue<float,juce::ValueSmoothingTypes::Linear> buffer_smoothed;
+    juce::SmoothedValue<float,juce::ValueSmoothingTypes::Linear> buffer_smoothed[2];
+    juce::SmoothedValue<float,juce::ValueSmoothingTypes::Linear> interpolated[2];
     //juce::AudioProcessorValueTreeState pluginParameters;   
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FxseqAudioProcessor)
