@@ -6,7 +6,6 @@
   ==============================================================================
 */
 #include "FaustEchoEffect.h"
-#include "FaustRingModEffect.h"
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include <cmath>

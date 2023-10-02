@@ -262,6 +262,8 @@
                 <entry>stepseq_saw_small.png</entry>
                 <entry>stepseq_tri_small.png</entry>
                 <entry>stepseq_ramp_small.png</entry>
+                <entry>stepseq_sine_small.png</entry>
+                <entry>stepseq_invtri_small.png</entry>
                 <entry>stepseq_on_small.png</entry>
             </images>
             <colors>

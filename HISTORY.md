@@ -13,8 +13,8 @@
 - [ ] cleaner way to pass colortemplates & skin/image paths
 - [ ] clean or rename FaustEchoEffect.h because other FAUST effects (ringmod + combfilter + pitch shifter) had been put into & remove unused faust
 #### BUGS
-- [ ] function getParameterValue(std::string paramName) returns rubbish if min value of parameter<0
-- [ ] effects gain shoul dnot apply to dry signal
+- [ ] pitchshifter clicks
+- [ ] effects gain should not apply to dry signal **partly corrected**
 - [ ] effect position not restored on preset load (works with DAW save)
 - [x] saved presets are corrupted (empty pattern/sequence fields)
 - [ ] crashes in sequence mode

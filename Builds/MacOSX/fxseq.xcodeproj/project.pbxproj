@@ -86,7 +86,6 @@
 		386FB706B0635807051BEFE2 /* SequencerComponent.h */ /* SequencerComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SequencerComponent.h; path = ../../Source/SequencerComponent.h; sourceTree = SOURCE_ROOT; };
 		3CE11C68FE7EA42809E473CA /* juce_dsp */ /* juce_dsp */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_dsp; path = "~/JUCE/modules/juce_dsp"; sourceTree = "<absolute>"; };
 		3DE28582BFE0762B9C789754 /* CoreAudioKit.framework */ /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
-		4167218F55D373FFCEFD2BB4 /* FaustRingModEffect.h */ /* FaustRingModEffect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FaustRingModEffect.h; path = ../../Source/FaustRingModEffect.h; sourceTree = SOURCE_ROOT; };
 		42CC867D53501689C256644C /* SequenceSequencerComponent.h */ /* SequenceSequencerComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SequenceSequencerComponent.h; path = ../../Source/SequenceSequencerComponent.h; sourceTree = SOURCE_ROOT; };
 		434BF894CCB488880A4CF857 /* include_juce_graphics.mm */ /* include_juce_graphics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_graphics.mm; path = ../../JuceLibraryCode/include_juce_graphics.mm; sourceTree = SOURCE_ROOT; };
 		49AC52FA132267BC67DF9B81 /* include_juce_osc.cpp */ /* include_juce_osc.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = include_juce_osc.cpp; path = ../../JuceLibraryCode/include_juce_osc.cpp; sourceTree = SOURCE_ROOT; };
@@ -289,7 +288,6 @@
 				692BB775AD6F6B7678267A7F,
 				42CC867D53501689C256644C,
 				F24C3C503961B2BFA767F0EA,
-				4167218F55D373FFCEFD2BB4,
 			);
 			name = fxseq;
 			sourceTree = "<group>";
