@@ -3,12 +3,17 @@
 ## Intro
 Fxseq is a step sequencer based multi effect.
 
-There are 4 effects : chopper, echo, filter & bitcrusher:
+There are 8 effects : 
 
 - **Chopper** is a trance gate with step-defined enveloppes.
-- **Echo** is a [FAUST](https://faust.grame.fr/) example echo algorithm.
+- **Echo** is a [FAUST](https://faust.grame.fr/) example algorithm.
 - **Filter** is a built-in JUCE 12dB ladder filter.
-- **bitcrusher** is a bit crusher/reducer based on [dfilaretti](https://github.com/dfilaretti/bitcrusher-demo-2/tree/master) code.
+- **Bitcrusher** is a bit crusher/sample reducer based on [dfilaretti](https://github.com/dfilaretti/bitcrusher-demo-2/tree/master) code.
+- **Distortion** uses two different algorithms : classic & hard clipping.
+- **Repeater** is a live repeater **laggy and cracks like dry wood**
+- **RingMod** is a [FAUST](https://faust.grame.fr/) stereo ring modulator (found [here](https://ccrma.stanford.edu/wiki/FaustWorkshop2014#Stereo_Ring_Modulator) ). **buggy (sounds like a bitcruhser)**
+- **CombFilter** ( DISABLED ) is a [FAUST](https://faust.grame.fr/) comb filter (found [here](https://ccrma.stanford.edu/wiki/FaustWorkshop2014#Stereo_Ring_Modulator) ) **Doesnt work at all**
+- **PitchShifter** is a [FAUST](https://faust.grame.fr/) example algorithm.
 
 Using each effect sequencer, you can trigger each effect at given times.
 

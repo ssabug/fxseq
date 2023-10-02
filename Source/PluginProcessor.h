@@ -13,6 +13,7 @@
 //====FAUST DSP CLASSES=========================
 class MapUI;
 class dsp;
+class rmdsp;
 
 //==============================================================================
 /**
@@ -88,7 +89,7 @@ public:
     std::vector<int> selected_pattern;
     std::vector<int> fxPositions;//={0,1,2,3};
     std::vector<float> lastFxDepths;
-    const std::vector<std::string> fxNamesStr={"Chopper","Echo","Filter","Crusher","Distortion","Repeater","Chorus","Stretcher"};
+    const std::vector<std::string> fxNamesStr={"Chopper","Echo","Filter","Crusher","Distortion","Repeater","RingMod","PitchShifter"};
     int greatestClockMult=4; 
     int sequenceLength=4;
 
@@ -186,6 +187,20 @@ public:
     void echo_setDelay(float delay);
     void echo_setFeedback(float feedback);
     float echo_time=0.25f,echo_feedback=0.5f;
+    //=====FAUST=RINGMOD================================================================
+    void ringMod_setDepth(float depth);
+    void ringMod_setGain(float gain);
+    void ringMod_setFreq(float freq);
+    float ringMod_freq=60.0f,ringMod_depth=0.5f,ringMod_gain=1.0f;
+    //=====FAUST=COMBFILTER================================================================
+    void combFilter_setFrequency(float frequency);
+    void combFilter_setFeedback(float feedback);
+    float combFilter_frequency=1000.0f,combFilter_feedback=0.5f;
+    //=====FAUST=PITCHSHIFTER================================================================
+    void pitchShifter_setPitch(float pitch);
+    void pitchShifter_setXfade(float xfade);
+    void pitchShifter_setWindow(float window);
+    float pitchShifter_frequency=0.0f,pitchShifter_xfade=0.5f,pitchShifter_window=1.0f;
     //=====FILTER=================================================================
     juce::dsp::LadderFilter<float> filter;
     //====REPEATER======================================================================
@@ -199,6 +214,24 @@ private:
     dsp* echoDSP;
     float **echoInputs;
     float **echoOutputs;
+    //=====FAUST=RINGMOD=================================================================
+    void ringMod_process(juce::AudioBuffer<float>& buffer);
+    MapUI* ringModUI;
+    dsp* ringModDSP;
+    float **ringModInputs;
+    float **ringModOutputs;
+    //=====FAUST=COMBFILTER=================================================================
+    void combFilter_process(juce::AudioBuffer<float>& buffer);
+    MapUI* combFilterUI;
+    dsp* combFilterDSP;
+    float **combFilterInputs;
+    float **combFilterOutputs;
+    //=====FAUST=PITCHSHIFTER=================================================================
+    void pitchShifter_process(juce::AudioBuffer<float>& buffer);
+    MapUI* pitchShifterUI;
+    dsp* pitchShifterDSP;
+    float **pitchShifterInputs;
+    float **pitchShifterOutputs;
      //====FILTER===================================================================
     void filter_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer);
     juce::SmoothedValue<float,juce::ValueSmoothingTypes::Linear> filterFreq_smoothed;

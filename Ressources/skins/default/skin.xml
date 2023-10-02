@@ -247,10 +247,7 @@
         <imagebutton7>
             <images>
                 <entry>stepseq_off_small.png</entry>
-                <entry>stepseq_11_small.png</entry>
-                <entry>stepseq_22_small.png</entry>
-                <entry>stepseq_33_small.png</entry>
-                <entry>stepseq_44_small.png</entry>
+                <entry>stepseq_on_small.png</entry>
                 <entry>stepseq_on_small.png</entry>
             </images>
             <colors>
@@ -261,10 +258,10 @@
         <imagebutton8>
             <images>
                 <entry>stepseq_off_small.png</entry>
-                <entry>stepseq_11_small.png</entry>
-                <entry>stepseq_22_small.png</entry>
-                <entry>stepseq_33_small.png</entry>
-                <entry>stepseq_44_small.png</entry>
+                <entry>stepseq_flat_small.png</entry>
+                <entry>stepseq_saw_small.png</entry>
+                <entry>stepseq_tri_small.png</entry>
+                <entry>stepseq_ramp_small.png</entry>
                 <entry>stepseq_on_small.png</entry>
             </images>
             <colors>

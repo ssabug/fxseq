@@ -6,6 +6,7 @@
   ==============================================================================
 */
 #include "FaustEchoEffect.h"
+#include "FaustRingModEffect.h"
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include <cmath>
@@ -14,7 +15,7 @@
 juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
 {
     juce::AudioProcessorValueTreeState::ParameterLayout params;
-    std::vector<std::string> fxNamesStr={"Chopper","Echo","Filter","Crusher","Distortion","Repeater","Chorus","Stretcher"};
+    std::vector<std::string> fxNamesStr={"Chopper","Echo","Filter","Crusher","Distortion","Repeater","RingMod","PitchShifter"};
  
     params.add (std::make_unique<juce::AudioParameterFloat> ("drywet","Dry/Wet", 0.0f, 1.0f, 1.0f));
     params.add (std::make_unique<juce::AudioParameterFloat> ("outgain","Out Gain",0.0f, 2.0f, 1.0f));
@@ -51,7 +52,19 @@ juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
 
     prefx=fxNamesStr[5]+"_";//repeater
     params.add (std::make_unique<juce::AudioParameterFloat> (prefx+"length",prefx+"length", 1.0, 4.0, 1.0));
+
+    prefx=fxNamesStr[6]+"_";//ring modulator
+    params.add (std::make_unique<juce::AudioParameterFloat> (prefx+"frequency",prefx+"frequency", 1.0f, 5000.0f, 0.1f));
+    params.add (std::make_unique<juce::AudioParameterFloat> (prefx+"depth",prefx+"depth", 0.0f, 1.0f, 0.1f));
     
+    /*prefx=fxNamesStr[7]+"_";//comb filter
+    params.add (std::make_unique<juce::AudioParameterFloat> (prefx+"frequency",prefx+"frequency", 0.0f, 1000.0f, 0.1f));
+    params.add (std::make_unique<juce::AudioParameterFloat> (prefx+"feedback",prefx+"feedback", 0.0f, 0.99f, 1.0f));*/
+
+    prefx=fxNamesStr[7]+"_";//PitchShifter
+    params.add (std::make_unique<juce::AudioParameterFloat> (prefx+"frequency",prefx+"frequency", -12.0f, 12.0f, 0.1f));
+    params.add (std::make_unique<juce::AudioParameterFloat> (prefx+"window",prefx+"window", 50.0f, 10000.00f, 1.0f));
+    params.add (std::make_unique<juce::AudioParameterFloat> (prefx+"xfade",prefx+"xfade", 1.0f, 10000.00f, 1.0f));
 
     return params;
 }
@@ -177,6 +190,45 @@ void FxseqAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
         echoOutputs[channel] = new float[samplesPerBlock];
     }
 
+    // FAUST RINGMOD
+    ringModDSP = new rmdsp();
+    ringModDSP->init(sampleRate);
+    ringModUI = new MapUI();
+    ringModDSP->buildUserInterface(ringModUI);
+    ringModInputs = new float*[1];
+    ringModOutputs = new float*[2];
+    ringModInputs[0] = new float[samplesPerBlock];
+
+    for (int channel = 0; channel < 2; ++channel) {
+        
+        ringModOutputs[channel] = new float[samplesPerBlock];
+    }
+
+    // FAUST COMBFILTER
+    combFilterDSP = new cfdsp();
+    combFilterDSP->init(sampleRate);
+    combFilterUI = new MapUI();
+    combFilterDSP->buildUserInterface(combFilterUI);
+    combFilterInputs = new float*[1];
+    combFilterOutputs = new float*[1];
+    for (int channel = 0; channel < 1; ++channel) {
+        combFilterInputs[channel] = new float[samplesPerBlock];
+        combFilterOutputs[channel] = new float[samplesPerBlock];
+    }
+
+    // FAUST PITCHSHIFTER
+    pitchShifterDSP = new psdsp();
+    pitchShifterDSP->init(sampleRate);
+    pitchShifterUI = new MapUI();
+    pitchShifterDSP->buildUserInterface(pitchShifterUI);
+    pitchShifterInputs = new float*[1];
+    pitchShifterOutputs = new float*[1];
+    for (int channel = 0; channel < 1; ++channel) {
+        pitchShifterInputs[channel] = new float[samplesPerBlock];
+        pitchShifterOutputs[channel] = new float[samplesPerBlock];
+    }
+
+
     // filter
     filter.reset();
 
@@ -200,6 +252,36 @@ void FxseqAudioProcessor::releaseResources()
     delete [] echoInputs;
     delete [] echoOutputs;
 
+    // FAUST RINGMOD
+    delete ringModDSP;
+    delete ringModUI;
+    for (int channel = 0; channel < 2; ++channel) {
+        delete[] ringModInputs[channel];
+        delete[] ringModOutputs[channel];
+    }
+    delete [] ringModInputs;
+    delete [] ringModOutputs;
+
+    // FAUST COMBFILTER
+    delete combFilterDSP;
+    delete combFilterUI;
+    for (int channel = 0; channel < 1; ++channel) {
+        delete[] combFilterInputs[channel];
+        delete[] combFilterOutputs[channel];
+    }
+    delete [] combFilterInputs;
+    delete [] combFilterOutputs;
+
+    // FAUST pitchShifter
+    delete pitchShifterDSP;
+    delete pitchShifterUI;
+    for (int channel = 0; channel < 1; ++channel) {
+        delete[] pitchShifterInputs[channel];
+        delete[] pitchShifterOutputs[channel];
+    }
+    delete [] pitchShifterInputs;
+    delete [] pitchShifterOutputs;
+    
     // REPEATER
     repeater_buffer.clear();
     buffer_pos=0;
@@ -301,6 +383,13 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
                 break;
             case 5:
                 repeater_process(buffer,fx3drybuffer);
+                break;
+            case 6:
+                ringMod_process(buffer);
+                break;
+            case 7:
+                //combFilter_process(buffer);
+                pitchShifter_process(buffer);
                 break; 
             default:
                 break;
@@ -393,7 +482,7 @@ std::vector<float> FxseqAudioProcessor::generateGainPattern(int sequencerIndex,i
         for(int i=0;i<resolution;i++)
         {    
             if (value > 0) {
-                if (sequencerIndex == 0) { outVector.push_back(enveloppes[value-1][i]);}
+                if ( (sequencerIndex == 0) or (sequencerIndex==7) ) { outVector.push_back(enveloppes[value-1][i]);}
                 else { outVector.push_back(std::clamp((float)value,0.0f,1.0f)); }
                 
             } else {
@@ -406,13 +495,31 @@ std::vector<float> FxseqAudioProcessor::generateGainPattern(int sequencerIndex,i
 
 void FxseqAudioProcessor::updateParameter(std::string paramName,float paramValue)
 {
-    auto rg=pluginParameters.getParameter(paramName)->getNormalisableRange().end-pluginParameters.getParameter(paramName)->getNormalisableRange().start;
-    pluginParameters.getParameter(paramName)->setValue(paramValue/rg);
+    float rg,min,max;
+    min=pluginParameters.getParameter(paramName)->getNormalisableRange().start;
+    max= pluginParameters.getParameter(paramName)->getNormalisableRange().end;
+    if (min < 0)
+    {
+        rg=max-min;
+        pluginParameters.getParameter(paramName)->setValue((paramValue-min)/rg);
+    } else {
+        rg=max-min;
+        pluginParameters.getParameter(paramName)->setValue(paramValue/rg);
+    }
 }
 
 float FxseqAudioProcessor::getParameterValue(std::string paramName)
 {
-    auto rg=pluginParameters.getParameter(paramName)->getNormalisableRange().end-pluginParameters.getParameter(paramName)->getNormalisableRange().start;
+    float rg,min,max;
+    min=pluginParameters.getParameter(paramName)->getNormalisableRange().start;
+    max= pluginParameters.getParameter(paramName)->getNormalisableRange().end;
+    if ( min< 0)
+    {
+        rg=max-min;
+        return pluginParameters.getParameter(paramName)->getValue()*rg +min;
+    } else {
+        rg=max-min;
+    }
     return pluginParameters.getParameter(paramName)->getValue()*rg;
 }
 
@@ -442,7 +549,7 @@ void FxseqAudioProcessor::chopper_process(juce::AudioBuffer<float>& buffer,juce:
         buffer.applyGainRamp(channel,0,sampleSize,lastFxDepths[0],fxDepths_smoothed[0].getNextValue());  // chopper         
     }
     float wet = gain * fx1mix;
-    float dry = gain *( 1.0f - fx1mix);
+    float dry = ( 1.0f - fx1mix);
 
     juce::FloatVectorOperations::multiply(dryBuffer.getWritePointer(0), dry, buffer.getNumSamples());
 	juce::FloatVectorOperations::multiply(dryBuffer.getWritePointer(1), dry, buffer.getNumSamples());
@@ -469,7 +576,7 @@ void FxseqAudioProcessor::echo_process(juce::AudioBuffer<float>& buffer)
     echoDSP->compute(buffer.getNumSamples(),echoInputs,echoOutputs);
     for (int channel = 0; channel < 2; ++channel) {
         for (int i = 0; i < buffer.getNumSamples(); i++){
-            *buffer.getWritePointer(channel,i) =gain*(echoOutputs[channel][i]*echoMix*fx2mix+(1-echoMix*fx2mix) * echoInputs[channel][i]); // echo  
+            *buffer.getWritePointer(channel,i) =gain*echoOutputs[channel][i]*echoMix*fx2mix+(1-echoMix*fx2mix) * echoInputs[channel][i]; // echo  
         }
     }
 }
@@ -491,11 +598,11 @@ void FxseqAudioProcessor::bitcrush_process(juce::AudioBuffer<float>& buffer)
             float totalQLevels =powf(2, bitDepth);
 			float val = channelData[i];
             
-			channelData[i] =val*(1-crusherMix*fx4mix) + (val - std::fmod(val, 1/totalQLevels )) * crusherMix*fx4mix;//*crusherMix*fx4mix + (1-crusherMix*fx4mix)*val;       // Bit Quantizing      
+			channelData[i] =val*(1-crusherMix*fx4mix) + gain * (val - std::fmod(val, 1/totalQLevels )) * crusherMix*fx4mix;//*crusherMix*fx4mix + (1-crusherMix*fx4mix)*val;       // Bit Quantizing      
  
              if (reduction > 1) {if (i%reduction != 0) channelData[i] = crusherMix*fx4mix*channelData[i - i%reduction]+(1-crusherMix*fx4mix)*channelData[i];} // sample rate reduction
 
-            channelData[i] = gain * channelData[i];
+            //channelData[i] = gain * channelData[i];
         }
     }
 }
@@ -528,7 +635,7 @@ void FxseqAudioProcessor::filter_process(juce::AudioBuffer<float>& buffer,juce::
     dryBuffer.copyFrom(1, 1, buffer, 1, 0, buffer.getNumSamples());// copy dry input   
     
     float wet = gain * fx3mix;
-    float dry = gain *(1.0f - fx3mix);
+    float dry = (1.0f - fx3mix);
 
     juce::FloatVectorOperations::multiply(dryBuffer.getWritePointer(0), dry, buffer.getNumSamples());
 	juce::FloatVectorOperations::multiply(dryBuffer.getWritePointer(1), dry, buffer.getNumSamples());
@@ -554,7 +661,7 @@ void FxseqAudioProcessor::distortion_route(juce::AudioBuffer<float>& buffer)
 
     if (type == 1) {    hardclip_process(buffer);   }
 }
-
+// BASIC DISTORTION
 void FxseqAudioProcessor::distortion_process(juce::AudioBuffer<float>& buffer)
 {
     float drive=0.9f;
@@ -642,7 +749,7 @@ void FxseqAudioProcessor::repeater_process(juce::AudioBuffer<float>& buffer,juce
                     repeater_buffer[channel].insert(repeater_buffer[channel].end(),channelData[sample]);                                    
                 }
                 interpolated[channel].setTargetValue(repeater_buffer[channel][buffer_pos+sample]);
-                channelData[sample]=gain*( mix*interpolated[channel].getNextValue()+(1.0f-mix)*channelData[sample] );
+                channelData[sample]=gain * mix * interpolated[channel].getNextValue()+(1.0f-mix)*channelData[sample] ;
             }
         }
       
@@ -703,6 +810,77 @@ void FxseqAudioProcessor::repeater_process(juce::AudioBuffer<float>& buffer,juce
         }
     }
 }*/
+
+// RINGMOD
+void FxseqAudioProcessor::ringMod_process(juce::AudioBuffer<float>& buffer)
+{
+    float gain=getParameterValue("RingMod_gain");
+    float fx2mix=getParameterValue("RingMod_dry/wet");    
+    float echoMix=fxDepths_smoothed[6].getNextValue();
+
+    for (int channel = 0; channel < 1; ++channel) {
+        for (int i = 0; i < buffer.getNumSamples(); i++) { 
+                ringModInputs[channel][i] = *buffer.getWritePointer(channel,i); //Echo
+            }
+    }
+    ringModDSP->compute(buffer.getNumSamples(),ringModInputs,ringModOutputs);
+    for (int channel = 0; channel < 2; ++channel) {
+        for (int i = 0; i < buffer.getNumSamples(); i++){
+            *buffer.getWritePointer(channel,i) =gain*ringModOutputs[channel][i]*echoMix*fx2mix+(1-echoMix*fx2mix) * ringModInputs[0][i]; // echo  
+        }
+    }
+}
+
+// COMBFILTER
+void FxseqAudioProcessor::combFilter_process(juce::AudioBuffer<float>& buffer)
+{
+    float gain=getParameterValue("CombFilter_gain");
+    float fx2mix=getParameterValue("CombFilter_dry/wet");    
+    float echoMix=fxDepths_smoothed[7].getNextValue();
+
+    for (int channel = 0; channel < 1; ++channel) {
+        for (int i = 0; i < buffer.getNumSamples(); i++) { 
+                combFilterInputs[channel][i] = *buffer.getWritePointer(channel,i); //Echo
+            }
+    }
+    combFilterDSP->compute(buffer.getNumSamples(),combFilterInputs,combFilterOutputs);
+    for (int channel = 0; channel < 2; ++channel) {
+        for (int i = 0; i < buffer.getNumSamples(); i++){
+            *buffer.getWritePointer(channel,i) =gain*combFilterOutputs[0][i]*echoMix*fx2mix+(1-echoMix*fx2mix) * combFilterInputs[0][i]; // echo  
+        }
+    }
+}
+
+// PITCHSHIFTER
+void FxseqAudioProcessor::pitchShifter_process(juce::AudioBuffer<float>& buffer)
+{
+    float gain=getParameterValue("PitchShifter_gain");//getParameterValue("CombFilter_gain");//
+    float fx2mix=getParameterValue("PitchShifter_dry/wet");//getParameterValue("pitchShifter_dry/wet");
+    float volMap=fxDepths_smoothed[7].getNextValue();
+    float echoMix=std::floor(volMap+0.95f);
+    float pitch=getParameterValue("PitchShifter_frequency");
+
+    if (pitch >= 0)
+    {
+        pitch-=(1.0-volMap)*12;
+    } else {
+        pitch+=(1.0-volMap)*12;
+    }
+
+    pitchShifter_setPitch(pitch);
+    debug=std::__cxx11::to_string(volMap*getParameterValue("PitchShifter_frequency"));
+    for (int channel = 0; channel < 1; ++channel) {
+        for (int i = 0; i < buffer.getNumSamples(); i++) { 
+                pitchShifterInputs[0][i] = *buffer.getWritePointer(channel,i); //Echo
+            }
+    }
+    pitchShifterDSP->compute(buffer.getNumSamples(),pitchShifterInputs,pitchShifterOutputs);
+    for (int channel = 0; channel < 2; ++channel) {
+        for (int i = 0; i < buffer.getNumSamples(); i++){
+            *buffer.getWritePointer(channel,i) =gain*pitchShifterOutputs[0][i]*echoMix*fx2mix+(1-echoMix*fx2mix) * pitchShifterInputs[0][i]; // echo  
+        }
+    }
+}
 //////////////////////////// FX /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void FxseqAudioProcessor::echo_setDelay(float delay)
 {
@@ -715,6 +893,55 @@ void FxseqAudioProcessor::echo_setFeedback(float feedback)
     echoUI->setParamValue("feedback",feedback);
     echo_feedback=feedback;
 }
+
+void FxseqAudioProcessor::ringMod_setFreq(float freq)
+{
+    ringModUI->setParamValue("freq",freq*5000.0);
+    ringMod_freq=freq;
+}
+
+void FxseqAudioProcessor::ringMod_setDepth(float depth)
+{
+    ringModUI->setParamValue("depth",depth);
+    ringMod_depth=depth;
+}
+
+void FxseqAudioProcessor::ringMod_setGain(float gain)
+{
+    ringModUI->setParamValue("gain",gain);
+    ringMod_gain=gain;
+}
+
+void FxseqAudioProcessor::combFilter_setFrequency(float frequency)
+{
+    combFilterUI->setParamValue("frequency",int(frequency));
+    combFilter_frequency=frequency;
+}
+
+void FxseqAudioProcessor::combFilter_setFeedback(float feedback)
+{
+    combFilterUI->setParamValue("feedback",feedback);
+    combFilter_feedback=feedback;
+}
+
+void FxseqAudioProcessor::pitchShifter_setPitch(float pitch)
+{
+    pitchShifterUI->setParamValue("pitch",pitch);
+    pitchShifter_frequency=pitch;
+}
+
+void FxseqAudioProcessor::pitchShifter_setXfade(float xfade)
+{
+    pitchShifterUI->setParamValue("xfade",int(xfade));
+    pitchShifter_xfade=xfade;
+}
+
+void FxseqAudioProcessor::pitchShifter_setWindow(float window)
+{
+    pitchShifterUI->setParamValue("window",int(window));
+    pitchShifter_window=window;
+}
+
 ////////////////////////////// XML /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 std::vector<unsigned long long int> FxseqAudioProcessor::getPatterns(int seqIndex)
 {

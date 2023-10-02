@@ -8,9 +8,13 @@
 - [x] load all pluginParameters value at editor start **to be really betatested**
 - [x] implement load/save XML presets/**config + programParameters TBD**
 - [x] write get/Set state information for all processor parameters & patterns & sequences
-- [ ] add more effects : distortion / ring modulator / convolution verb / stretcher /  **repeater is a miss for now**
+- [x] added distortion / ring modulator (**sounds strange**) / pitch shifter (**freq sweep to be improved**) / combFilter (**doesnt work**)
+- [ ] add more effects :  convolution verb / stretcher /  **repeater is a miss for now**
 - [ ] cleaner way to pass colortemplates & skin/image paths
+- [ ] clean or rename FaustEchoEffect.h because other FAUST effects (ringmod + combfilter + pitch shifter) had been put into & remove unused faust
 #### BUGS
+- [ ] function getParameterValue(std::string paramName) returns rubbish if min value of parameter<0
+- [ ] effects gain shoul dnot apply to dry signal
 - [ ] effect position not restored on preset load (works with DAW save)
 - [x] saved presets are corrupted (empty pattern/sequence fields)
 - [ ] crashes in sequence mode

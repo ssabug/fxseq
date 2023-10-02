@@ -171,9 +171,10 @@ void FxseqAudioProcessorEditor::timerCallback()
                        +"seq length: " + std::__cxx11::to_string(procSeqLength) +"\n"
                        +"seqmode :"+ std::__cxx11::to_string(options.sequenceMode) +" scroll :" + std::__cxx11::to_string(options.scroll) + "\n"
                        +"selected pattern : " + select +  "\n"
-                       + "fx chain 1 " +  pos1 
+                       + "fx chain " +  pos1 + "\n"
+                       + audioProcessor.debug  + "\n" 
+                       + std::__cxx11::to_string(audioProcessor.getParameterValue("PitchShifter_frequency"))
                       // +std::__cxx11::to_string(getMasterParam("sequencerMode")) + "\n"
-                       //+ audioProcessor.debug
                       // +std::__cxx11::to_string(this->getNumChildComponents()) +"\n"
                   //     +std::__cxx11::to_string(effects[1].getNumChildComponents()) +"\n"
                   //     +std::__cxx11::to_string(sequencers[0].getNumChildComponents()) +"\n"
@@ -315,7 +316,37 @@ void FxseqAudioProcessorEditor::updateFxParam(int fxIndex,int programIndex, floa
             audioProcessor.updateEffectProgramParameter(fxIndex,programIndex,paramIndex,paramValue);
        }
     }
+    if (effects[fxIndex].name == "RingMod") {
+        if (paramIndex==0) {
+            audioProcessor.ringMod_setFreq(paramValue);
+       }
+        if (paramIndex==1) {
+            audioProcessor.ringMod_setDepth(paramValue);
+       }
+    }
 
+    if (effects[fxIndex].name == "CombFilter") {
+        if (paramIndex==0) {
+            audioProcessor.combFilter_setFrequency(paramValue);
+           //audioProcessor.pitchShifter_setPitch(paramValue);
+       }
+        if (paramIndex==1) {
+            audioProcessor.combFilter_setFeedback(paramValue);
+       }
+    }
+
+     if (effects[fxIndex].name == "PitchShifter") {
+        if (paramIndex==0) {
+            audioProcessor.pitchShifter_setPitch(paramValue);
+            audioProcessor.updateParameter("PitchShifter_frequency",paramValue);
+        }
+        if (paramIndex==1) {
+            audioProcessor.pitchShifter_setWindow(paramValue);
+        }
+        if (paramIndex==2) {
+            audioProcessor.pitchShifter_setXfade(paramValue);
+        }
+    }
 }
 
 std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxIndex, int paramIndex, int programIndex,std::string paramProperty)
@@ -391,7 +422,54 @@ std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxInd
         }
         
     }
-   
+
+    if (effects[fxIndex].name == "RingMod") {
+        if (paramProperty == "hasPrograms") { return {"0"}; }
+        if (paramIndex==0) {
+            if (paramProperty == "name")  {return {"Frequency"}; }
+            if (paramProperty == "range") {return {"1.0","5000.0","0.1"}; }
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("RingMod_frequency"))};} 
+       }
+        if (paramIndex==1) {
+            if (paramProperty == "name")  {return {"ModDepth"}; }
+            if (paramProperty == "range") {return {"0.0","1.0","0.1"}; }
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("RingMod_depth"))};} 
+       }
+    }
+
+   if (effects[fxIndex].name == "CombFilter") {
+        if (paramProperty == "hasPrograms") { return {"0"}; }
+        if (paramIndex==0) {
+            if (paramProperty == "name")  {return {"Frequency"}; }
+            if (paramProperty == "range") {return {"0.0","1000.0","0.1"}; }
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("CombFilter_frequency"))};} 
+       }
+        if (paramIndex==1) {    
+            if (paramProperty == "name")  {return {"Feedback"}; }
+            if (paramProperty == "range") {return {"0.0","0.99","0.01"}; }
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("CombFilter_feedback"))};} 
+       }
+    }
+
+    if (effects[fxIndex].name == "PitchShifter") {
+        if (paramProperty == "hasPrograms") { return {"0"}; }
+        if (paramIndex==0) {
+            if (paramProperty == "name")  {return {"Pitch"}; }
+            if (paramProperty == "range") {return {"-12.0","12.0","0.1"}; }
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("PitchShifter_frequency"))};} 
+       }
+        if (paramIndex==1) {    
+            if (paramProperty == "name")  {return {"Window"}; }
+            if (paramProperty == "range") {return {"50.0","10000.0","1.00"}; }
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("PitchShifter_window"))};} 
+       }
+        if (paramIndex==2) {    
+            if (paramProperty == "name")  {return {"Xfade"}; }
+            if (paramProperty == "range") {return {"1.0","10000.0","1.00"}; }
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("PitchShifter_xfade"))};} 
+       }
+    }
+
     if (paramProperty == "hasPrograms") { return {"0"}; } 
     if (paramProperty == "name") {return {""};}
     if (paramProperty == "range") {return {"0.00","1.00","0.1"}; }

@@ -38,7 +38,7 @@ EffectComponent::EffectComponent(int Index,FxseqAudioProcessorEditor *ape,std::s
 
         std::string paramName = (APE->getFxParamProperty(index,i,0,"name"))[0];//APE->getFxParameterName(index,i);
         if (paramName == "") {params[i].setVisible(0); paramsLabel[i].setVisible(0);} 
-        if (paramName == "Frequency") {params[i].setNormalisableRange(juce::NormalisableRange<double>(20.0f, 20000.0f, 1.0f, 0.2f));}
+        if (paramName == "Frequency") {params[i].setNormalisableRange(juce::NormalisableRange<double>(std::stof(range[0]),std::stof(range[1]),std::stof(range[2]), 0.2f));}
 
         paramsLabel[i].setText(paramName,juce::dontSendNotification);
     
@@ -52,7 +52,7 @@ EffectComponent::EffectComponent(int Index,FxseqAudioProcessorEditor *ape,std::s
 
 void EffectComponent::resized()
 {
-    effectName.setBounds(90,0,80,20);
+    effectName.setBounds  (90,0,100,20);
     outGainLabel.setBounds(200,00,80,20);
     outGain.setBounds     (185,10,80,60);
     outMixLabel.setBounds (200,58,80,20);
