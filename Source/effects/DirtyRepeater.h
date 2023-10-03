@@ -81,12 +81,12 @@ class DirtyRepeater : public juce::AudioProcessorValueTreeState::Listener
             {
                 auto* channelData = buffer.getWritePointer(channel);
                 auto* repeatData=  repeaterBuffer.getWritePointer(channel);
-                auto* startData=  crossfadeBuffer.getWritePointer(channel);
+                //auto* startData=  crossfadeBuffer.getWritePointer(channel);
                 
                 for (int sample = 0; sample < numSamples; sample++)
                 {
                     repeater_buffer[channel].insert(repeater_buffer[channel].end(),channelData[sample]);                                    
-                    startData[sample]=repeater_buffer[channel][sample];
+                    //startData[sample]=repeater_buffer[channel][sample];
                     repeatData[sample]=repeater_buffer[channel][buffer_pos+sample];
 
                 }
@@ -99,7 +99,10 @@ class DirtyRepeater : public juce::AudioProcessorValueTreeState::Listener
 
                 repeaterBuffer.applyGainRamp(channel,0,numSamples,lastGate,mmix);
                 buffer.applyGainRamp(channel,0,numSamples,1.0f-lastGate,1.0f-mmix);
-                juce::FloatVectorOperations::add(buffer.getWritePointer(channel), repeaterBuffer.getReadPointer(channel), numSamples);
+                for (int sample = 0; sample < numSamples; sample++) {
+                    channelData[sample]=repeatData[buffer_pos+sample]
+                }
+                //juce::FloatVectorOperations::add(buffer.getWritePointer(channel), repeaterBuffer.getReadPointer(channel), numSamples);
             }
           
             if (buffer_pos < repeatSize ) {
