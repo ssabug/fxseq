@@ -3,7 +3,6 @@ name: "FaustEffect"
 Code generated with Faust 2.23.4 (https://faust.grame.fr)
 Compilation options: -lang cpp -scal -ftz 0
 ------------------------------------------------------------ */
-
 #ifndef  __mydsp_H__
 #define  __mydsp_H__
 
@@ -609,6 +608,12 @@ class dsp_factory {
 #define exp10f __exp10f
 #define exp10 __exp10
 #endif
+
+struct EffectParameter { 
+    std::string id,name,faustName,type;
+    float min,max,step,value;
+};
+
 
 class mydsp : public dsp {
 	
@@ -1234,6 +1239,339 @@ class psdsp : public dsp {
 	}
 
 };
+
+//// REPEATER ///////////////////////////////////////////////////////////////////////////////////
+#ifndef FAUSTFLOAT
+#define FAUSTFLOAT float
+#endif 
+
+#include <algorithm>
+#include <cmath>
+#include <cstdint>
+#include <math.h>
+
+#ifndef FAUSTCLASS 
+#define FAUSTCLASS rpdsp
+#endif
+
+#ifdef __APPLE__ 
+#define exp10f __exp10f
+#define exp10 __exp10
+#endif
+
+#if defined(_WIN32)
+#define RESTRICT __restrict
+#else
+#define RESTRICT __restrict__
+#endif
+
+class rpdspSIG0 {
+	
+  private:
+	
+	
+  public:
+	
+	int getNumInputsmydspSIG0() {
+		return 0;
+	}
+	int getNumOutputsmydspSIG0() {
+		return 1;
+	}
+	
+	void instanceInitmydspSIG0(int sample_rate) {
+	}
+	
+	void fillmydspSIG0(int count, float* table) {
+		for (int i1 = 0; i1 < count; i1 = i1 + 1) {
+			table[i1] = 0.0f;
+		}
+	}
+
+};
+
+static rpdspSIG0* newrpdspSIG0() { return (rpdspSIG0*)new rpdspSIG0(); }
+static void deletemydspSIG0(rpdspSIG0* dsp) { delete dsp; }
+
+
+class rpdsp : public dsp {
+	
+ private:
+	
+	int fSampleRate;
+	float fConst2;
+	float ftbl0[88200];
+	FAUSTFLOAT fHslider0;
+	float fConst3;
+	int iRec2[2];
+	int iVec0[2];
+	int iRec1[2];
+	FAUSTFLOAT fHslider1;
+	int iRec6[2];
+	FAUSTFLOAT fHslider2;
+	int iRec7[2];
+	int iVec1[2];
+	int iRec5[2];
+	int iRec4[2];
+	int iRec3[2];
+	float fVec2[2];
+	float fConst4;
+	float fRec0[2];
+	float ftbl1[88200];
+	float fVec3[2];
+	float fRec8[2];
+	
+ public:
+	rpdsp() {}
+
+	void metadata(Meta* m) { 
+		m->declare("aanl.lib/name", "Faust Antialiased Nonlinearities");
+		m->declare("aanl.lib/version", "1.3.0");
+		m->declare("analyzers.lib/name", "Faust Analyzer Library");
+		m->declare("analyzers.lib/version", "1.2.0");
+		m->declare("basics.lib/name", "Faust Basic Element Library");
+		m->declare("basics.lib/tabulateNd", "Copyright (C) 2023 Bart Brouns <bart@magnetophon.nl>");
+		m->declare("basics.lib/version", "1.11.1");
+		m->declare("compile_options", "-a api/DspFaust.cpp -lang cpp -i -ct 1 -es 1 -mcd 16 -single -ftz 0");
+		m->declare("compressors.lib/name", "Faust Compressor Effect Library");
+		m->declare("compressors.lib/version", "1.5.0");
+		m->declare("delays.lib/name", "Faust Delay Library");
+		m->declare("delays.lib/version", "1.1.0");
+		m->declare("demos.lib/name", "Faust Demos Library");
+		m->declare("demos.lib/version", "1.1.0");
+		m->declare("dx7.lib/version", "1.1.0");
+		m->declare("envelopes.lib/author", "GRAME");
+		m->declare("envelopes.lib/copyright", "GRAME");
+		m->declare("envelopes.lib/license", "LGPL with exception");
+		m->declare("envelopes.lib/name", "Faust Envelope Library");
+		m->declare("envelopes.lib/version", "1.2.0");
+		m->declare("fds.lib/author", "Romain Michon");
+		m->declare("fds.lib/name", "Faust Finite Difference Schemes Library");
+		m->declare("fds.lib/version", "1.1.0");
+		m->declare("filename", "repeater.dsp");
+		m->declare("filters.lib/dcblockerat:author", "Julius O. Smith III");
+		m->declare("filters.lib/dcblockerat:copyright", "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>");
+		m->declare("filters.lib/dcblockerat:license", "MIT-style STK-4.3 license");
+		m->declare("filters.lib/lowpass0_highpass1", "MIT-style STK-4.3 license");
+		m->declare("filters.lib/name", "Faust Filters Library");
+		m->declare("filters.lib/pole:author", "Julius O. Smith III");
+		m->declare("filters.lib/pole:copyright", "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>");
+		m->declare("filters.lib/pole:license", "MIT-style STK-4.3 license");
+		m->declare("filters.lib/version", "1.3.0");
+		m->declare("filters.lib/zero:author", "Julius O. Smith III");
+		m->declare("filters.lib/zero:copyright", "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>");
+		m->declare("filters.lib/zero:license", "MIT-style STK-4.3 license");
+		m->declare("hoa.lib/author", "Pierre Guillot");
+		m->declare("hoa.lib/copyright", "2012-2013 Guillot, Paris, Colafrancesco, CICM labex art H2H, U. Paris 8, 2019 Wargreen, 2022 Bonardi, Goutmann");
+		m->declare("hoa.lib/name", "High Order Ambisonics library");
+		m->declare("hoa.lib/version", "1.4.0");
+		m->declare("interpolators.lib/name", "Faust Interpolator Library");
+		m->declare("interpolators.lib/version", "1.3.0");
+		m->declare("maths.lib/author", "GRAME");
+		m->declare("maths.lib/copyright", "GRAME");
+		m->declare("maths.lib/license", "LGPL with exception");
+		m->declare("maths.lib/name", "Faust Math Library");
+		m->declare("maths.lib/version", "2.6.0");
+		m->declare("mi.lib/author", "Romain Michon");
+		m->declare("mi.lib/copyright", "2018-2020 GRAME / GIPSA-Lab");
+		m->declare("mi.lib/name", "Faust mass-interaction physical modelling library");
+		m->declare("mi.lib/version", "1.1.0");
+		m->declare("misceffects.lib/name", "Misc Effects Library");
+		m->declare("misceffects.lib/version", "2.1.0");
+		m->declare("name", "repeater");
+		m->declare("noises.lib/name", "Faust Noise Generator Library");
+		m->declare("noises.lib/version", "1.4.0");
+		m->declare("oscillators.lib/name", "Faust Oscillator Library");
+		m->declare("oscillators.lib/version", "1.4.0");
+		m->declare("phaflangers.lib/name", "Faust Phaser and Flanger Library");
+		m->declare("phaflangers.lib/version", "1.1.0");
+		m->declare("physmodels.lib/name", "Faust Physical Models Library");
+		m->declare("physmodels.lib/version", "1.1.0");
+		m->declare("platform.lib/name", "Generic Platform Library");
+		m->declare("platform.lib/version", "1.3.0");
+		m->declare("quantizers.lib/name", "Faust Frequency Quantization Library");
+		m->declare("quantizers.lib/version", "1.1.0");
+		m->declare("reducemaps.lib/author", "Yann Orlarey");
+		m->declare("reducemaps.lib/copyright", "Grame and Yann Orlarey");
+		m->declare("reducemaps.lib/license", "LGPL with exception");
+		m->declare("reducemaps.lib/name", "Reduce Library");
+		m->declare("reducemaps.lib/version", "1.2.0");
+		m->declare("reverbs.lib/name", "Faust Reverb Library");
+		m->declare("reverbs.lib/version", "1.2.0");
+		m->declare("routes.lib/name", "Faust Signal Routing Library");
+		m->declare("routes.lib/version", "1.2.0");
+		m->declare("signals.lib/name", "Faust Signal Routing Library");
+		m->declare("signals.lib/version", "1.3.0");
+		m->declare("soundfiles.lib/name", "Faust Soundfile Library");
+		m->declare("soundfiles.lib/version", "1.7.0");
+		m->declare("spats.lib/name", "Faust Spatialization Library");
+		m->declare("spats.lib/version", "1.1.0");
+		m->declare("synths.lib/name", "Faust Synthesizer Library");
+		m->declare("synths.lib/version", "1.1.0");
+		m->declare("vaeffects.lib/name", "Faust Virtual Analog Filter Effect Library");
+		m->declare("vaeffects.lib/version", "1.2.0");
+		m->declare("wdmodels.lib/name", "Faust Wave Digital Model Library");
+		m->declare("wdmodels.lib/version", "1.2.1");
+		m->declare("webaudio.lib/author", "GRAME");
+		m->declare("webaudio.lib/copyright", "GRAME");
+		m->declare("webaudio.lib/license", "LGPL with exception");
+		m->declare("webaudio.lib/name", "Faust WebAudio Filters Library");
+		m->declare("webaudio.lib/version", "1.1.0");
+	}
+
+	virtual int getNumInputs() {
+		return 2;
+	}
+	virtual int getNumOutputs() {
+		return 2;
+	}
+	
+	static void classInit(int sample_rate) {
+	}
+	
+	virtual void instanceConstants(int sample_rate) {
+		fSampleRate = sample_rate;
+		float fConst0 = std::min<float>(1.92e+05f, std::max<float>(1.0f, float(fSampleRate)));
+		float fConst1 = 62.831852f / fConst0;
+		fConst2 = 1.0f - fConst1;
+		rpdspSIG0* sig0 = newrpdspSIG0();
+		sig0->instanceInitmydspSIG0(sample_rate);
+		sig0->fillmydspSIG0(88200, ftbl0);
+		fConst3 = 0.001f * fConst0;
+		fConst4 = 1.0f / (fConst1 + 1.0f);
+		sig0->instanceInitmydspSIG0(sample_rate);
+		sig0->fillmydspSIG0(88200, ftbl1);
+		deletemydspSIG0(sig0);
+	}
+	
+	virtual void instanceResetUserInterface() {
+		fHslider0 = FAUSTFLOAT(5e+02f);
+		fHslider1 = FAUSTFLOAT(4.0f);
+		fHslider2 = FAUSTFLOAT(5e+01f);
+	}
+	
+	virtual void instanceClear() {
+		for (int l0 = 0; l0 < 2; l0 = l0 + 1) {
+			iRec2[l0] = 0;
+		}
+		for (int l1 = 0; l1 < 2; l1 = l1 + 1) {
+			iVec0[l1] = 0;
+		}
+		for (int l2 = 0; l2 < 2; l2 = l2 + 1) {
+			iRec1[l2] = 0;
+		}
+		for (int l3 = 0; l3 < 2; l3 = l3 + 1) {
+			iRec6[l3] = 0;
+		}
+		for (int l4 = 0; l4 < 2; l4 = l4 + 1) {
+			iRec7[l4] = 0;
+		}
+		for (int l5 = 0; l5 < 2; l5 = l5 + 1) {
+			iVec1[l5] = 0;
+		}
+		for (int l6 = 0; l6 < 2; l6 = l6 + 1) {
+			iRec5[l6] = 0;
+		}
+		for (int l7 = 0; l7 < 2; l7 = l7 + 1) {
+			iRec4[l7] = 0;
+		}
+		for (int l8 = 0; l8 < 2; l8 = l8 + 1) {
+			iRec3[l8] = 0;
+		}
+		for (int l9 = 0; l9 < 2; l9 = l9 + 1) {
+			fVec2[l9] = 0.0f;
+		}
+		for (int l10 = 0; l10 < 2; l10 = l10 + 1) {
+			fRec0[l10] = 0.0f;
+		}
+		for (int l11 = 0; l11 < 2; l11 = l11 + 1) {
+			fVec3[l11] = 0.0f;
+		}
+		for (int l12 = 0; l12 < 2; l12 = l12 + 1) {
+			fRec8[l12] = 0.0f;
+		}
+	}
+	
+	virtual void init(int sample_rate) {
+		classInit(sample_rate);
+		instanceInit(sample_rate);
+	}
+	
+	virtual void instanceInit(int sample_rate) {
+		instanceConstants(sample_rate);
+		instanceResetUserInterface();
+		instanceClear();
+	}
+	
+	virtual rpdsp* clone() {
+		return new rpdsp();
+	}
+	
+	virtual int getSampleRate() {
+		return fSampleRate;
+	}
+	
+	virtual void buildUserInterface(UI* ui_interface) {
+		ui_interface->openVerticalBox("repeater");
+		ui_interface->declare(&fHslider0, "BELA", "ANALOG_0");
+		ui_interface->addHorizontalSlider("MasterTaille", &fHslider0, FAUSTFLOAT(5e+02f), FAUSTFLOAT(2e+02f), FAUSTFLOAT(2e+03f), FAUSTFLOAT(0.01f));
+		ui_interface->declare(&fHslider1, "BELA", "ANALOG_2");
+		ui_interface->addHorizontalSlider("nbRepet", &fHslider1, FAUSTFLOAT(4.0f), FAUSTFLOAT(1.0f), FAUSTFLOAT(16.0f), FAUSTFLOAT(1.0f));
+		ui_interface->declare(&fHslider2, "BELA", "ANALOG_1");
+		ui_interface->addHorizontalSlider("taille", &fHslider2, FAUSTFLOAT(5e+01f), FAUSTFLOAT(2.0f), FAUSTFLOAT(2e+02f), FAUSTFLOAT(0.01f));
+		ui_interface->closeBox();
+	}
+	
+	virtual void compute(int count, FAUSTFLOAT** RESTRICT inputs, FAUSTFLOAT** RESTRICT outputs) {
+		FAUSTFLOAT* input0 = inputs[0];
+		FAUSTFLOAT* input1 = inputs[1];
+		FAUSTFLOAT* output0 = outputs[0];
+		FAUSTFLOAT* output1 = outputs[1];
+		int iSlow0 = int(fConst3 * float(fHslider0));
+		int iSlow1 = int(float(fHslider1));
+		int iSlow2 = int(fConst3 * float(fHslider2));
+		float fSlow3 = 0.5f * float(iSlow2);
+		for (int i0 = 0; i0 < count; i0 = i0 + 1) {
+			iRec2[0] = (iRec2[1] + 1) % iSlow0;
+			int iTemp0 = ((iRec2[0] < 100) ? 1 : 0);
+			iVec0[0] = iTemp0;
+			iRec1[0] = (1 - iTemp0) * (iRec1[1] + 1) % 88200;
+			ftbl0[iRec1[0]] = float(input0[i0]);
+			iRec6[0] = ((float(((iRec4[1] > iSlow1) ? 1 : 0)) > 0.5f) ? 1 : ((float(iTemp0) > 0.5f) ? 0 : iRec6[1]));
+			iRec7[0] = (iRec7[1] + 1) * (1 - (iTemp0 > iVec0[1])) % iSlow2;
+			int iTemp1 = ((float(iRec7[0]) < fSlow3) ? 1 : 0);
+			iVec1[0] = iTemp1;
+			iRec5[0] = ((float(iTemp0 + iRec6[0]) > 0.5f) ? 0 : iRec5[1] + (iTemp1 > iVec1[1]));
+			iRec4[0] = iRec5[0];
+			iRec3[0] = (iRec3[1] + 1) * (1 - (iRec4[0] > iRec4[1]));
+			int iTemp2 = iRec3[0] % 88200;
+			float fTemp3 = ftbl0[iTemp2];
+			fVec2[0] = fTemp3;
+			fRec0[0] = fConst4 * (fTemp3 - fVec2[1] + fConst2 * fRec0[1]);
+			output0[i0] = FAUSTFLOAT(fRec0[0]);
+			ftbl1[iRec1[0]] = float(input1[i0]);
+			float fTemp4 = ftbl1[iTemp2];
+			fVec3[0] = fTemp4;
+			fRec8[0] = fConst4 * (fTemp4 - fVec3[1] + fConst2 * fRec8[1]);
+			output1[i0] = FAUSTFLOAT(fRec8[0]);
+			iRec2[1] = iRec2[0];
+			iVec0[1] = iVec0[0];
+			iRec1[1] = iRec1[0];
+			iRec6[1] = iRec6[0];
+			iRec7[1] = iRec7[0];
+			iVec1[1] = iVec1[0];
+			iRec5[1] = iRec5[0];
+			iRec4[1] = iRec4[0];
+			iRec3[1] = iRec3[0];
+			fVec2[1] = fVec2[0];
+			fRec0[1] = fRec0[0];
+			fVec3[1] = fVec3[0];
+			fRec8[1] = fRec8[0];
+		}
+	}
+
+};
+
 // END-FAUSTDSP
 
 #endif

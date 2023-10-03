@@ -35,13 +35,14 @@ class EffectComponent   : public juce::Component
                                                 juce::ImageFileFormat::loadFrom(juce::File(imagePath+"preset_4.png")),
                                                 juce::ImageFileFormat::loadFrom(juce::File(imagePath+"preset_0.png"))
                                                 };
-        juce::Slider outGain,outMix,params[3];      
+        juce::Slider outGain,outMix,params[3];
+        juce::Label  paramsLabel[3];    
     private:
         void initSlider1(std::string name,juce::Slider& slider,juce::Label& label,float min,float max,float def);
 
         
         juce::ImageButton presetChange;
-        juce::Label effectName,outGainLabel,outMixLabel,paramsLabel[3];
+        juce::Label effectName,outGainLabel,outMixLabel;
         juce::ImageButton programButton;
         
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EffectComponent)

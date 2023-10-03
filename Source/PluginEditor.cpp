@@ -173,7 +173,10 @@ void FxseqAudioProcessorEditor::timerCallback()
                        +"selected pattern : " + select +  "\n"
                        + "fx chain " +  pos1 + "\n"
                        + audioProcessor.debug  + "\n" 
-                       + std::__cxx11::to_string(audioProcessor.getParameterValue("PitchShifter_frequency"))
+                       + std::__cxx11::to_string(audioProcessor.getParameterValue("PitchShifter_Frequency")) + "\nrepeater\n"
+                       + std::__cxx11::to_string( audioProcessor.getParameterValue("PitchShifter_Frequency") ) + "\n"
+                       + std::__cxx11::to_string( audioProcessor.getParameterValue("PitchShifter_Window") ) + "\n"
+                       + std::__cxx11::to_string( audioProcessor.getParameterValue("PitchShifter_Xfade") ) 
                       // +std::__cxx11::to_string(getMasterParam("sequencerMode")) + "\n"
                       // +std::__cxx11::to_string(this->getNumChildComponents()) +"\n"
                   //     +std::__cxx11::to_string(effects[1].getNumChildComponents()) +"\n"
@@ -275,13 +278,17 @@ float FxseqAudioProcessorEditor::getMasterParam(std::string parameterName)
 void FxseqAudioProcessorEditor::updateFxParam(int fxIndex,int programIndex, float paramIndex,float paramValue)
 {
     std::string paramName=effects[fxIndex].name +"_dry/wet";
+    std::string processorParamName=effects[fxIndex].name +"_";
     if (effects[fxIndex].name == "Echo") {
-        if (paramIndex==0) {
+        /*if (paramIndex==0) {
             audioProcessor.echo_setDelay(paramValue);
         }
         if (paramIndex==1) {
             audioProcessor.echo_setFeedback(paramValue);
-        }
+        }*/
+        if (paramIndex==0) { processorParamName  += "Time";audioProcessor.updateParameter(processorParamName,paramValue);}
+        //std::string paramName=effects[fxIndex].name + "_" + effects[fxIndex].paramsLabel[fxIndex].getText().toStdString();
+        if (paramIndex==1) { processorParamName  += "Feedback";audioProcessor.updateParameter(processorParamName,paramValue); } 
     }
 
     if (effects[fxIndex].name == "Crusher") {
@@ -307,44 +314,54 @@ void FxseqAudioProcessorEditor::updateFxParam(int fxIndex,int programIndex, floa
 
     if (effects[fxIndex].name == "Distortion") {
         if (paramIndex==0) {
-            audioProcessor.updateParameter(effects[fxIndex].name + "_type",paramValue);
+            audioProcessor.updateParameter(effects[fxIndex].name + "_Type",paramValue);
        }
     }
 
      if (effects[fxIndex].name == "Repeater") {
-        if (paramIndex==0) {
+        /*if (paramIndex==0) {
             audioProcessor.updateEffectProgramParameter(fxIndex,programIndex,paramIndex,paramValue);
-       }
+       }*/
+        if (paramIndex==0) { processorParamName  += "mSize";audioProcessor.updateParameter(processorParamName,paramValue);}
+        //std::string paramName=effects[fxIndex].name + "_" + effects[fxIndex].paramsLabel[fxIndex].getText().toStdString();
+        if (paramIndex==1) { processorParamName  += "count";audioProcessor.updateParameter(processorParamName,paramValue); } 
+        if (paramIndex==1) { processorParamName  += "size"; audioProcessor.repeater.changeParameter(paramIndex,paramValue);/*audioProcessor.updateParameter(processorParamName,paramValue);*/} 
+        
     }
     if (effects[fxIndex].name == "RingMod") {
         if (paramIndex==0) {
-            audioProcessor.ringMod_setFreq(paramValue);
+            //audioProcessor.ringMod_setFreq(paramValue);
+            processorParamName  += "Frequency";audioProcessor.updateParameter(processorParamName,paramValue);
        }
         if (paramIndex==1) {
-            audioProcessor.ringMod_setDepth(paramValue);
+            //audioProcessor.ringMod_setDepth(paramValue);
+            processorParamName  += "ModDepth";audioProcessor.updateParameter(processorParamName,paramValue);
        }
     }
 
     if (effects[fxIndex].name == "CombFilter") {
         if (paramIndex==0) {
-            audioProcessor.combFilter_setFrequency(paramValue);
-           //audioProcessor.pitchShifter_setPitch(paramValue);
+            //audioProcessor.combFilter_setFrequency(paramValue);
+            //processorParamName  += "Frequency";audioProcessor.updateParameter(processorParamName,paramValue);
        }
         if (paramIndex==1) {
-            audioProcessor.combFilter_setFeedback(paramValue);
+            //audioProcessor.combFilter_setFeedback(paramValue);
+            //processorParamName  += "Feedback";audioProcessor.updateParameter(processorParamName,paramValue);
        }
     }
 
      if (effects[fxIndex].name == "PitchShifter") {
         if (paramIndex==0) {
-            audioProcessor.pitchShifter_setPitch(paramValue);
-            audioProcessor.updateParameter("PitchShifter_frequency",paramValue);
+            //audioProcessor.pitchShifter_setPitch(paramValue);
+            audioProcessor.updateParameter("PitchShifter_Frequency",paramValue);
         }
         if (paramIndex==1) {
-            audioProcessor.pitchShifter_setWindow(paramValue);
+            //audioProcessor.pitchShifter_setWindow(paramValue);
+            audioProcessor.updateParameter("PitchShifter_Window",paramValue);
         }
         if (paramIndex==2) {
-            audioProcessor.pitchShifter_setXfade(paramValue);
+            //audioProcessor.pitchShifter_setXfade(paramValue);
+            audioProcessor.updateParameter("PitchShifter_Xfade",paramValue);
         }
     }
 }
@@ -358,12 +375,12 @@ std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxInd
         if (paramIndex==0) {
             if (paramProperty == "name")  {return {"Time"}; }
             if (paramProperty == "range") {return {"0.00","1.00","0.10"};}
-            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.echo_time)};}       
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("Echo_Time")/*audioProcessor.echo_time*/)};}       
         }
         if (paramIndex==1) {
             if (paramProperty == "name")  {return {"Feedback"}; }
             if (paramProperty == "range") {return {"0.00","1.00","0.10"};}
-            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.echo_feedback)};}
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("Echo_Feedback")/*audioProcessor.echo_feedback*/)};}
         }
     }
 
@@ -408,19 +425,34 @@ std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxInd
         if (paramIndex==0) {
             if (paramProperty == "name")  {return {"Type"}; }
             if (paramProperty == "range") {return {"0.0","1.0","1.0"}; }
-            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("Distortion_type"))};} 
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("Distortion_Type"))};} 
         }
         
     }
 
     if (effects[fxIndex].name == "Repeater") {
-        if (paramProperty == "hasPrograms") { return {"1"}; }
-        if (paramIndex==0) {
+        //audioProcessor.getParameterProperty(fxIndex,paramIndex , paramProperty, programIndex);
+        if (paramProperty == "hasPrograms") { return {"0"}; }
+        /*if (paramIndex==0) {
             if (paramProperty == "name")  {return {"Length"}; }
             if (paramProperty == "range") {return {"1.0","4.0","1.0"}; }
             if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.fxPrograms[fxIndex][programIndex+1][paramIndex])};} 
+        }*/
+        if (paramIndex==0) {
+            if (paramProperty == "name")  {return {"mSize"}; }
+            if (paramProperty == "range") {return {"200.0","2000.0","0.1"}; }
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("Repeater_mSize"))};} 
         }
-        
+        if (paramIndex==1) {
+            if (paramProperty == "name")  {return {"count"}; }
+            if (paramProperty == "range") {return {"1.0","16.0","1.0"}; }
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("Repeater_count")/*audioProcessor.getParameterValue(effects[fxIndex].name + "_" + effects[fxIndex].paramsLabel[fxIndex].getText().toStdString())*/)};} 
+        }
+        if (paramIndex==2) {
+            if (paramProperty == "name")  {return {"size"}; }
+            if (paramProperty == "range") {return {"2.0","200.0","0.1"}; }
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("Repeater_size")/*audioProcessor.getParameterValue(effects[fxIndex].name + "_" + effects[fxIndex].paramsLabel[fxIndex].getText().toStdString())*/)};} 
+        }
     }
 
     if (effects[fxIndex].name == "RingMod") {
@@ -428,12 +460,12 @@ std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxInd
         if (paramIndex==0) {
             if (paramProperty == "name")  {return {"Frequency"}; }
             if (paramProperty == "range") {return {"1.0","5000.0","0.1"}; }
-            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("RingMod_frequency"))};} 
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("RingMod_Frequency"))};} 
        }
         if (paramIndex==1) {
             if (paramProperty == "name")  {return {"ModDepth"}; }
             if (paramProperty == "range") {return {"0.0","1.0","0.1"}; }
-            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("RingMod_depth"))};} 
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("RingMod_ModDepth"))};} 
        }
     }
 
@@ -442,12 +474,12 @@ std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxInd
         if (paramIndex==0) {
             if (paramProperty == "name")  {return {"Frequency"}; }
             if (paramProperty == "range") {return {"0.0","1000.0","0.1"}; }
-            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("CombFilter_frequency"))};} 
+            if (paramProperty == "value") {return {std::__cxx11::to_string(0.0/*audioProcessor.getParameterValue("CombFilter_Frequency")*/)};} 
        }
         if (paramIndex==1) {    
             if (paramProperty == "name")  {return {"Feedback"}; }
             if (paramProperty == "range") {return {"0.0","0.99","0.01"}; }
-            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("CombFilter_feedback"))};} 
+            if (paramProperty == "value") {return {std::__cxx11::to_string(0.0/*audioProcessor.getParameterValue("CombFilter_Feedback")*/)};} 
        }
     }
 
@@ -456,17 +488,17 @@ std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxInd
         if (paramIndex==0) {
             if (paramProperty == "name")  {return {"Pitch"}; }
             if (paramProperty == "range") {return {"-12.0","12.0","0.1"}; }
-            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("PitchShifter_frequency"))};} 
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("PitchShifter_Frequency"))};} 
        }
         if (paramIndex==1) {    
             if (paramProperty == "name")  {return {"Window"}; }
             if (paramProperty == "range") {return {"50.0","10000.0","1.00"}; }
-            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("PitchShifter_window"))};} 
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("PitchShifter_Window"))};} 
        }
         if (paramIndex==2) {    
             if (paramProperty == "name")  {return {"Xfade"}; }
             if (paramProperty == "range") {return {"1.0","10000.0","1.00"}; }
-            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("PitchShifter_xfade"))};} 
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("PitchShifter_Xfade"))};} 
        }
     }
 

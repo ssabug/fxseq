@@ -121,6 +121,7 @@
 		BF0D44A12C06591485E1E4CD /* include_juce_gui_extra.mm */ /* include_juce_gui_extra.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_gui_extra.mm; path = ../../JuceLibraryCode/include_juce_gui_extra.mm; sourceTree = SOURCE_ROOT; };
 		C0A6EF42762BDA8D12247B64 /* AudioToolbox.framework */ /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		C23127945862F501FF7D1736 /* include_juce_audio_processors.mm */ /* include_juce_audio_processors.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_processors.mm; path = ../../JuceLibraryCode/include_juce_audio_processors.mm; sourceTree = SOURCE_ROOT; };
+		C4B1D16AF66B464F62D3E09A /* FaustEffects.h */ /* FaustEffects.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FaustEffects.h; path = ../../Source/FaustEffects.h; sourceTree = SOURCE_ROOT; };
 		CC9B2C2247819B80A5FAAB47 /* SequencerComponent.cpp */ /* SequencerComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SequencerComponent.cpp; path = ../../Source/SequencerComponent.cpp; sourceTree = SOURCE_ROOT; };
 		CE9C7FD31647DAAD6CF9AE36 /* DiscRecording.framework */ /* DiscRecording.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiscRecording.framework; path = System/Library/Frameworks/DiscRecording.framework; sourceTree = SDKROOT; };
 		D31EFCF8A913AC8A5EFCF5A1 /* include_juce_dsp.mm */ /* include_juce_dsp.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_dsp.mm; path = ../../JuceLibraryCode/include_juce_dsp.mm; sourceTree = SOURCE_ROOT; };
@@ -131,7 +132,6 @@
 		EBC537824127B2F6BEB1E4EF /* Foundation.framework */ /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		EDBC72AD0D53F65C44A3AE2A /* juce_gui_extra */ /* juce_gui_extra */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_gui_extra; path = "~/JUCE/modules/juce_gui_extra"; sourceTree = "<absolute>"; };
 		F036E5D10CC9A1DDB5E5998C /* IOKit.framework */ /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		F24C3C503961B2BFA767F0EA /* FaustEchoEffect.h */ /* FaustEchoEffect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FaustEchoEffect.h; path = ../../Source/FaustEchoEffect.h; sourceTree = SOURCE_ROOT; };
 		F26086420ABCED09931BE919 /* juce_data_structures */ /* juce_data_structures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_data_structures; path = "~/JUCE/modules/juce_data_structures"; sourceTree = "<absolute>"; };
 		F75D172032DCADF3CFD221A4 /* Info-VST3_Manifest_Helper.plist */ /* Info-VST3_Manifest_Helper.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-VST3_Manifest_Helper.plist"; path = "Info-VST3_Manifest_Helper.plist"; sourceTree = SOURCE_ROOT; };
 		F90AFFF9703AB1D971F198CA /* OptionsComponent.h */ /* OptionsComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OptionsComponent.h; path = ../../Source/OptionsComponent.h; sourceTree = SOURCE_ROOT; };
@@ -287,7 +287,7 @@
 				8B924DECD17ACD4E1654B62E,
 				692BB775AD6F6B7678267A7F,
 				42CC867D53501689C256644C,
-				F24C3C503961B2BFA767F0EA,
+				C4B1D16AF66B464F62D3E09A,
 			);
 			name = fxseq;
 			sourceTree = "<group>";

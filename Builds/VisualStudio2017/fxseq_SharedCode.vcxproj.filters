@@ -3594,7 +3594,7 @@
     <ClInclude Include="..\..\Source\SequenceSequencerComponent.h">
       <Filter>fxseq</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\FaustEchoEffect.h">
+    <ClInclude Include="..\..\Source\FaustEffects.h">
       <Filter>fxseq</Filter>
     </ClInclude>
     <ClInclude Include="C:\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">

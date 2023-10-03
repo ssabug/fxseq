@@ -9,11 +9,18 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "FaustRepeater.h"
+#include "FaustEcho.h"
+#include "FaustRingMod.h"
+#include "FaustCombFilter.h"
+#include "FaustPitchShifter.h"
+#include "Distortion.h"
+#include "Chopper.h"
+#include "Filter.h"
 
 //====FAUST DSP CLASSES=========================
 class MapUI;
 class dsp;
-class rmdsp;
 
 //==============================================================================
 /**
@@ -72,6 +79,7 @@ public:
     void updateGainPattern(int sequencerIndex,int patternIndex);
     void updateParameter(std::string paramName,float paramValue);
     float getParameterValue(std::string paramName);
+    std::vector<std::string> getParameterProperty(int fxIndex,int paramIndex,std::string paramProperty,int programIndex);
     void updateEffectProgramParameter(int effectIndex,int programIndex,int parameterIndex,float parameterValue); 
     float getEffectProgramParameterValue(int fxIndex,int programIndex,int paramIndex);
 
@@ -89,7 +97,7 @@ public:
     std::vector<int> selected_pattern;
     std::vector<int> fxPositions;//={0,1,2,3};
     std::vector<float> lastFxDepths;
-    const std::vector<std::string> fxNamesStr={"Chopper","Echo","Filter","Crusher","Distortion","Repeater","RingMod","PitchShifter"};
+    std::vector<std::string> fxNamesStr;//={"Chopper","Echo","Filter","Crusher","Distortion","Repeater","RingMod","PitchShifter"};
     int greatestClockMult=4; 
     int sequenceLength=4;
 
@@ -122,22 +130,22 @@ public:
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0}           
                                                               },
-                                                             {   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
+                                                             {  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
                                                                 {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},{1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0}           
                                                               },
-                                                             {   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
+                                                             {  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
                                                                 {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},{1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0}           
                                                               },
-                                                             {   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
+                                                             {  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
                                                                 {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},{1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0}           
                                                               },
-                                                             {   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
+                                                             {  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
                                                                 {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},{1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
                                                                 {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0}           
@@ -184,54 +192,64 @@ public:
                                                             }; 
     juce::AudioProcessorValueTreeState pluginParameters; 
     //=====FAUST=ECHO=================================================================   
-    void echo_setDelay(float delay);
+    /*void echo_setDelay(float delay);
     void echo_setFeedback(float feedback);
-    float echo_time=0.25f,echo_feedback=0.5f;
+    float echo_time=0.25f,echo_feedback=0.5f;*/
     //=====FAUST=RINGMOD================================================================
-    void ringMod_setDepth(float depth);
+    /*void ringMod_setDepth(float depth);
     void ringMod_setGain(float gain);
     void ringMod_setFreq(float freq);
-    float ringMod_freq=60.0f,ringMod_depth=0.5f,ringMod_gain=1.0f;
+    float ringMod_freq=60.0f,ringMod_depth=0.5f,ringMod_gain=1.0f;*/
     //=====FAUST=COMBFILTER================================================================
-    void combFilter_setFrequency(float frequency);
+    /*void combFilter_setFrequency(float frequency);
     void combFilter_setFeedback(float feedback);
-    float combFilter_frequency=1000.0f,combFilter_feedback=0.5f;
+    float combFilter_frequency=1000.0f,combFilter_feedback=0.5f;*/
     //=====FAUST=PITCHSHIFTER================================================================
-    void pitchShifter_setPitch(float pitch);
+    /*void pitchShifter_setPitch(float pitch);
     void pitchShifter_setXfade(float xfade);
     void pitchShifter_setWindow(float window);
-    float pitchShifter_frequency=0.0f,pitchShifter_xfade=0.5f,pitchShifter_window=1.0f;
+    float pitchShifter_frequency=0.0f,pitchShifter_xfade=0.5f,pitchShifter_window=1.0f;*/
     //=====FILTER=================================================================
-    juce::dsp::LadderFilter<float> filter;
+    //juce::dsp::LadderFilter<float> filter;
     //====REPEATER======================================================================
     float repeater_divison=1.0;
+    //====FAUST=REPEATER======================================================================
+    Repeater repeater;
+    Echo echo;
+    RingMod ringMod;
+    //CombFilter combFilter;
+    PitchShifter pitchShifter;
+    Distortion distortion;
+    Chopper chopper;
+    Filter filter;
 private:
     //=====CHOPPER===================================================================
-    void chopper_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer);
+    //void chopper_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer);
     //=====FAUST=ECHO=================================================================
-    void echo_process(juce::AudioBuffer<float>& buffer);
+    /*void echo_process(juce::AudioBuffer<float>& buffer);
     MapUI* echoUI;
     dsp* echoDSP;
     float **echoInputs;
-    float **echoOutputs;
+    float **echoOutputs;*/
     //=====FAUST=RINGMOD=================================================================
-    void ringMod_process(juce::AudioBuffer<float>& buffer);
+    /*void ringMod_process(juce::AudioBuffer<float>& buffer);
     MapUI* ringModUI;
     dsp* ringModDSP;
     float **ringModInputs;
-    float **ringModOutputs;
+    float **ringModOutputs;*/
     //=====FAUST=COMBFILTER=================================================================
-    void combFilter_process(juce::AudioBuffer<float>& buffer);
+    /*void combFilter_process(juce::AudioBuffer<float>& buffer);
     MapUI* combFilterUI;
     dsp* combFilterDSP;
     float **combFilterInputs;
-    float **combFilterOutputs;
+    float **combFilterOutputs;*/
     //=====FAUST=PITCHSHIFTER=================================================================
-    void pitchShifter_process(juce::AudioBuffer<float>& buffer);
+    /*void pitchShifter_process(juce::AudioBuffer<float>& buffer);
     MapUI* pitchShifterUI;
     dsp* pitchShifterDSP;
     float **pitchShifterInputs;
-    float **pitchShifterOutputs;
+    float **pitchShifterOutputs;*/
+
      //====FILTER===================================================================
     void filter_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer);
     juce::SmoothedValue<float,juce::ValueSmoothingTypes::Linear> filterFreq_smoothed;
@@ -241,9 +259,9 @@ private:
     //====BITCRUSHER===================================================================
     void bitcrush_process(juce::AudioBuffer<float>& buffer);  
     //====DISTORTION===================================================================
-    void distortion_route(juce::AudioBuffer<float>& buffer);
+    /*void distortion_route(juce::AudioBuffer<float>& buffer);
     void distortion_process(juce::AudioBuffer<float>& buffer);
-    void hardclip_process(juce::AudioBuffer<float>& buffer);
+    void hardclip_process(juce::AudioBuffer<float>& buffer);*/
     //====REPEATER======================================================================
     void repeater_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer);
     std::vector<std::vector<float>> repeater_buffer;
