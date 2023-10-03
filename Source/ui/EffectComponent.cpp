@@ -1,5 +1,5 @@
 #include "EffectComponent.h"
-#include "PluginEditor.h"
+#include "../PluginEditor.h"
 
 
 

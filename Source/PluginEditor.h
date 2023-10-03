@@ -13,11 +13,11 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-#include "SequencerComponent.h"
-#include "SequenceSequencerComponent.h"
-#include "EffectComponent.h"
-#include "OptionsComponent.h"
-#include "OutputComponent.h"
+#include "ui/SequencerComponent.h"
+#include "ui/SequenceSequencerComponent.h"
+#include "ui/EffectComponent.h"
+#include "ui/OptionsComponent.h"
+#include "ui/OutputComponent.h"
 
 
 

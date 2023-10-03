@@ -5,6 +5,12 @@
     <Filter Include="fxseq\Source">
       <UniqueIdentifier>{A027A046-D8F1-4AD4-668B-C3505F7FEAB0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="fxseq\effects">
+      <UniqueIdentifier>{C4442D8C-AAF5-3639-EFAF-46CD9A8104FA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fxseq\ui">
+      <UniqueIdentifier>{403E5373-B3F4-01F7-BEA3-2AC79CCCB443}</UniqueIdentifier>
+    </Filter>
     <Filter Include="fxseq">
       <UniqueIdentifier>{B24304DF-1F3D-0DF4-5E95-C4EBDF8A3D94}</UniqueIdentifier>
     </Filter>
@@ -637,20 +643,20 @@
     <ClCompile Include="..\..\Source\PluginEditor.cpp">
       <Filter>fxseq\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\SequencerComponent.cpp">
-      <Filter>fxseq</Filter>
+    <ClCompile Include="..\..\Source\ui\EffectComponent.cpp">
+      <Filter>fxseq\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\EffectComponent.cpp">
-      <Filter>fxseq</Filter>
+    <ClCompile Include="..\..\Source\ui\OptionsComponent.cpp">
+      <Filter>fxseq\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\OptionsComponent.cpp">
-      <Filter>fxseq</Filter>
+    <ClCompile Include="..\..\Source\ui\OutputComponent.cpp">
+      <Filter>fxseq\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\OutputComponent.cpp">
-      <Filter>fxseq</Filter>
+    <ClCompile Include="..\..\Source\ui\SequencerComponent.cpp">
+      <Filter>fxseq\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\SequenceSequencerComponent.cpp">
-      <Filter>fxseq</Filter>
+    <ClCompile Include="..\..\Source\ui\SequenceSequencerComponent.cpp">
+      <Filter>fxseq\ui</Filter>
     </ClCompile>
     <ClCompile Include="C:\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.cpp">
       <Filter>JUCE Modules\juce_audio_basics\audio_play_head</Filter>
@@ -3579,23 +3585,53 @@
     <ClInclude Include="..\..\Source\PluginEditor.h">
       <Filter>fxseq\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\SequencerComponent.h">
-      <Filter>fxseq</Filter>
+    <ClInclude Include="..\..\Source\effects\Bitcrusher.h">
+      <Filter>fxseq\effects</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\EffectComponent.h">
-      <Filter>fxseq</Filter>
+    <ClInclude Include="..\..\Source\effects\Chopper.h">
+      <Filter>fxseq\effects</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\OptionsComponent.h">
-      <Filter>fxseq</Filter>
+    <ClInclude Include="..\..\Source\effects\DirtyRepeater.h">
+      <Filter>fxseq\effects</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\OutputComponent.h">
-      <Filter>fxseq</Filter>
+    <ClInclude Include="..\..\Source\effects\Distortion.h">
+      <Filter>fxseq\effects</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\SequenceSequencerComponent.h">
-      <Filter>fxseq</Filter>
+    <ClInclude Include="..\..\Source\effects\FaustCombFilter.h">
+      <Filter>fxseq\effects</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\FaustEffects.h">
-      <Filter>fxseq</Filter>
+    <ClInclude Include="..\..\Source\effects\FaustEcho.h">
+      <Filter>fxseq\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\effects\FaustEffects.h">
+      <Filter>fxseq\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\effects\FaustPitchShifter.h">
+      <Filter>fxseq\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\effects\FaustRepeater.h">
+      <Filter>fxseq\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\effects\FaustRingMod.h">
+      <Filter>fxseq\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\effects\Filter.h">
+      <Filter>fxseq\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ui\EffectComponent.h">
+      <Filter>fxseq\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ui\OptionsComponent.h">
+      <Filter>fxseq\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ui\OutputComponent.h">
+      <Filter>fxseq\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ui\SequencerComponent.h">
+      <Filter>fxseq\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ui\SequenceSequencerComponent.h">
+      <Filter>fxseq\ui</Filter>
     </ClInclude>
     <ClInclude Include="C:\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
       <Filter>JUCE Modules\juce_audio_basics\audio_play_head</Filter>

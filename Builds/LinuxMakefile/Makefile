@@ -109,11 +109,11 @@ OBJECTS_VST3 := \
 OBJECTS_SHARED_CODE := \
   $(JUCE_OBJDIR)/PluginProcessor_a059e380.o \
   $(JUCE_OBJDIR)/PluginEditor_94d4fb09.o \
-  $(JUCE_OBJDIR)/SequencerComponent_ccc922b5.o \
-  $(JUCE_OBJDIR)/EffectComponent_c8de84cd.o \
-  $(JUCE_OBJDIR)/OptionsComponent_daeb5708.o \
-  $(JUCE_OBJDIR)/OutputComponent_c20ebb5d.o \
-  $(JUCE_OBJDIR)/SequenceSequencerComponent_5e597bd6.o \
+  $(JUCE_OBJDIR)/EffectComponent_a7af95ba.o \
+  $(JUCE_OBJDIR)/OptionsComponent_d63c63bb.o \
+  $(JUCE_OBJDIR)/OutputComponent_a0dfcc4a.o \
+  $(JUCE_OBJDIR)/SequencerComponent_3809cea8.o \
+  $(JUCE_OBJDIR)/SequenceSequencerComponent_fcb484c9.o \
   $(JUCE_OBJDIR)/include_juce_audio_basics_8a4e984a.o \
   $(JUCE_OBJDIR)/include_juce_audio_devices_63111d02.o \
   $(JUCE_OBJDIR)/include_juce_audio_formats_15f82001.o \
@@ -191,27 +191,27 @@ $(JUCE_OBJDIR)/PluginEditor_94d4fb09.o: ../../Source/PluginEditor.cpp
 	@echo "Compiling PluginEditor.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
 
-$(JUCE_OBJDIR)/SequencerComponent_ccc922b5.o: ../../Source/SequencerComponent.cpp
-	-$(V_AT)mkdir -p $(@D)
-	@echo "Compiling SequencerComponent.cpp"
-	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
-
-$(JUCE_OBJDIR)/EffectComponent_c8de84cd.o: ../../Source/EffectComponent.cpp
+$(JUCE_OBJDIR)/EffectComponent_a7af95ba.o: ../../Source/ui/EffectComponent.cpp
 	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling EffectComponent.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
 
-$(JUCE_OBJDIR)/OptionsComponent_daeb5708.o: ../../Source/OptionsComponent.cpp
+$(JUCE_OBJDIR)/OptionsComponent_d63c63bb.o: ../../Source/ui/OptionsComponent.cpp
 	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling OptionsComponent.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
 
-$(JUCE_OBJDIR)/OutputComponent_c20ebb5d.o: ../../Source/OutputComponent.cpp
+$(JUCE_OBJDIR)/OutputComponent_a0dfcc4a.o: ../../Source/ui/OutputComponent.cpp
 	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling OutputComponent.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
 
-$(JUCE_OBJDIR)/SequenceSequencerComponent_5e597bd6.o: ../../Source/SequenceSequencerComponent.cpp
+$(JUCE_OBJDIR)/SequencerComponent_3809cea8.o: ../../Source/ui/SequencerComponent.cpp
+	-$(V_AT)mkdir -p $(@D)
+	@echo "Compiling SequencerComponent.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/SequenceSequencerComponent_fcb484c9.o: ../../Source/ui/SequenceSequencerComponent.cpp
 	-$(V_AT)mkdir -p $(@D)
 	@echo "Compiling SequenceSequencerComponent.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"

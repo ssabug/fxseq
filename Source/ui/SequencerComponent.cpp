@@ -7,7 +7,7 @@
 */
 
 #include "SequencerComponent.h"
-#include "PluginEditor.h" 
+#include "../PluginEditor.h" 
 
 SequencerComponent::SequencerComponent(int Index,FxseqAudioProcessorEditor *ape,std::string StepSeqTemplate,std::string ComboTemplate)
 {

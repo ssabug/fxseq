@@ -9,14 +9,16 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "FaustRepeater.h"
-#include "FaustEcho.h"
-#include "FaustRingMod.h"
-#include "FaustCombFilter.h"
-#include "FaustPitchShifter.h"
-#include "Distortion.h"
-#include "Chopper.h"
-#include "Filter.h"
+#include "effects/FaustRepeater.h"
+#include "effects/FaustEcho.h"
+#include "effects/FaustRingMod.h"
+#include "effects/FaustCombFilter.h"
+#include "effects/FaustPitchShifter.h"
+#include "effects/Distortion.h"
+#include "effects/Chopper.h"
+#include "effects/Filter.h"
+#include "effects/Bitcrusher.h"
+#include "effects/DirtyRepeater.h"
 
 //====FAUST DSP CLASSES=========================
 class MapUI;
@@ -34,39 +36,32 @@ public:
     //==============================================================================
     FxseqAudioProcessor();
     ~FxseqAudioProcessor() override;
-
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
     void releaseResources() override;
-
    #ifndef JucePlugin_PreferredChannelConfigurations
     bool isBusesLayoutSupported (const BusesLayout& layouts) const override;
    #endif
-
     void processBlock (juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
-
     //==============================================================================
     juce::AudioProcessorEditor* createEditor() override;
     bool hasEditor() const override;
-
     //==============================================================================
     const juce::String getName() const override;
-
     bool acceptsMidi() const override;
     bool producesMidi() const override;
     bool isMidiEffect() const override;
     double getTailLengthSeconds() const override;
-
     //==============================================================================
     int getNumPrograms() override;
     int getCurrentProgram() override;
     void setCurrentProgram (int index) override;
     const juce::String getProgramName (int index) override;
     void changeProgramName (int index, const juce::String& newName) override;
-
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+    //===============================================================================
     std::vector<unsigned long long int> getPatterns(int seqIndex);
     juce::XmlElement* getAllPatternsXml();
     std::vector<unsigned long long int> getSequences();
@@ -102,10 +97,8 @@ public:
     int sequenceLength=4;
 
     juce::SmoothedValue<float,juce::ValueSmoothingTypes::Multiplicative> fxDepths_smoothed[8];
-    juce::AudioBuffer<float> masterDryBuffer,fx1drybuffer,fx2drybuffer,fx3drybuffer,fx4dryBuffer; 
-    juce::dsp::DryWetMixer<float> fx1dryWetMixer,fx2dryWetMixer,fx3dryWetMixer,fx4dryWetMixer;
-    
-   
+    juce::AudioBuffer<float> masterDryBuffer; 
+      
     std::string debug;  
 
     std::vector<std::vector<std::vector<float>>> gainPatterns;
@@ -176,11 +169,11 @@ public:
                                                                 {250.0f,    0.5f,   1.0f},
                                                                 {300.0f,    0.5f,   1.0f}
                                                                },
-                                                              { {00.0f,    10.00f},  // bitcrusher : sampleReduction, bitdepth
-                                                                {06.0f,    08.00f},
-                                                                {08.0f,    32.00f},
-                                                                {10.0f,    32.00f},
-                                                                {12.0f,    32.00f}
+                                                              { {00.0f,    32.00f},  // bitcrusher : sampleReduction, bitdepth
+                                                                {06.0f,    32.00f},
+                                                                {08.0f,    16.00f},
+                                                                {10.0f,    8.00f},
+                                                                {12.0f,    2.00f}
                                                               },
                                                               {},                    // distortion
                                                               { {1.0},                     //repeater :length
@@ -188,82 +181,28 @@ public:
                                                                 {2.0},
                                                                 {3.0},
                                                                 {4.0}
-                                                               }
+                                                               },
+                                                                {},                 // ringmod
+                                                                {}                  // pitchshifter
                                                             }; 
     juce::AudioProcessorValueTreeState pluginParameters; 
-    //=====FAUST=ECHO=================================================================   
-    /*void echo_setDelay(float delay);
-    void echo_setFeedback(float feedback);
-    float echo_time=0.25f,echo_feedback=0.5f;*/
-    //=====FAUST=RINGMOD================================================================
-    /*void ringMod_setDepth(float depth);
-    void ringMod_setGain(float gain);
-    void ringMod_setFreq(float freq);
-    float ringMod_freq=60.0f,ringMod_depth=0.5f,ringMod_gain=1.0f;*/
-    //=====FAUST=COMBFILTER================================================================
-    /*void combFilter_setFrequency(float frequency);
-    void combFilter_setFeedback(float feedback);
-    float combFilter_frequency=1000.0f,combFilter_feedback=0.5f;*/
-    //=====FAUST=PITCHSHIFTER================================================================
-    /*void pitchShifter_setPitch(float pitch);
-    void pitchShifter_setXfade(float xfade);
-    void pitchShifter_setWindow(float window);
-    float pitchShifter_frequency=0.0f,pitchShifter_xfade=0.5f,pitchShifter_window=1.0f;*/
-    //=====FILTER=================================================================
-    //juce::dsp::LadderFilter<float> filter;
+  
     //====REPEATER======================================================================
-    float repeater_divison=1.0;
-    //====FAUST=REPEATER======================================================================
-    Repeater repeater;
+    //float repeater_divison=1.0;
+    //====Effects======================================================================
+    DirtyRepeater repeater;
+    //Repeater repeater;
     Echo echo;
     RingMod ringMod;
-    //CombFilter combFilter;
     PitchShifter pitchShifter;
     Distortion distortion;
     Chopper chopper;
     Filter filter;
+    Bitcrusher bitcrusher;
+    //CombFilter combFilter;
 private:
-    //=====CHOPPER===================================================================
-    //void chopper_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer);
-    //=====FAUST=ECHO=================================================================
-    /*void echo_process(juce::AudioBuffer<float>& buffer);
-    MapUI* echoUI;
-    dsp* echoDSP;
-    float **echoInputs;
-    float **echoOutputs;*/
-    //=====FAUST=RINGMOD=================================================================
-    /*void ringMod_process(juce::AudioBuffer<float>& buffer);
-    MapUI* ringModUI;
-    dsp* ringModDSP;
-    float **ringModInputs;
-    float **ringModOutputs;*/
-    //=====FAUST=COMBFILTER=================================================================
-    /*void combFilter_process(juce::AudioBuffer<float>& buffer);
-    MapUI* combFilterUI;
-    dsp* combFilterDSP;
-    float **combFilterInputs;
-    float **combFilterOutputs;*/
-    //=====FAUST=PITCHSHIFTER=================================================================
-    /*void pitchShifter_process(juce::AudioBuffer<float>& buffer);
-    MapUI* pitchShifterUI;
-    dsp* pitchShifterDSP;
-    float **pitchShifterInputs;
-    float **pitchShifterOutputs;*/
-
-     //====FILTER===================================================================
-    void filter_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer);
-    juce::SmoothedValue<float,juce::ValueSmoothingTypes::Linear> filterFreq_smoothed;
-    float lastFilterFrequency=20000.0f;
-    float lastFilterResonance=0.0f;
-    float lastFilterDrive=0.0f;
-    //====BITCRUSHER===================================================================
-    void bitcrush_process(juce::AudioBuffer<float>& buffer);  
-    //====DISTORTION===================================================================
-    /*void distortion_route(juce::AudioBuffer<float>& buffer);
-    void distortion_process(juce::AudioBuffer<float>& buffer);
-    void hardclip_process(juce::AudioBuffer<float>& buffer);*/
     //====REPEATER======================================================================
-    void repeater_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer);
+    /*void repeater_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer);
     std::vector<std::vector<float>> repeater_buffer;
     int buffer_pos=0;
 
@@ -276,8 +215,7 @@ private:
     //repeater_maxBufferSize;
     //repeater_bufferSize;
     juce::SmoothedValue<float,juce::ValueSmoothingTypes::Linear> buffer_smoothed[2];
-    juce::SmoothedValue<float,juce::ValueSmoothingTypes::Linear> interpolated[2];
-    //juce::AudioProcessorValueTreeState pluginParameters;   
+    juce::SmoothedValue<float,juce::ValueSmoothingTypes::Linear> interpolated[2];*/
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FxseqAudioProcessor)
 };

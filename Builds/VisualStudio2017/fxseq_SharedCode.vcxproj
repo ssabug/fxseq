@@ -141,11 +141,11 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\PluginProcessor.cpp"/>
     <ClCompile Include="..\..\Source\PluginEditor.cpp"/>
-    <ClCompile Include="..\..\Source\SequencerComponent.cpp"/>
-    <ClCompile Include="..\..\Source\EffectComponent.cpp"/>
-    <ClCompile Include="..\..\Source\OptionsComponent.cpp"/>
-    <ClCompile Include="..\..\Source\OutputComponent.cpp"/>
-    <ClCompile Include="..\..\Source\SequenceSequencerComponent.cpp"/>
+    <ClCompile Include="..\..\Source\ui\EffectComponent.cpp"/>
+    <ClCompile Include="..\..\Source\ui\OptionsComponent.cpp"/>
+    <ClCompile Include="..\..\Source\ui\OutputComponent.cpp"/>
+    <ClCompile Include="..\..\Source\ui\SequencerComponent.cpp"/>
+    <ClCompile Include="..\..\Source\ui\SequenceSequencerComponent.cpp"/>
     <ClCompile Include="C:\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -2808,12 +2808,22 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\PluginProcessor.h"/>
     <ClInclude Include="..\..\Source\PluginEditor.h"/>
-    <ClInclude Include="..\..\Source\SequencerComponent.h"/>
-    <ClInclude Include="..\..\Source\EffectComponent.h"/>
-    <ClInclude Include="..\..\Source\OptionsComponent.h"/>
-    <ClInclude Include="..\..\Source\OutputComponent.h"/>
-    <ClInclude Include="..\..\Source\SequenceSequencerComponent.h"/>
-    <ClInclude Include="..\..\Source\FaustEffects.h"/>
+    <ClInclude Include="..\..\Source\effects\Bitcrusher.h"/>
+    <ClInclude Include="..\..\Source\effects\Chopper.h"/>
+    <ClInclude Include="..\..\Source\effects\DirtyRepeater.h"/>
+    <ClInclude Include="..\..\Source\effects\Distortion.h"/>
+    <ClInclude Include="..\..\Source\effects\FaustCombFilter.h"/>
+    <ClInclude Include="..\..\Source\effects\FaustEcho.h"/>
+    <ClInclude Include="..\..\Source\effects\FaustEffects.h"/>
+    <ClInclude Include="..\..\Source\effects\FaustPitchShifter.h"/>
+    <ClInclude Include="..\..\Source\effects\FaustRepeater.h"/>
+    <ClInclude Include="..\..\Source\effects\FaustRingMod.h"/>
+    <ClInclude Include="..\..\Source\effects\Filter.h"/>
+    <ClInclude Include="..\..\Source\ui\EffectComponent.h"/>
+    <ClInclude Include="..\..\Source\ui\OptionsComponent.h"/>
+    <ClInclude Include="..\..\Source\ui\OutputComponent.h"/>
+    <ClInclude Include="..\..\Source\ui\SequencerComponent.h"/>
+    <ClInclude Include="..\..\Source\ui\SequenceSequencerComponent.h"/>
     <ClInclude Include="C:\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h"/>
     <ClInclude Include="C:\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h"/>
     <ClInclude Include="C:\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>

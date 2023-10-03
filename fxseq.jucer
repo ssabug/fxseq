@@ -13,27 +13,43 @@
             file="Source/PluginEditor.cpp"/>
       <FILE id="OVK1qJ" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
-    <FILE id="uAziKv" name="SequencerComponent.cpp" compile="1" resource="0"
-          file="Source/SequencerComponent.cpp"/>
-    <FILE id="BVDGie" name="SequencerComponent.h" compile="0" resource="0"
-          file="Source/SequencerComponent.h"/>
-    <FILE id="zmj6qT" name="EffectComponent.cpp" compile="1" resource="0"
-          file="Source/EffectComponent.cpp"/>
-    <FILE id="n0ihg8" name="EffectComponent.h" compile="0" resource="0"
-          file="Source/EffectComponent.h"/>
-    <FILE id="TQwuff" name="OptionsComponent.cpp" compile="1" resource="0"
-          file="Source/OptionsComponent.cpp"/>
-    <FILE id="vZiufb" name="OptionsComponent.h" compile="0" resource="0"
-          file="Source/OptionsComponent.h"/>
-    <FILE id="q5Asst" name="OutputComponent.cpp" compile="1" resource="0"
-          file="Source/OutputComponent.cpp"/>
-    <FILE id="Is6Rdl" name="OutputComponent.h" compile="0" resource="0"
-          file="Source/OutputComponent.h"/>
-    <FILE id="Mfv8uj" name="SequenceSequencerComponent.cpp" compile="1"
-          resource="0" file="Source/SequenceSequencerComponent.cpp"/>
-    <FILE id="GEt1mT" name="SequenceSequencerComponent.h" compile="0" resource="0"
-          file="Source/SequenceSequencerComponent.h"/>
-    <FILE id="OhkcfM" name="FaustEffects.h" compile="0" resource="0" file="Source/FaustEffects.h"/>
+    <GROUP id="{4D7B72C0-53F2-4E2F-1220-B4123D5AA7F3}" name="effects">
+      <FILE id="FSr51y" name="Bitcrusher.h" compile="0" resource="0" file="Source/effects/Bitcrusher.h"/>
+      <FILE id="dH5qmT" name="Chopper.h" compile="0" resource="0" file="Source/effects/Chopper.h"/>
+      <FILE id="kqHJ0p" name="DirtyRepeater.h" compile="0" resource="0" file="Source/effects/DirtyRepeater.h"/>
+      <FILE id="th0k3Z" name="Distortion.h" compile="0" resource="0" file="Source/effects/Distortion.h"/>
+      <FILE id="g4TyOy" name="FaustCombFilter.h" compile="0" resource="0"
+            file="Source/effects/FaustCombFilter.h"/>
+      <FILE id="O4L1up" name="FaustEcho.h" compile="0" resource="0" file="Source/effects/FaustEcho.h"/>
+      <FILE id="VlXxod" name="FaustEffects.h" compile="0" resource="0" file="Source/effects/FaustEffects.h"/>
+      <FILE id="A59ZVx" name="FaustPitchShifter.h" compile="0" resource="0"
+            file="Source/effects/FaustPitchShifter.h"/>
+      <FILE id="CKRktO" name="FaustRepeater.h" compile="0" resource="0" file="Source/effects/FaustRepeater.h"/>
+      <FILE id="VekqgC" name="FaustRingMod.h" compile="0" resource="0" file="Source/effects/FaustRingMod.h"/>
+      <FILE id="lVoRU5" name="Filter.h" compile="0" resource="0" file="Source/effects/Filter.h"/>
+    </GROUP>
+    <GROUP id="{27DF5FCA-8283-9737-0CF8-2B8FB35383F1}" name="ui">
+      <FILE id="g4dIUa" name="EffectComponent.cpp" compile="1" resource="0"
+            file="Source/ui/EffectComponent.cpp"/>
+      <FILE id="z1rGqk" name="EffectComponent.h" compile="0" resource="0"
+            file="Source/ui/EffectComponent.h"/>
+      <FILE id="QOPDbt" name="OptionsComponent.cpp" compile="1" resource="0"
+            file="Source/ui/OptionsComponent.cpp"/>
+      <FILE id="tXczEN" name="OptionsComponent.h" compile="0" resource="0"
+            file="Source/ui/OptionsComponent.h"/>
+      <FILE id="CAcFPM" name="OutputComponent.cpp" compile="1" resource="0"
+            file="Source/ui/OutputComponent.cpp"/>
+      <FILE id="MRhz4d" name="OutputComponent.h" compile="0" resource="0"
+            file="Source/ui/OutputComponent.h"/>
+      <FILE id="HP5Yup" name="SequencerComponent.cpp" compile="1" resource="0"
+            file="Source/ui/SequencerComponent.cpp"/>
+      <FILE id="kjPFqb" name="SequencerComponent.h" compile="0" resource="0"
+            file="Source/ui/SequencerComponent.h"/>
+      <FILE id="Z8oWMN" name="SequenceSequencerComponent.cpp" compile="1"
+            resource="0" file="Source/ui/SequenceSequencerComponent.cpp"/>
+      <FILE id="m6rxYw" name="SequenceSequencerComponent.h" compile="0" resource="0"
+            file="Source/ui/SequenceSequencerComponent.h"/>
+    </GROUP>
   </MAINGROUP>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>

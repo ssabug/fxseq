@@ -1,5 +1,5 @@
 #include "OptionsComponent.h"
-#include "PluginEditor.h"
+#include "../PluginEditor.h"
 
 
 

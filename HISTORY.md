@@ -2,6 +2,30 @@
 
 ## Change records
 
+### v0.06 03102023  
+#### TODO
+- [x] put all effects in separate .h files
+- [x] tidy source files arbo
+- [ ] in parameter layout constructor find a way to destroy created effects objects
+- [ ] clean unused pluginProcessor variables
+- [ ] in PluginEditor, find a way to acquire plugin parameters attributes
+- [ ] betatest pluginParameters values loading at editor start **(and processor start as well)** 
+- [ ] implement load/save config + programParameters from XML presets 
+- [ ] ring modulator (**sounds strange**) / pitch shifter (**freq sweep to be improved**) / combFilter (**doesnt work**)
+- [ ] add more effects :  convolution verb / stretcher /  **repeater is a miss for now**
+- [ ] cleaner way to pass colortemplates & skin/image paths
+#### BUGS
+- [ ] pitchshifter clicks
+- [ ] effects gain should not apply to dry signal **partly corrected**
+- [ ] effect position not restored on preset load (works with DAW save)
+- [x] saved presets are corrupted (empty pattern/sequence fields)
+- [ ] crashes in sequence mode
+- [ ] dry/wet for filter cracks
+- [ ] step on->off clicks for echo
+- [x] crusher clicks 
+- [ ] buffer seems wrongly initialised on press play(sequence mode)
+- [ ] latency (same problem as choppah) -> maybe due to chopper gain ramp
+
 ### v0.05 29092023  
 #### TODO
 - [x] switch to 8 fx + GUI resize

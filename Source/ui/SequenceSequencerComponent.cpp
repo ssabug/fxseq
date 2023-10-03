@@ -1,5 +1,5 @@
 #include "SequenceSequencerComponent.h"
-#include "PluginEditor.h"
+#include "../PluginEditor.h"
 
 SequenceSequencerComponent::SequenceSequencerComponent(FxseqAudioProcessorEditor *ape,std::string ComboTemplate,std::string SliderTemplate,std::string ImageButtonTemplate)
 {

@@ -11,7 +11,7 @@ class Filter : public juce::AudioProcessorValueTreeState::Listener
 
         void initEffectParams()
         {
-            EffectParameter frequency =     { .id = "Frequency",   .name = "Frequency",     .faustName = "Frequency",   .type = "float",   .min=20.0f,   .max=20000.0f, .step=10.0f,    .value=20000.0f};
+            EffectParameter frequency =     { .id = "Frequency",   .name = "Frequency",     .faustName = "Frequency",   .type = "float",   .min=20.0f,   .max=20000.0f, .step=1.0f,    .value=20000.0f};
             EffectParameter resonance =     { .id = "Resonance",   .name = "Resonance",     .faustName = "Resonance",   .type = "float",   .min=0.0f,    .max=1.0f,     .step=1.0f,     .value=0.5f};
             EffectParameter drive     =     { .id = "Drive",       .name = "Drive",         .faustName = "Drive",       .type = "float",   .min=1.0f,    .max=10.0f,    .step=0.1f,     .value=0.0f};
 
@@ -20,13 +20,22 @@ class Filter : public juce::AudioProcessorValueTreeState::Listener
             params.push_back(drive);
         };    
 
-	    Filter() { initEffectParams(); filter.reset();};
+	    Filter() 
+        { 
+            initEffectParams(); 
+            filter.reset();
+            //filter.setMode(juce::dsp::LadderFilter<float>::Mode::LowPass);
+            /*filter.setCutoffFrequencyHz(20000.0f);
+            filter.setResonance(0.0f);*/
+        };
 	    ~Filter() {};
 
 	    void prepareToPlay(double sampleRate, int samplesPerBlock)
         {
             dryBuffer.setSize(2, samplesPerBlock);
             filter.reset();
+            //filter.setSampleRate(sampleRate);
+            //filter.prepare({ sampleRate, (double)maximumBlockSize, (double)getTotalNumInputChannels() });
         };
 
         void releaseResources(){};

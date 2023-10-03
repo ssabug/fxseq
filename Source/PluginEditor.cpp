@@ -319,14 +319,12 @@ void FxseqAudioProcessorEditor::updateFxParam(int fxIndex,int programIndex, floa
     }
 
      if (effects[fxIndex].name == "Repeater") {
-        /*if (paramIndex==0) {
-            audioProcessor.updateEffectProgramParameter(fxIndex,programIndex,paramIndex,paramValue);
-       }*/
-        if (paramIndex==0) { processorParamName  += "mSize";audioProcessor.updateParameter(processorParamName,paramValue);}
+        if (paramIndex==0) { processorParamName  += "size"; audioProcessor.repeater.changeParameter(paramIndex,paramValue);} 
+       /* if (paramIndex==0) { processorParamName  += "mSize";audioProcessor.updateParameter(processorParamName,paramValue);}
         //std::string paramName=effects[fxIndex].name + "_" + effects[fxIndex].paramsLabel[fxIndex].getText().toStdString();
         if (paramIndex==1) { processorParamName  += "count";audioProcessor.updateParameter(processorParamName,paramValue); } 
-        if (paramIndex==1) { processorParamName  += "size"; audioProcessor.repeater.changeParameter(paramIndex,paramValue);/*audioProcessor.updateParameter(processorParamName,paramValue);*/} 
-        
+        if (paramIndex==1) { processorParamName  += "size"; audioProcessor.repeater.changeParameter(paramIndex,paramValue);} */
+        //audioProcessor.updateParameter(processorParamName,paramValue);
     }
     if (effects[fxIndex].name == "RingMod") {
         if (paramIndex==0) {
@@ -404,7 +402,7 @@ std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxInd
 
         if (paramIndex==0) {
             if (paramProperty == "name")  {return {"Frequency"}; }
-            if (paramProperty == "range") {return {"20.00","20000.00","10.0"}; }
+            if (paramProperty == "range") {return {"20.00","20000.00","1.0"}; }
             if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.fxPrograms[fxIndex][programIndex+1][paramIndex])};} 
         }
         if (paramIndex==1) {
@@ -439,6 +437,12 @@ std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxInd
             if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.fxPrograms[fxIndex][programIndex+1][paramIndex])};} 
         }*/
         if (paramIndex==0) {
+            if (paramProperty == "name")  {return {"size"}; }
+            if (paramProperty == "range") {return {"1.0","4.0","1.0"}; }
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("Repeater_size"))};} 
+        }
+        /*
+        if (paramIndex==0) {
             if (paramProperty == "name")  {return {"mSize"}; }
             if (paramProperty == "range") {return {"200.0","2000.0","0.1"}; }
             if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("Repeater_mSize"))};} 
@@ -446,13 +450,15 @@ std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxInd
         if (paramIndex==1) {
             if (paramProperty == "name")  {return {"count"}; }
             if (paramProperty == "range") {return {"1.0","16.0","1.0"}; }
-            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("Repeater_count")/*audioProcessor.getParameterValue(effects[fxIndex].name + "_" + effects[fxIndex].paramsLabel[fxIndex].getText().toStdString())*/)};} 
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("Repeater_count"))};}
+            //audioProcessor.getParameterValue(effects[fxIndex].name + "_" + effects[fxIndex].paramsLabel[fxIndex].getText().toStdString()) 
         }
         if (paramIndex==2) {
             if (paramProperty == "name")  {return {"size"}; }
             if (paramProperty == "range") {return {"2.0","200.0","0.1"}; }
-            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("Repeater_size")/*audioProcessor.getParameterValue(effects[fxIndex].name + "_" + effects[fxIndex].paramsLabel[fxIndex].getText().toStdString())*/)};} 
-        }
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("Repeater_size"))};}
+            //audioProcessor.getParameterValue(effects[fxIndex].name + "_" + effects[fxIndex].paramsLabel[fxIndex].getText().toStdString())
+        }*/
     }
 
     if (effects[fxIndex].name == "RingMod") {
