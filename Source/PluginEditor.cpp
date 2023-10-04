@@ -172,7 +172,7 @@ void FxseqAudioProcessorEditor::timerCallback()
                        +"seqmode :"+ std::__cxx11::to_string(options.sequenceMode) +" scroll :" + std::__cxx11::to_string(options.scroll) + "\n"
                        +"selected pattern : " + select +  "\n"
                        + "fx chain " +  pos1 + "\n"
-                       + audioProcessor.debug  + "\n" 
+                       + audioProcessor.debug  + "\n" 	
                        + std::__cxx11::to_string(audioProcessor.getParameterValue("PitchShifter_Frequency")) + "\nrepeater\n"
                        + std::__cxx11::to_string( audioProcessor.getParameterValue("PitchShifter_Frequency") ) + "\n"
                        + std::__cxx11::to_string( audioProcessor.getParameterValue("PitchShifter_Window") ) + "\n"
@@ -597,13 +597,40 @@ int FxseqAudioProcessorEditor::lowest(int n1,int n2,int n3,int n4)
     return Lowest;
 }
 ////////////////////////////////////////////////////////////////////////////////////// PATHS ////////////////////////////////////////////////////////////////////////////////////
-void FxseqAudioProcessorEditor::initDirectories()
+std::vector<std::string> FxseqAudioProcessorEditor::getFileSeparators()
 {
     // /!\ PLATFORM SPECIFIC CODE
+    std::vector<std::string> result;
+    std::string sep,hidden;
+    std::string operatingSystem=juce::SystemStats::getOperatingSystemName().toStdString();
+    // WINDOWS
+    if ( operatingSystem.find("Windows") !=std::string::npos )
+    {
+        sep+=(char) 92;
+        hidden="";
+    }
+    // LINUX / APPLE / ANDROID
+    if ( ( operatingSystem.find("Linux") !=std::string::npos ) or ( operatingSystem.find("Mac") !=std::string::npos ) )
+    {
+        sep="/";
+        hidden=".";
+    }
+    
+    result.push_back(sep);
+    result.push_back(hidden);
+
+    return result;
+}
+
+void FxseqAudioProcessorEditor::initDirectories()
+{   
+    std::vector<std::string> separators=getFileSeparators();
+    std::string sep=separators[0],hidden=separators[1];   
+    
     juce::File homeDir = juce::File(juce::File::getSpecialLocation (juce::File::userHomeDirectory));
     const std::string homePath=homeDir.getFullPathName().toStdString();
-    std::string devPath=homePath+"/.ssabug/";
-    rootPath=devPath+"fxseq/";
+    std::string devPath=homePath+ sep + hidden + "ssabug" +sep;
+    rootPath=devPath+"fxseq"+ sep;
     
     if ( not std::filesystem::exists(devPath) )  {
         std::filesystem::create_directory(devPath);
@@ -624,33 +651,35 @@ void FxseqAudioProcessorEditor::initDirectories()
 
 std::string FxseqAudioProcessorEditor::getPath(std::string path)
 {
-    // /!\ PLATFORM SPECIFIC CODE
+    std::vector<std::string> separators=getFileSeparators();
+    std::string sep=separators[0],hidden=separators[1]; 
+
     if (path ==  "root") {
         return rootPath;
     }
     if (path ==  "config") {
-        return rootPath + "config/";
+        return rootPath + "config" + sep ;
     }
     if (path ==  "configFile") {
-        return rootPath + "config/config.xml";
+        return rootPath + "config"+ sep + "config.xml";
     }
     if (path ==  "skins") {
-        return rootPath + "skins/";
+        return rootPath + "skins" + sep;
     }
     if (path ==  "currentSkin") {
-        return rootPath + "skins/" + currentSkin + "/";
+        return rootPath + "skins" + sep + currentSkin + sep;
     }
     if (path ==  "currentSkinFile") {
-        return rootPath + "skins/" + currentSkin + "/skin.xml";
+        return rootPath + "skins" + sep + currentSkin + sep + "skin.xml";
     }
     if (path ==  "images") {
-        return rootPath + "skins/" + currentSkin + "/images/";
+        return rootPath + "skins" + sep + currentSkin + sep + "images" + sep;
     }
     if (path ==  "presets") {
-        return rootPath + "presets/";
+        return rootPath + "presets" + sep;
     }
     if (path ==  "currentPreset") {
-        return rootPath + "presets/" + currentPreset +".xml";
+        return rootPath + "presets" + sep + currentPreset +".xml";
     }
 
     return "";
@@ -679,11 +708,13 @@ std::vector<std::string> FxseqAudioProcessorEditor::getPresetList()
 
 std::vector<std::string> FxseqAudioProcessorEditor::getSkinList()
 {
-    // /!\ PLATFORM SPECIFIC CODE
+    std::vector<std::string> separators=getFileSeparators();
+    std::string sep=separators[0],hidden=separators[1]; 
+
     auto folders=get_directories(getPath("skins"));//get available folders in /skins
     std::vector<std::string> skinList;//={"default","red","green","yellow","purple","turquoise"};
     for (auto folder : folders) {      
-        if ( std::filesystem::exists(folder+"/skin.xml") ) {            // look for skin file
+        if ( std::filesystem::exists(folder+ sep + "skin.xml") ) {            // look for skin file
             std::string folderShort=folder.substr(getPath("skins").length()); // get skin folder name
             //debug.setText(debug.getText()+"\nfound skin "+folderShort);
             skinList.push_back(folderShort);  // add to skin list

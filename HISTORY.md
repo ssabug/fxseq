@@ -6,6 +6,7 @@
 #### TODO
 - [x] put all effects in separate .h files
 - [x] tidy source files arbo
+- [x] Linux/ Windows / Mac code & path compatibility (**TO BE TESTED**)
 - [ ] in parameter layout constructor find a way to destroy created effects objects
 - [ ] clean unused pluginProcessor variables
 - [ ] in PluginEditor, find a way to acquire plugin parameters attributes
@@ -15,15 +16,13 @@
 - [ ] add more effects :  convolution verb / stretcher /  **repeater is a miss for now**
 - [ ] cleaner way to pass colortemplates & skin/image paths
 #### BUGS
-- [ ] pitchshifter clicks
+- [x] pitchshifter clicks
 - [ ] strange behaviour while moving effect's position
-- [ ] effects gain should not apply to dry signal **partly corrected**
+- [x] effects gain should not apply to dry signal
 - [ ] effect position not restored on preset load (works with DAW save)
-- [x] saved presets are corrupted (empty pattern/sequence fields)
 - [ ] crashes in sequence mode
 - [ ] dry/wet for filter cracks
 - [ ] step on->off clicks for echo
-- [x] crusher clicks 
 - [ ] buffer seems wrongly initialised on press play(sequence mode)
 - [ ] latency (same problem as choppah) -> maybe due to chopper gain ramp
 

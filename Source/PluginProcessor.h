@@ -187,8 +187,6 @@ public:
                                                             }; 
     juce::AudioProcessorValueTreeState pluginParameters; 
   
-    //====REPEATER======================================================================
-    //float repeater_divison=1.0;
     //====Effects======================================================================
     DirtyRepeater repeater;
     //Repeater repeater;
@@ -201,21 +199,6 @@ public:
     Bitcrusher bitcrusher;
     CombFilter combFilter;
 private:
-    //====REPEATER======================================================================
-    /*void repeater_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer);
-    std::vector<std::vector<float>> repeater_buffer;
-    int buffer_pos=0;
-
-    int count = 0; 
-    int maxBufferSize;
-    int bufferSize;
-    bool enablePush = false;
-    int interval = 0;
-    int preserveInterval = 0;
-    //repeater_maxBufferSize;
-    //repeater_bufferSize;
-    juce::SmoothedValue<float,juce::ValueSmoothingTypes::Linear> buffer_smoothed[2];
-    juce::SmoothedValue<float,juce::ValueSmoothingTypes::Linear> interpolated[2];*/
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FxseqAudioProcessor)
 };

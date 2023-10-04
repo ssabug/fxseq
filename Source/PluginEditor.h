@@ -49,6 +49,8 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         void patternUtils(std::string action,int seqIndex);
         void updateMaster(std::string parameterName,float value);
         float getMasterParam(std::string parameterName);
+        //=======FILES=&=XML=================================================
+        std::vector<std::string> getFileSeparators();
         std::string getPath(std::string path);
         void initDirectories();
         std::vector<std::string> get_directories(const std::string& s);
