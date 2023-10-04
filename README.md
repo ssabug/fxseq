@@ -19,7 +19,7 @@ see ![DOCUMENTATION](DOCUMENTATION.md) for more details.
 
 It will create the folders and copy the plugin data in **${HOME}/.ssabug/fxseq/**
 
- - load the plugin in your DAW
+You're ready to go.
 
 ## Building 
 ### Linux
