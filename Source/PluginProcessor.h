@@ -199,7 +199,7 @@ public:
     Chopper chopper;
     Filter filter;
     Bitcrusher bitcrusher;
-    //CombFilter combFilter;
+    CombFilter combFilter;
 private:
     //====REPEATER======================================================================
     /*void repeater_process(juce::AudioBuffer<float>& buffer,juce::AudioBuffer<float>& dryBuffer);

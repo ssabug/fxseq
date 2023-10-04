@@ -16,6 +16,7 @@
 - [ ] cleaner way to pass colortemplates & skin/image paths
 #### BUGS
 - [ ] pitchshifter clicks
+- [ ] strange behaviour while moving effect's position
 - [ ] effects gain should not apply to dry signal **partly corrected**
 - [ ] effect position not restored on preset load (works with DAW save)
 - [x] saved presets are corrupted (empty pattern/sequence fields)

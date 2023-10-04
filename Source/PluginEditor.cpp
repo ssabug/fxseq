@@ -319,7 +319,7 @@ void FxseqAudioProcessorEditor::updateFxParam(int fxIndex,int programIndex, floa
     }
 
      if (effects[fxIndex].name == "Repeater") {
-        if (paramIndex==0) { processorParamName  += "size"; audioProcessor.repeater.changeParameter(paramIndex,paramValue);} 
+        if (paramIndex==0) { processorParamName  += "size"; audioProcessor.updateParameter(processorParamName,paramValue);} 
        /* if (paramIndex==0) { processorParamName  += "mSize";audioProcessor.updateParameter(processorParamName,paramValue);}
         //std::string paramName=effects[fxIndex].name + "_" + effects[fxIndex].paramsLabel[fxIndex].getText().toStdString();
         if (paramIndex==1) { processorParamName  += "count";audioProcessor.updateParameter(processorParamName,paramValue); } 
@@ -340,11 +340,11 @@ void FxseqAudioProcessorEditor::updateFxParam(int fxIndex,int programIndex, floa
     if (effects[fxIndex].name == "CombFilter") {
         if (paramIndex==0) {
             //audioProcessor.combFilter_setFrequency(paramValue);
-            //processorParamName  += "Frequency";audioProcessor.updateParameter(processorParamName,paramValue);
+            processorParamName  += "Frequency";audioProcessor.updateParameter(processorParamName,paramValue);
        }
         if (paramIndex==1) {
             //audioProcessor.combFilter_setFeedback(paramValue);
-            //processorParamName  += "Feedback";audioProcessor.updateParameter(processorParamName,paramValue);
+            processorParamName  += "Feedback";audioProcessor.updateParameter(processorParamName,paramValue);
        }
     }
 
@@ -480,12 +480,12 @@ std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxInd
         if (paramIndex==0) {
             if (paramProperty == "name")  {return {"Frequency"}; }
             if (paramProperty == "range") {return {"0.0","1000.0","0.1"}; }
-            if (paramProperty == "value") {return {std::__cxx11::to_string(0.0/*audioProcessor.getParameterValue("CombFilter_Frequency")*/)};} 
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("CombFilter_Frequency"))};} 
        }
         if (paramIndex==1) {    
             if (paramProperty == "name")  {return {"Feedback"}; }
             if (paramProperty == "range") {return {"0.0","0.99","0.01"}; }
-            if (paramProperty == "value") {return {std::__cxx11::to_string(0.0/*audioProcessor.getParameterValue("CombFilter_Feedback")*/)};} 
+            if (paramProperty == "value") {return {std::__cxx11::to_string(audioProcessor.getParameterValue("CombFilter_Feedback"))};} 
        }
     }
 

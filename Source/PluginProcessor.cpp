@@ -11,7 +11,7 @@
 #include <cmath>
 
 //==============================================================================
-std::vector<std::string> returnFxNames() {return {"Chopper","Echo","Filter","Crusher","Distortion","Repeater","RingMod","PitchShifter"}; };
+std::vector<std::string> returnFxNames() {return {"Chopper","Echo","Filter","Crusher","Distortion","Repeater","CombFilter","PitchShifter"}; };
 
 
 juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
@@ -187,7 +187,7 @@ void FxseqAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
     // Bitcrusher
     bitcrusher.prepareToPlay(sampleRate,samplesPerBlock);
     // Faust combfilter
-    //combFilter.prepareToPlay(sampleRate,samplesPerBlock);
+    combFilter.prepareToPlay(sampleRate,samplesPerBlock);
 
     // REPEATER
     /*repeater_buffer.clear();
@@ -213,7 +213,7 @@ void FxseqAudioProcessor::releaseResources()
     // Bitcrusher
     bitcrusher.releaseResources();
      // Faust combfilter
-    //combFilter.releaseResources();
+    combFilter.releaseResources();
 
     // REPEATER
     /*repeater_buffer.clear();
@@ -346,9 +346,11 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
                 break;
             case 6:
                 //ringMod_process(buffer);
-                for ( int par=0;par<ringMod.params.size();par++) {ringMod.changeParameter(par,getParameterValue(fxName+ringMod.params[par].name));}   
+                /*for ( int par=0;par<ringMod.params.size();par++) {ringMod.changeParameter(par,getParameterValue(fxName+ringMod.params[par].name));}   
                 ringMod.changeParameter(2,getParameterValue(gn));
-                ringMod.processBlock(buffer, numSamples, getParameterValue(gn), getParameterValue(dw), fxDepths_smoothed[i].getNextValue());
+                ringMod.processBlock(buffer, numSamples, getParameterValue(gn), getParameterValue(dw), fxDepths_smoothed[i].getNextValue());*/
+                for ( int par=0;par<combFilter.params.size();par++) {combFilter.changeParameter(par,getParameterValue(fxName+combFilter.params[par].name));}
+                combFilter.processBlock(buffer, numSamples, getParameterValue(gn), getParameterValue(dw), fxDepths_smoothed[i].getNextValue());
                 break;
             case 7:
                 //combFilter_process(buffer);

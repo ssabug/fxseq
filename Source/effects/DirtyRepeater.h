@@ -28,6 +28,7 @@ class DirtyRepeater : public juce::AudioProcessorValueTreeState::Listener
         {
             repeaterBuffer.setSize(2, samplesPerBlock); 
             crossfadeBuffer.setSize(2, samplesPerBlock); 
+            dryBuffer.setSize(2, samplesPerBlock);
             repeater_buffer.clear();
             buffer_pos=0;        
         };
@@ -40,8 +41,8 @@ class DirtyRepeater : public juce::AudioProcessorValueTreeState::Listener
 
 	    void processBlock(juce::AudioBuffer<float>& buffer, const int numSamples,float gain,float mix,float sequencerGate,float lastGate,double bpm, double ppq)
         {
-            int repeatSize=int( numSamples * (60.0 / (float) (bpm) * 8.0/*params[0].value*/ ));/*params[0].value));*/
-            mix*=sequencerGate;
+            int repeatSize=int( numSamples * (60.0 / (float) (bpm) * 16.0 * params[0].value ));/*params[0].value));*/ // 8 is cool
+            //mix*=sequencerGate;
             double smooth;
             double lastValue[2];
             int crossFadeStart=1;
@@ -82,7 +83,8 @@ class DirtyRepeater : public juce::AudioProcessorValueTreeState::Listener
                 auto* channelData = buffer.getWritePointer(channel);
                 auto* repeatData=  repeaterBuffer.getWritePointer(channel);
                 //auto* startData=  crossfadeBuffer.getWritePointer(channel);
-                
+                dryBuffer.copyFrom(channel, 0, buffer, channel, 0, numSamples);// copy dry input 
+
                 for (int sample = 0; sample < numSamples; sample++)
                 {
                     repeater_buffer[channel].insert(repeater_buffer[channel].end(),channelData[sample]);                                    
@@ -99,10 +101,15 @@ class DirtyRepeater : public juce::AudioProcessorValueTreeState::Listener
 
                 repeaterBuffer.applyGainRamp(channel,0,numSamples,lastGate,mmix);
                 buffer.applyGainRamp(channel,0,numSamples,1.0f-lastGate,1.0f-mmix);
-                for (int sample = 0; sample < numSamples; sample++) {
-                    channelData[sample]=repeatData[buffer_pos+sample]
-                }
-                //juce::FloatVectorOperations::add(buffer.getWritePointer(channel), repeaterBuffer.getReadPointer(channel), numSamples);
+                /*for (int sample = 0; sample < numSamples; sample++) {
+                    channelData[sample]=repeatData[buffer_pos+sample];
+                }*/
+                //juce::FloatVectorOperations::multiply(repeatData,mix , numSamples);
+                //juce::FloatVectorOperations::multiply(channelData, 1.0f-mix, numSamples);
+                juce::FloatVectorOperations::add(buffer.getWritePointer(channel), repeaterBuffer.getReadPointer(channel), numSamples);
+                juce::FloatVectorOperations::multiply(buffer.getWritePointer(channel),mix*gain , numSamples);
+                juce::FloatVectorOperations::multiply(dryBuffer.getWritePointer(channel),1.0-mix,numSamples);
+                juce::FloatVectorOperations::add(buffer.getWritePointer(channel), dryBuffer.getReadPointer(channel), numSamples);
             }
           
             if (buffer_pos < repeatSize ) {
@@ -117,7 +124,9 @@ class DirtyRepeater : public juce::AudioProcessorValueTreeState::Listener
             if ( paramIndex < params.size() )
             {
                 if (params[paramIndex].value != newValue)
-                {   
+                {  
+                    newValue=std::clamp(newValue,params[paramIndex].min,params[paramIndex].max);
+                     
                     if (params[paramIndex].type == "int")
                     {
                         params[paramIndex].value = int(newValue);
@@ -133,7 +142,7 @@ class DirtyRepeater : public juce::AudioProcessorValueTreeState::Listener
         void parameterChanged(const juce::String& paramID, float newValue) {}; 
         
         std::vector<std::vector<float>> repeater_buffer;
-        juce::AudioBuffer<float> repeaterBuffer,crossfadeBuffer;
+        juce::AudioBuffer<float> repeaterBuffer,crossfadeBuffer,dryBuffer;
         int buffer_pos=0;
         float unused;
         juce::SmoothedValue<float,juce::ValueSmoothingTypes::Linear> buffer_smoothed[2];

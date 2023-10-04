@@ -60,7 +60,7 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         void loadPreset(std::string presetName);
 
         int greatestClockMult=4;
-        std::vector<std::string> fxNamesStr={"Chopper","Echo","Filter","Crusher","Distortion","Repeater","RingMod","PitchShifter"};
+        std::vector<std::string> fxNamesStr={"Chopper","Echo","Filter","Crusher","Distortion","Repeater","CombFilter","PitchShifter"};
         std::vector<int> clipboard;
 
         std::string currentSkin="default",currentPreset="default",rootPath="/home/pwner/dev/fxseq/Ressources/";
@@ -98,7 +98,7 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
                                           EffectComponent(3,this,"Crusher","combo4","slider4","programbutton4"),
                                           EffectComponent(4,this,"Distortion","combo5","slider5","programbutton5"),
                                           EffectComponent(5,this,"Repeater","combo6","slider6","programbutton6"),
-                                          EffectComponent(6,this,"RingMod","combo7","slider7","programbutton7"),
+                                          EffectComponent(6,this,"CombFilter","combo7","slider7","programbutton7"),
                                           EffectComponent(7,this,"PitchShifter","combo8","slider8","programbutton8"),
                                          };
 

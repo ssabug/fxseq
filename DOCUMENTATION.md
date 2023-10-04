@@ -3,16 +3,17 @@
 ## Intro
 Fxseq is a step sequencer based multi effect.
 
-There are 8 effects : 
+There are 9 effects implemented : 
 
 - **Chopper** is a trance gate with step-defined enveloppes.
 - **Echo** is a [FAUST](https://faust.grame.fr/) example algorithm.
 - **Filter** is a built-in JUCE 12dB ladder filter.
 - **Bitcrusher** is a bit crusher/sample reducer based on [dfilaretti](https://github.com/dfilaretti/bitcrusher-demo-2/tree/master) code.
 - **Distortion** uses two different algorithms : classic & hard clipping.
-- **Repeater** is a live repeater **laggy and cracks like dry wood**
-- **RingMod** is a [FAUST](https://faust.grame.fr/) stereo ring modulator (found [here](https://ccrma.stanford.edu/wiki/FaustWorkshop2014#Stereo_Ring_Modulator) ). **buggy (sounds like a bitcruhser)**
-- **CombFilter** ( DISABLED ) is a [FAUST](https://faust.grame.fr/) comb filter (found [here](https://ccrma.stanford.edu/wiki/FaustWorkshop2014#Stereo_Ring_Modulator) ) **Doesnt work at all**
+- **FaustRepeater** *(disabled* is a [FAUST](https://faust.grame.fr/) live repeater **low sizes can crash the plugin**
+- **Repeater** is a live repeater **laggy and no loop start update**
+- **RingMod** *(disabled)* is a [FAUST](https://faust.grame.fr/) stereo ring modulator (found [here](https://ccrma.stanford.edu/wiki/FaustWorkshop2014#Stereo_Ring_Modulator) ). **buggy (sounds like a bitcruhser)**
+- **CombFilter** is a [FAUST](https://faust.grame.fr/) comb filter (found [here](https://ccrma.stanford.edu/wiki/FaustWorkshop2014#Feedforward_Comb_Filter) )
 - **PitchShifter** is a [FAUST](https://faust.grame.fr/) example algorithm.
 
 Using each effect sequencer, you can trigger each effect at given times.
@@ -29,7 +30,7 @@ Each effect is triggered by its own sequencer, for which you can change clock, s
 
 Steps on the sequencer can either be two-state (on/off) or multi-state ( 1/2/3/4 or enveloppe selection), depending on the effect.
 
-You can copy/paste/clear/reset each sequencer pattern using the 4 buttons + combobox in the **Options** sections.
+You can copy/paste/clear/reset each sequencer pattern using the 4 buttons & combo box in the **Options** sections.
 
 ### Sequence sequencer
 ![alt text](Ressources/images/sequenceSequencer.png)
@@ -73,4 +74,4 @@ In **sequence** mode, the sequencers play the patterns defined in the current se
 
 **Out gain** trims the output level.
 
-**Dry/wet** blends between dry input and processed signals.
+**Dry/wet** blends between dry and processed signals.
