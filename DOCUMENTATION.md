@@ -10,9 +10,9 @@ There are 9 effects implemented :
 - **Filter** is a built-in JUCE 12dB ladder filter.
 - **Bitcrusher** is a bit crusher/sample reducer based on [dfilaretti](https://github.com/dfilaretti/bitcrusher-demo-2/tree/master) code.
 - **Distortion** uses two different algorithms : classic & hard clipping.
-- **FaustRepeater** *(disabled* is a [FAUST](https://faust.grame.fr/) live repeater **low sizes can crash the plugin**
+- **FaustRepeater** **(disabled)** is a [FAUST](https://faust.grame.fr/) live repeater **low sizes can crash the plugin**
 - **Repeater** is a live repeater **laggy and no loop start update**
-- **RingMod** *(disabled)* is a [FAUST](https://faust.grame.fr/) stereo ring modulator (found [here](https://ccrma.stanford.edu/wiki/FaustWorkshop2014#Stereo_Ring_Modulator) ). **buggy (sounds like a bitcruhser)**
+- **RingMod** **(disabled)** is a [FAUST](https://faust.grame.fr/) stereo ring modulator (found [here](https://ccrma.stanford.edu/wiki/FaustWorkshop2014#Stereo_Ring_Modulator) ). **buggy (sounds like a bitcruhser)**
 - **CombFilter** is a [FAUST](https://faust.grame.fr/) comb filter (found [here](https://ccrma.stanford.edu/wiki/FaustWorkshop2014#Feedforward_Comb_Filter) )
 - **PitchShifter** is a [FAUST](https://faust.grame.fr/) example algorithm.
 
