@@ -3,7 +3,7 @@
 ## Intro
 Fxseq is a step sequencer based multi effect.
 
-There are 9 effects implemented : 
+There are 10 effects implemented : 
 
 - **Chopper** is a trance gate with step-defined enveloppes.
 - **Echo** is a [FAUST](https://faust.grame.fr/) example algorithm.
