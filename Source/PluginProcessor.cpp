@@ -303,18 +303,15 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
 
         switch (fxPositions[i])
         {
-            case 0:
-               //chopper_process(buffer,fx1drybuffer);
+            case 0: // CHOPPER
                 for ( int par=0;par<chopper.params.size();par++) {chopper.changeParameter(par,getParameterValue(fxName+chopper.params[par].name));}
                 chopper.processBlock(buffer,numSamples, getParameterValue(gn), getParameterValue(dw), fxDepths_smoothed[i].getNextValue(),lastFxDepths[i]);
                 break;
-            case 1: 
-                //echo_process(buffer);
+            case 1: // ECHO
                 for ( int par=0;par<echo.params.size();par++) {echo.changeParameter(par,getParameterValue(fxName+echo.params[par].name));}
                 echo.processBlock(buffer,numSamples, getParameterValue(gn), getParameterValue(dw), fxDepths_smoothed[i].getNextValue());
                 break;
-            case 2:
-                //filter_process(buffer,fx3drybuffer);
+            case 2: // FILTER
                 for ( int par=0;par<filter.params.size();par++) 
                 {
                     updateParameter(fxName+filter.params[par].name,fxPrograms[i][patterns[i][selected_pattern[i]][int(sequencerPositions[i]/resolution)]][par]);
@@ -322,8 +319,7 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
                 }
                 filter.processBlock(buffer, numSamples, getParameterValue(gn), getParameterValue(dw), fxDepths_smoothed[i].getNextValue());                             
                 break;
-            case 3:               
-                //bitcrush_process(buffer);
+            case 3: // BITCRUSHER              
                 for ( int par=0;par<bitcrusher.params.size();par++) 
                 {
                     updateParameter(fxName+bitcrusher.params[par].name,fxPrograms[i][patterns[i][selected_pattern[i]][int(sequencerPositions[i]/resolution)]][par]);
@@ -331,20 +327,18 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
                 }
                 bitcrusher.processBlock(buffer, numSamples, getParameterValue(gn), getParameterValue(dw), fxDepths_smoothed[i].getNextValue());    
                 break;
-            case 4:
-                //distortion_route(buffer);
+            case 4: // DISTORTION
                 for ( int par=0;par<distortion.params.size();par++) {distortion.changeParameter(par,getParameterValue(fxName+distortion.params[par].name));}
                 distortion.processBlock(buffer, numSamples, getParameterValue(gn), getParameterValue(dw), fxDepths_smoothed[i].getNextValue());
                 break;
-            case 5:
-                //repeater_process(buffer,fx3drybuffer);
+            case 5: // REPEATER
                 if (isPlaying) { 
                     for ( int par=0;par<repeater.params.size();par++) {repeater.changeParameter(par,getParameterValue(fxName+repeater.params[par].name));}
                     //repeater.processBlock(buffer, numSamples, getParameterValue(gn), getParameterValue(dw), fxDepths_smoothed[i].getNextValue()); 
                     repeater.processBlock(buffer, numSamples, getParameterValue(gn), getParameterValue(dw), fxDepths_smoothed[i].getNextValue(),lastFxDepths[i],bpm,ppq);
                 }
                 break;
-            case 6:
+            case 6: // COMBFILTER
                 //ringMod_process(buffer);
                 /*for ( int par=0;par<ringMod.params.size();par++) {ringMod.changeParameter(par,getParameterValue(fxName+ringMod.params[par].name));}   
                 ringMod.changeParameter(2,getParameterValue(gn));
@@ -352,9 +346,7 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
                 for ( int par=0;par<combFilter.params.size();par++) {combFilter.changeParameter(par,getParameterValue(fxName+combFilter.params[par].name));}
                 combFilter.processBlock(buffer, numSamples, getParameterValue(gn), getParameterValue(dw), fxDepths_smoothed[i].getNextValue());
                 break;
-            case 7:
-                //combFilter_process(buffer);
-                //pitchShifter_process(buffer);
+            case 7: // PITCHSHIFTER
                 for ( int par=0;par<pitchShifter.params.size();par++) {pitchShifter.changeParameter(par,getParameterValue(fxName+pitchShifter.params[par].name));}
                 pitchShifter.processBlock(buffer, numSamples, getParameterValue(gn), getParameterValue(dw), fxDepths_smoothed[i].getNextValue());
                 break; 

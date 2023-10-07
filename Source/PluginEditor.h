@@ -72,6 +72,7 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         //UTILS
         std::vector<std::string> split(std::string s, std::string delimiter);
         int greatest(int n1,int n2,int n3,int n4);
+        int greatest(std::vector<int> seqClockDivs);
         int lowest(int n1,int n2,int n3,int n4);
         // XML //
         std::string readXMLParam(std::string xmlFilePath,std::string paramPath);
@@ -107,6 +108,8 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         OptionsComponent options= OptionsComponent(this,"combo1","slider1","textbutton1");
     
         OutputComponent output= OutputComponent(this,"combo1","slider1","imagebutton1");
+        
+        juce::ImageButton logo;
 
         std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> outMixAttachement,outGainAttachement;
         std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> fxOutMixAttachement[8],fxOutGainAttachement[8],sequenceLengthAttachment;

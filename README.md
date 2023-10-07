@@ -1,7 +1,7 @@
 # Fxseq
 
 ## Description
-Fxseq is a step sequencer-based multi effect unlike dblue glitch or effectrix.
+Fxseq is a step sequencer-based multi effect like dblue glitch or effectrix.
 
 ![alt text](Ressources/images/GUI.png)
 

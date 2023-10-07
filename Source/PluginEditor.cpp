@@ -77,6 +77,12 @@ FxseqAudioProcessorEditor::FxseqAudioProcessorEditor (FxseqAudioProcessor& p)
 
     addAndMakeVisible(debugLog);
     
+    juce::Colour logoColour1=juce::Colour(sequenceSeq.comboColors[1][1]);
+    juce::Colour logoColour2= juce::Colour(sequenceSeq.comboColors[1][1] & 0xFF7F7F7F);
+    juce::Image img=juce::ImageFileFormat::loadFrom(juce::File(getPath("images")+"logo_1.png"));
+    logo.setImages (false, true, true,img, 1.000f,logoColour2 ,juce::Image(), 1.000f, logoColour1,img, 1.000f, logoColour1);
+    addAndMakeVisible(logo);
+    
     startTimerHz(30);
 }
 
@@ -106,6 +112,7 @@ void FxseqAudioProcessorEditor::paint (juce::Graphics& g)
 
     g.drawRect     (juce::Rectangle(1130,0,260,150), 2);
     g.drawRect     (juce::Rectangle(1130,160,260,150), 2);
+    g.drawRect     (juce::Rectangle(1130,530,260,270), 2);
 }
 
 void FxseqAudioProcessorEditor::resized()
@@ -132,6 +139,8 @@ void FxseqAudioProcessorEditor::resized()
     options.setBounds(1135,5,250,140);
 
     output.setBounds(1135,165,250,140);
+
+    logo.setBounds(1135,sequencerEndY+65,250,260);
 }
 
 void FxseqAudioProcessorEditor::timerCallback()
@@ -141,7 +150,9 @@ void FxseqAudioProcessorEditor::timerCallback()
     std::vector<int> positions;
     int sequencePosition;
     int sequenceLength=sequenceSeq.getSequenceLength();
-    greatestClockMult=(int)greatest(sequencers[0].clockMult,sequencers[1].clockMult,sequencers[2].clockMult,sequencers[3].clockMult);
+    std::vector<int> clockMults;
+    for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) { clockMults.push_back(sequencers[i].clockMult); }
+    greatestClockMult=(int)greatest(clockMults);
     audioProcessor.greatestClockMult=greatestClockMult;
 
     refreshSequencerPositions();
@@ -173,10 +184,6 @@ void FxseqAudioProcessorEditor::timerCallback()
                        +"selected pattern : " + select +  "\n"
                        + "fx chain " +  pos1 + "\n"
                        + audioProcessor.debug  + "\n" 	
-                       + std::__cxx11::to_string(audioProcessor.getParameterValue("PitchShifter_Frequency")) + "\nrepeater\n"
-                       + std::__cxx11::to_string( audioProcessor.getParameterValue("PitchShifter_Frequency") ) + "\n"
-                       + std::__cxx11::to_string( audioProcessor.getParameterValue("PitchShifter_Window") ) + "\n"
-                       + std::__cxx11::to_string( audioProcessor.getParameterValue("PitchShifter_Xfade") ) 
                       // +std::__cxx11::to_string(getMasterParam("sequencerMode")) + "\n"
                       // +std::__cxx11::to_string(this->getNumChildComponents()) +"\n"
                   //     +std::__cxx11::to_string(effects[1].getNumChildComponents()) +"\n"
@@ -586,6 +593,19 @@ int FxseqAudioProcessorEditor::greatest(int n1,int n2,int n3,int n4)
 
     return Greatest;
 }
+
+int FxseqAudioProcessorEditor::greatest(std::vector<int> seqClockDivs)
+{
+    int v=0;
+    for (int clock : seqClockDivs )
+    {
+        if (clock>v)
+        {
+            v=clock;
+        }
+    }
+    return v;
+} 
 
 int FxseqAudioProcessorEditor::lowest(int n1,int n2,int n3,int n4) 
 {

@@ -20,8 +20,8 @@
 - [ ] strange behaviour while moving effect's position
 - [x] effects gain should not apply to dry signal
 - [ ] effect position not restored on preset load (works with DAW save)
-- [ ] crashes in sequence mode
-- [ ] dry/wet for filter cracks
+- [x] crashes in sequence mode (actually because some default patterns included values > 1 for non program supporting fx)  
+- [x] dry/wet for filter cracks
 - [ ] step on->off clicks for echo
 - [ ] buffer seems wrongly initialised on press play(sequence mode)
 - [ ] latency (same problem as choppah) -> maybe due to chopper gain ramp
