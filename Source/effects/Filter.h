@@ -50,7 +50,7 @@ class Filter : public juce::AudioProcessorValueTreeState::Listener
             filterFreq_smoothed.setTargetValue(params[0].value);            
 
             dryBuffer.copyFrom(0, 0, buffer, 0, 0, buffer.getNumSamples());// copy dry input   
-            dryBuffer.copyFrom(1, 1, buffer, 1, 0, buffer.getNumSamples());// copy dry input   
+            dryBuffer.copyFrom(1, 0, buffer, 1, 0, buffer.getNumSamples());// copy dry input   
             
             juce::FloatVectorOperations::multiply(dryBuffer.getWritePointer(0), dry, buffer.getNumSamples());
 	        juce::FloatVectorOperations::multiply(dryBuffer.getWritePointer(1), dry, buffer.getNumSamples());

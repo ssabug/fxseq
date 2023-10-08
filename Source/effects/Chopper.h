@@ -31,18 +31,22 @@ class Chopper : public juce::AudioProcessorValueTreeState::Listener
 
             for (int channel = 0; channel < 2; ++channel) {
                 dryBuffer.copyFrom(channel, 0, buffer, channel, 0, buffer.getNumSamples());// copy dry input 
-                buffer.applyGainRamp(channel,0,numSamples,lastFxDepth,sequencerGate);  // chopper         
+                buffer.applyGainRamp(channel,0,numSamples,lastFxDepth,sequencerGate);  // chopper      
+                
+                juce::FloatVectorOperations::multiply(dryBuffer.getWritePointer(channel), dry, numSamples);
+                juce::FloatVectorOperations::multiply(buffer.getWritePointer(channel), wet, numSamples);   
+                juce::FloatVectorOperations::add(buffer.getWritePointer(channel), dryBuffer.getReadPointer(channel), numSamples);
             }
 
 
-            juce::FloatVectorOperations::multiply(dryBuffer.getWritePointer(0), dry, numSamples);
+            /*juce::FloatVectorOperations::multiply(dryBuffer.getWritePointer(0), dry, numSamples);
 	        juce::FloatVectorOperations::multiply(dryBuffer.getWritePointer(1), dry, numSamples);
 
 	        juce::FloatVectorOperations::multiply(buffer.getWritePointer(0), wet, numSamples);
 	        juce::FloatVectorOperations::multiply(buffer.getWritePointer(1), wet, numSamples);
 
 	        juce::FloatVectorOperations::add(buffer.getWritePointer(0), dryBuffer.getReadPointer(0), numSamples);
-	        juce::FloatVectorOperations::add(buffer.getWritePointer(1), dryBuffer.getReadPointer(1), numSamples);    
+	        juce::FloatVectorOperations::add(buffer.getWritePointer(1), dryBuffer.getReadPointer(1), numSamples);  */ 
 	    };
 
         void changeParameter(const int paramIndex, float newValue)

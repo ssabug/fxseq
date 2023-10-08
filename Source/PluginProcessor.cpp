@@ -357,9 +357,9 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel) 
     {
-        juce::FloatVectorOperations::multiply(masterDryBuffer.getWritePointer(channel), dry, buffer.getNumSamples()); // multiply dry buffer by gain * 1-wetvolume
-        juce::FloatVectorOperations::multiply(buffer.getWritePointer(channel), wet, buffer.getNumSamples()); // multiply wet buffer by gain * wetvolume
-	    juce::FloatVectorOperations::add(buffer.getWritePointer(channel), masterDryBuffer.getReadPointer(channel), buffer.getNumSamples());  // add dry to wet   
+        juce::FloatVectorOperations::multiply(masterDryBuffer.getWritePointer(channel), dry, numSamples); // multiply dry buffer by gain * 1-wetvolume
+        juce::FloatVectorOperations::multiply(buffer.getWritePointer(channel), wet, numSamples); // multiply wet buffer by gain * wetvolume
+	    juce::FloatVectorOperations::add(buffer.getWritePointer(channel), masterDryBuffer.getReadPointer(channel), numSamples);  // add dry to wet   
     } 
  
 }

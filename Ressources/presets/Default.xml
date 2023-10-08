@@ -2,84 +2,67 @@
 
 <PARAMETERS>
   <PARAM id="Chopper_clockDiv" value="2.0"/>
-  <PARAM id="Chopper_dry/wet" value="1.0"/>
+  <PARAM id="Chopper_dry/wet" value="0.09999999403953552"/>
   <PARAM id="Chopper_gain" value="0.09999999403953552"/>
   <PARAM id="Chopper_pattern" value="1.0"/>
   <PARAM id="Chopper_position" value="1.0"/>
-  <PARAM id="Crusher_bitdepth" value="1.0"/>
+  <PARAM id="CombFilter_Feedback" value="0.09999999403953552"/>
+  <PARAM id="CombFilter_Frequency" value="0.09999999403953552"/>
+  <PARAM id="CombFilter_clockDiv" value="2.0"/>
+  <PARAM id="CombFilter_dry/wet" value="1.0"/>
+  <PARAM id="CombFilter_gain" value="0.09999999403953552"/>
+  <PARAM id="CombFilter_pattern" value="2.0"/>
+  <PARAM id="CombFilter_position" value="1.0"/>
+  <PARAM id="Crusher_Bitdepth" value="1.0"/>
+  <PARAM id="Crusher_Reduction" value="1.0"/>
   <PARAM id="Crusher_clockDiv" value="2.0"/>
-  <PARAM id="Crusher_dry/wet" value="1.0"/>
+  <PARAM id="Crusher_dry/wet" value="0.09999999403953552"/>
   <PARAM id="Crusher_gain" value="0.09999999403953552"/>
   <PARAM id="Crusher_pattern" value="1.0"/>
   <PARAM id="Crusher_position" value="1.0"/>
-  <PARAM id="Crusher_reduction" value="1.0"/>
+  <PARAM id="Distortion_Type" value="1.0"/>
+  <PARAM id="Distortion_clockDiv" value="2.0"/>
+  <PARAM id="Distortion_dry/wet" value="0.09999999403953552"/>
+  <PARAM id="Distortion_gain" value="0.09999999403953552"/>
+  <PARAM id="Distortion_pattern" value="1.0"/>
+  <PARAM id="Distortion_position" value="1.0"/>
+  <PARAM id="Echo_Feedback" value="0.09999999403953552"/>
+  <PARAM id="Echo_Time" value="0.09999999403953552"/>
   <PARAM id="Echo_clockDiv" value="2.0"/>
-  <PARAM id="Echo_dry/wet" value="1.0"/>
-  <PARAM id="Echo_feedback" value="0.09999999403953552"/>
+  <PARAM id="Echo_dry/wet" value="0.09999999403953552"/>
   <PARAM id="Echo_gain" value="0.09999999403953552"/>
-  <PARAM id="Echo_pattern" value="2.0"/>
+  <PARAM id="Echo_pattern" value="1.0"/>
   <PARAM id="Echo_position" value="1.0"/>
-  <PARAM id="Echo_time" value="0.09999999403953552"/>
+  <PARAM id="Filter_Drive" value="1.0"/>
+  <PARAM id="Filter_Frequency" value="20.0"/>
+  <PARAM id="Filter_Resonance" value="1.0"/>
   <PARAM id="Filter_clockDiv" value="2.0"/>
-  <PARAM id="Filter_drive" value="1.0"/>
-  <PARAM id="Filter_dry/wet" value="1.0"/>
-  <PARAM id="Filter_frequency" value="20.0"/>
+  <PARAM id="Filter_dry/wet" value="0.09999999403953552"/>
   <PARAM id="Filter_gain" value="0.09999999403953552"/>
   <PARAM id="Filter_pattern" value="1.0"/>
   <PARAM id="Filter_position" value="1.0"/>
-  <PARAM id="Filter_resonance" value="0.09999999403953552"/>
+  <PARAM id="PitchShifter_Frequency" value="0.09999942779541016"/>
+  <PARAM id="PitchShifter_Window" value="50.0"/>
+  <PARAM id="PitchShifter_Xfade" value="1.0"/>
+  <PARAM id="PitchShifter_clockDiv" value="2.0"/>
+  <PARAM id="PitchShifter_dry/wet" value="0.09999999403953552"/>
+  <PARAM id="PitchShifter_gain" value="0.09999999403953552"/>
+  <PARAM id="PitchShifter_pattern" value="1.0"/>
+  <PARAM id="PitchShifter_position" value="1.0"/>
+  <PARAM id="Repeater_clockDiv" value="2.0"/>
+  <PARAM id="Repeater_dry/wet" value="0.09999999403953552"/>
+  <PARAM id="Repeater_gain" value="0.09999999403953552"/>
+  <PARAM id="Repeater_pattern" value="2.0"/>
+  <PARAM id="Repeater_position" value="1.0"/>
+  <PARAM id="Repeater_size" value="1.0"/>
   <PARAM id="drywet" value="1.0"/>
   <PARAM id="outgain" value="1.0"/>
   <PARAM id="sequenceLength" value="4.0"/>
   <PARAM id="sequenceNumber" value="1.0"/>
   <PARAM id="sequencerMode" value="0.0"/>
-  <PARAM id="Chorus_clockDiv"/>
-  <PARAM id="Chorus_dry/wet"/>
-  <PARAM id="Chorus_gain"/>
-  <PARAM id="Chorus_pattern"/>
-  <PARAM id="Chorus_position"/>
-  <PARAM id="Distortion_clockDiv"/>
-  <PARAM id="Distortion_dry/wet" value="0.09999999403953552"/>
-  <PARAM id="Distortion_gain" value="0.9599999785423279"/>
-  <PARAM id="Distortion_pattern"/>
-  <PARAM id="Distortion_position"/>
-  <PARAM id="Repeater_clockDiv"/>
-  <PARAM id="Repeater_dry/wet" value="0.09999999403953552"/>
-  <PARAM id="Repeater_gain" value="0.09999999403953552"/>
-  <PARAM id="Repeater_pattern"/>
-  <PARAM id="Repeater_position"/>
-  <PARAM id="Stretcher_clockDiv"/>
-  <PARAM id="Stretcher_dry/wet"/>
-  <PARAM id="Stretcher_gain"/>
-  <PARAM id="Stretcher_pattern"/>
-  <PARAM id="Stretcher_position"/>
-  <PARAM id="CombFilter_Feedback"/>
-  <PARAM id="CombFilter_Frequency"/>
-  <PARAM id="CombFilter_clockDiv"/>
-  <PARAM id="CombFilter_dry/wet" value="0.09999999403953552"/>
-  <PARAM id="CombFilter_gain" value="0.09999999403953552"/>
-  <PARAM id="CombFilter_pattern" value="1.0"/>
-  <PARAM id="CombFilter_position"/>
-  <PARAM id="Crusher_Bitdepth"/>
-  <PARAM id="Crusher_Reduction"/>
-  <PARAM id="Distortion_Type"/>
-  <PARAM id="Echo_Feedback"/>
-  <PARAM id="Echo_Time"/>
-  <PARAM id="Filter_Drive"/>
-  <PARAM id="Filter_Frequency"/>
-  <PARAM id="Filter_Resonance"/>
-  <PARAM id="PitchShifter_Frequency"/>
-  <PARAM id="PitchShifter_Window"/>
-  <PARAM id="PitchShifter_Xfade"/>
-  <PARAM id="PitchShifter_clockDiv" value="2.0"/>
-  <PARAM id="PitchShifter_dry/wet" value="0.09999999403953552"/>
-  <PARAM id="PitchShifter_gain"/>
-  <PARAM id="PitchShifter_pattern"/>
-  <PARAM id="PitchShifter_position"/>
-  <PARAM id="Repeater_size"/>
   <PATTERNS>
     <Chopper>
-      <PATTERN0>1230064417519046930</PATTERN0>
+      <PATTERN0>1229782938247303441</PATTERN0>
       <PATTERN1>281479271743489</PATTERN1>
       <PATTERN2>4294967297</PATTERN2>
       <PATTERN3>1</PATTERN3>
@@ -98,7 +81,7 @@
     </Chopper>
     <Echo>
       <PATTERN0>0</PATTERN0>
-      <PATTERN1>281479271743489</PATTERN1>
+      <PATTERN1>1229782938247303441</PATTERN1>
       <PATTERN2>4294967297</PATTERN2>
       <PATTERN3>1</PATTERN3>
       <PATTERN4>72340172838076673</PATTERN4>
@@ -121,8 +104,8 @@
       <PATTERN3>3689348814741910323</PATTERN3>
       <PATTERN4>4919131752989213764</PATTERN4>
       <PATTERN5>4837221284911858465</PATTERN5>
-      <PATTERN6>72340172838076673</PATTERN6>
-      <PATTERN7>72340172838076673</PATTERN7>
+      <PATTERN6>4904738926449730065</PATTERN6>
+      <PATTERN7>4919112987704430865</PATTERN7>
       <PATTERN8>72340172838076673</PATTERN8>
       <PATTERN9>72340172838076673</PATTERN9>
       <PATTERN10>72340172838076673</PATTERN10>
@@ -152,11 +135,11 @@
     </Crusher>
     <Distortion>
       <PATTERN0>0</PATTERN0>
-      <PATTERN1>1229764173535182848</PATTERN1>
-      <PATTERN2>2459565876494606882</PATTERN2>
-      <PATTERN3>3689348814741910323</PATTERN3>
-      <PATTERN4>4919131752989213764</PATTERN4>
-      <PATTERN5>4837221284911858465</PATTERN5>
+      <PATTERN1>1229782938247303441</PATTERN1>
+      <PATTERN2>4294967297</PATTERN2>
+      <PATTERN3>1</PATTERN3>
+      <PATTERN4>72340172838076673</PATTERN4>
+      <PATTERN5>72340172838076673</PATTERN5>
       <PATTERN6>72340172838076673</PATTERN6>
       <PATTERN7>72340172838076673</PATTERN7>
       <PATTERN8>72340172838076673</PATTERN8>
@@ -170,13 +153,13 @@
     </Distortion>
     <Repeater>
       <PATTERN0>0</PATTERN0>
-      <PATTERN1>1229782938247303441</PATTERN1>
-      <PATTERN2>2459565876494606882</PATTERN2>
-      <PATTERN3>3689348814741910323</PATTERN3>
-      <PATTERN4>4919131752989213764</PATTERN4>
-      <PATTERN5>4837221284911858465</PATTERN5>
-      <PATTERN6>72340172838076673</PATTERN6>
-      <PATTERN7>72340172838076673</PATTERN7>
+      <PATTERN1>1229764177560604945</PATTERN1>
+      <PATTERN2>18764712120593</PATTERN2>
+      <PATTERN3>1229782938247303441</PATTERN3>
+      <PATTERN4>18764997333248</PATTERN4>
+      <PATTERN5>1153202979868770304</PATTERN5>
+      <PATTERN6>4785147619639296</PATTERN6>
+      <PATTERN7>4294971665</PATTERN7>
       <PATTERN8>72340172838076673</PATTERN8>
       <PATTERN9>72340172838076673</PATTERN9>
       <PATTERN10>72340172838076673</PATTERN10>
@@ -189,10 +172,10 @@
     <CombFilter>
       <PATTERN0>0</PATTERN0>
       <PATTERN1>1229782938247303441</PATTERN1>
-      <PATTERN2>2459565876494606882</PATTERN2>
-      <PATTERN3>3689348814741910323</PATTERN3>
-      <PATTERN4>4919131752989213764</PATTERN4>
-      <PATTERN5>4837221284911858465</PATTERN5>
+      <PATTERN2>4294967297</PATTERN2>
+      <PATTERN3>1</PATTERN3>
+      <PATTERN4>72340172838076673</PATTERN4>
+      <PATTERN5>72340172838076673</PATTERN5>
       <PATTERN6>72340172838076673</PATTERN6>
       <PATTERN7>72340172838076673</PATTERN7>
       <PATTERN8>72340172838076673</PATTERN8>
@@ -211,7 +194,7 @@
       <PATTERN3>3689348814741910323</PATTERN3>
       <PATTERN4>4919131752989213764</PATTERN4>
       <PATTERN5>4837221284911858465</PATTERN5>
-      <PATTERN6>72340172838076673</PATTERN6>
+      <PATTERN6>6148914691236517205</PATTERN6>
       <PATTERN7>72340172838076673</PATTERN7>
       <PATTERN8>72340172838076673</PATTERN8>
       <PATTERN9>72340172838076673</PATTERN9>

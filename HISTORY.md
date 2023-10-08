@@ -8,15 +8,16 @@
 - [x] tidy source files arbo
 - [x] Linux/ Windows / Mac code & path compatibility (**TO BE TESTED**)
 - [ ] in parameter layout constructor find a way to destroy created effects objects
-- [ ] clean unused pluginProcessor variables
+- [x] clean unused pluginProcessor variables
 - [ ] in PluginEditor, find a way to acquire plugin parameters attributes
 - [ ] betatest pluginParameters values loading at editor start **(and processor start as well)** 
 - [ ] implement load/save config + programParameters from XML presets 
-- [ ] ring modulator (**sounds strange**) / pitch shifter (**freq sweep to be improved**) / combFilter (**doesnt work**)
-- [ ] add more effects :  convolution verb / stretcher /  **repeater is a miss for now**
+- [x] pitch shifter (**freq sweep to be improved**) / combFilter (**doesnt work**)
+- [ ] add more effects :  fix ring modulator (**sounds strange**) / convolution verb / stretcher /  **repeater is a miss for now**
 - [ ] cleaner way to pass colortemplates & skin/image paths
 #### BUGS
 - [x] pitchshifter clicks
+- [x] wet output is mono (was combfilter)
 - [ ] strange behaviour while moving effect's position
 - [x] effects gain should not apply to dry signal
 - [ ] effect position not restored on preset load (works with DAW save)

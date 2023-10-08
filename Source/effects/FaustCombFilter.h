@@ -66,7 +66,7 @@ class CombFilter : public juce::AudioProcessorValueTreeState::Listener
             DSP->compute(numSamples,Inputs,Outputs);
             for (int channel = 0; channel < 2; ++channel) {
                 for (int i = 0; i < numSamples; i++){
-                    *buffer.getWritePointer(channel,i) =gain*Outputs[0][i]*sequencerGate*mix + (1-mix*sequencerGate) * Inputs[0][i];  
+                    *buffer.getWritePointer(channel,i) =gain*Outputs[0][i]*sequencerGate*mix + (1-mix*sequencerGate) * buffer.getReadPointer(channel)[i];  
                 }
             }
 		    
