@@ -6,24 +6,26 @@
 #### TODO
 - [x] put all effects in separate .h files
 - [x] tidy source files arbo
-- [x] Linux/ Windows / Mac code & path compatibility (**TO BE TESTED**)
-- [ ] in parameter layout constructor find a way to destroy created effects objects
+- [x] Linux / Windows / Mac code & path compatibility (**TO BE TESTED**)
 - [x] clean unused pluginProcessor variables
+- [ ] implement load/save programParameters from XML presets (config not required but **find a way to store skin**)
+- [ ] add program parameters to combFilter
 - [ ] in PluginEditor, find a way to acquire plugin parameters attributes
 - [ ] betatest pluginParameters values loading at editor start **(and processor start as well)** 
-- [ ] implement load/save config + programParameters from XML presets 
 - [x] pitch shifter (**freq sweep to be improved**) / combFilter (**doesnt work**)
-- [ ] add more effects :  fix ring modulator (**sounds strange**) / convolution verb / stretcher /  **repeater is a miss for now**
+- [ ] add more effects :  fix ring modulator (**sounds strange**) / convolution verb / stretcher / 
 - [ ] cleaner way to pass colortemplates & skin/image paths
+- [ ] in parameter layout constructor find a way to destroy created effects objects
 #### BUGS
 - [x] pitchshifter clicks
+- [ ] combFilter clicks
+- [ ] echo step on->off clicks
 - [x] wet output is mono (was combfilter)
 - [ ] strange behaviour while moving effect's position
 - [x] effects gain should not apply to dry signal
 - [ ] effect position not restored on preset load (works with DAW save)
 - [x] crashes in sequence mode (actually because some default patterns included values > 1 for non program supporting fx)  
 - [x] dry/wet for filter cracks
-- [ ] step on->off clicks for echo
 - [ ] buffer seems wrongly initialised on press play(sequence mode)
 - [ ] latency (same problem as choppah) -> maybe due to chopper gain ramp
 

@@ -17,7 +17,7 @@ FxseqAudioProcessorEditor::FxseqAudioProcessorEditor (FxseqAudioProcessor& p)
     
     //fxNamesStr=audioProcessor.fxNamesStr;
 
-    //initDirectories();
+    initDirectories();
 
     std::string skinFilePath=getPath("currentSkinFile");
     std::string imagePath=getPath("images");
@@ -373,6 +373,7 @@ void FxseqAudioProcessorEditor::updateFxParam(int fxIndex,int programIndex, floa
 
 std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxIndex, int paramIndex, int programIndex,std::string paramProperty)
 {
+    audioProcessor.getParameterProperty(fxIndex,paramIndex,paramProperty,programIndex);
     
     if (effects[fxIndex].name == "Echo") {
         if (paramProperty == "hasPrograms") { return {"0"}; }

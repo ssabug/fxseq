@@ -37,7 +37,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
 
         std::vector<EffectParameter> paramList;
 
-        if (fxNamesStr[i-1] == "Repeater")    { DirtyRepeater/*Repeater*/ rpt;    paramList=rpt.params;}
+        if (fxNamesStr[i-1] == "Repeater")    { DirtyRepeater rpt;    paramList=rpt.params;}
         if (fxNamesStr[i-1] == "Echo")        { Echo ech;        paramList=ech.params;}
         if (fxNamesStr[i-1] == "RingMod")     { RingMod rmd;     paramList=rmd.params;}
         if (fxNamesStr[i-1] == "CombFilter")  { CombFilter cft;  paramList=cft.params;}
@@ -496,6 +496,7 @@ float FxseqAudioProcessor::getEffectProgramParameterValue(int fxIndex,int progra
 
 std::vector<std::string> FxseqAudioProcessor::getParameterProperty(int fxIndex,int paramIndex,std::string paramProperty,int programIndex)
 {
+    //debug+="\n" + paramProperty + std::__cxx11::to_string(fxIndex) + " " + std::__cxx11::to_string(paramIndex);
   // std::ofstream file("/home/pwner/dev/fxseq/log.txt");file << "before shit" ;
 
    /*std::string fxName=returnFxNames()[fxIndex];//fxNamesStr[0];

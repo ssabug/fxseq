@@ -30,7 +30,7 @@ Each effect is triggered by its own sequencer, for which you can change clock, s
 
 Steps on the sequencer can either be two-state (on/off) or multi-state ( 1/2/3/4 or enveloppe selection), depending on the effect.
 
-You can copy/paste/clear/reset each sequencer pattern using the 4 buttons & combo box in the **Options** sections.
+You can copy/paste/clear/reset each sequencer pattern using the 4 buttons & combo box in the **Options** section.
 
 ### Sequence sequencer
 ![alt text](Ressources/images/sequenceSequencer.png)
@@ -43,7 +43,7 @@ You can switch between sequences using the left combobox.
 
 **Sequence length** slider changes the length of the sequence. 
 
-If the sequencers' clock are different, the step length of the sequence will be the same as the slowest sequencer.
+If the sequencers' clock are different, the clock of the sequence will be the same as the slowest sequencer.
 
 ### Effects
 ![alt text](Ressources/images/effects.png)

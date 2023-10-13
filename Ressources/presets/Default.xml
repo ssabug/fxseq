@@ -2,42 +2,42 @@
 
 <PARAMETERS>
   <PARAM id="Chopper_clockDiv" value="2.0"/>
-  <PARAM id="Chopper_dry/wet" value="0.09999999403953552"/>
-  <PARAM id="Chopper_gain" value="0.09999999403953552"/>
+  <PARAM id="Chopper_dry/wet" value="1.0"/>
+  <PARAM id="Chopper_gain" value="0.9799999594688416"/>
   <PARAM id="Chopper_pattern" value="1.0"/>
   <PARAM id="Chopper_position" value="1.0"/>
   <PARAM id="CombFilter_Feedback" value="0.09999999403953552"/>
   <PARAM id="CombFilter_Frequency" value="0.09999999403953552"/>
   <PARAM id="CombFilter_clockDiv" value="2.0"/>
   <PARAM id="CombFilter_dry/wet" value="1.0"/>
-  <PARAM id="CombFilter_gain" value="0.09999999403953552"/>
-  <PARAM id="CombFilter_pattern" value="2.0"/>
+  <PARAM id="CombFilter_gain" value="1.0"/>
+  <PARAM id="CombFilter_pattern" value="1.0"/>
   <PARAM id="CombFilter_position" value="1.0"/>
   <PARAM id="Crusher_Bitdepth" value="1.0"/>
   <PARAM id="Crusher_Reduction" value="1.0"/>
   <PARAM id="Crusher_clockDiv" value="2.0"/>
-  <PARAM id="Crusher_dry/wet" value="0.09999999403953552"/>
-  <PARAM id="Crusher_gain" value="0.09999999403953552"/>
+  <PARAM id="Crusher_dry/wet" value="1.0"/>
+  <PARAM id="Crusher_gain" value="1.019999980926514"/>
   <PARAM id="Crusher_pattern" value="1.0"/>
   <PARAM id="Crusher_position" value="1.0"/>
   <PARAM id="Distortion_Type" value="1.0"/>
   <PARAM id="Distortion_clockDiv" value="2.0"/>
-  <PARAM id="Distortion_dry/wet" value="0.09999999403953552"/>
-  <PARAM id="Distortion_gain" value="0.09999999403953552"/>
+  <PARAM id="Distortion_dry/wet" value="1.0"/>
+  <PARAM id="Distortion_gain" value="0.9699999690055847"/>
   <PARAM id="Distortion_pattern" value="1.0"/>
   <PARAM id="Distortion_position" value="1.0"/>
   <PARAM id="Echo_Feedback" value="0.09999999403953552"/>
   <PARAM id="Echo_Time" value="0.09999999403953552"/>
   <PARAM id="Echo_clockDiv" value="2.0"/>
-  <PARAM id="Echo_dry/wet" value="0.09999999403953552"/>
-  <PARAM id="Echo_gain" value="0.09999999403953552"/>
+  <PARAM id="Echo_dry/wet" value="1.0"/>
+  <PARAM id="Echo_gain" value="0.9699999690055847"/>
   <PARAM id="Echo_pattern" value="1.0"/>
   <PARAM id="Echo_position" value="1.0"/>
   <PARAM id="Filter_Drive" value="1.0"/>
   <PARAM id="Filter_Frequency" value="20.0"/>
   <PARAM id="Filter_Resonance" value="1.0"/>
   <PARAM id="Filter_clockDiv" value="2.0"/>
-  <PARAM id="Filter_dry/wet" value="0.09999999403953552"/>
+  <PARAM id="Filter_dry/wet" value="1.0"/>
   <PARAM id="Filter_gain" value="0.09999999403953552"/>
   <PARAM id="Filter_pattern" value="1.0"/>
   <PARAM id="Filter_position" value="1.0"/>
@@ -45,13 +45,13 @@
   <PARAM id="PitchShifter_Window" value="50.0"/>
   <PARAM id="PitchShifter_Xfade" value="1.0"/>
   <PARAM id="PitchShifter_clockDiv" value="2.0"/>
-  <PARAM id="PitchShifter_dry/wet" value="0.09999999403953552"/>
+  <PARAM id="PitchShifter_dry/wet" value="1.0"/>
   <PARAM id="PitchShifter_gain" value="0.09999999403953552"/>
   <PARAM id="PitchShifter_pattern" value="1.0"/>
   <PARAM id="PitchShifter_position" value="1.0"/>
   <PARAM id="Repeater_clockDiv" value="2.0"/>
-  <PARAM id="Repeater_dry/wet" value="0.09999999403953552"/>
-  <PARAM id="Repeater_gain" value="0.09999999403953552"/>
+  <PARAM id="Repeater_dry/wet" value="1.0"/>
+  <PARAM id="Repeater_gain" value="0.9699999690055847"/>
   <PARAM id="Repeater_pattern" value="2.0"/>
   <PARAM id="Repeater_position" value="1.0"/>
   <PARAM id="Repeater_size" value="1.0"/>

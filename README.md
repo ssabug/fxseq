@@ -15,7 +15,7 @@ see ![DOCUMENTATION](DOCUMENTATION.md) for more details.
 ### Linux
  - get the pre-built **.vst3** folder in **Releases** or build it (see below).
  - put it in your VST3 folder
- - run the script `./Ressources/scripts/copy_plugin_data.sh [path to downloaded github stuff]`
+ - run the script `./Ressources/scripts/copy_plugin_data_linux.sh [path to downloaded github stuff]`
 
 It will create the folders and copy the plugin data in **${HOME}/.ssabug/fxseq/**
 
