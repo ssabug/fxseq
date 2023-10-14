@@ -264,7 +264,7 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
         {   
             sequencerClockMult[i]=(int)pow(2,(pluginParameters.getParameter(fxNamesStr[i] + "_clockDiv")->getValue()*7));    // get clock mult 
             sequencerPositions[i]=int(std::floor( std::modf(ppq/sequencerClockMult[i],&unused)*(16*resolution))); // compute position on pattern
-            if (not (bool)pluginParameters.getParameter("sequencerMode")->getValue()){  // PATTERN MODE          
+            if (!(bool)pluginParameters.getParameter("sequencerMode")->getValue()){  // PATTERN MODE          
                 selected_pattern[i]=(int)getParameterValue(fxNamesStr[i] + "_pattern"); //get selected pattern
             } else {                                                                   // SEQUENCE MODE
                 int selectedSequence=(int)(pluginParameters.getParameter("sequenceNumber")->getValue()*15); // get selected sequence                
@@ -441,7 +441,7 @@ std::vector<float> FxseqAudioProcessor::generateGainPattern(int sequencerIndex,i
         for(int i=0;i<resolution;i++)
         {    
             if (value > 0) {
-                if ( (sequencerIndex == 0) or (sequencerIndex==7) ) { outVector.push_back(enveloppes[value-1][i]);}
+                if ( (sequencerIndex == 0) || (sequencerIndex==7) ) { outVector.push_back(enveloppes[value-1][i]);}
                 else { outVector.push_back(std::clamp((float)value,0.0f,1.0f)); }
                 
             } else {
@@ -780,7 +780,7 @@ juce::XmlElement* FxseqAudioProcessor::getAllSequencesXml()
 
 void FxseqAudioProcessor::loadPatternsAndSequencesFromXMLFile(std::string fileName)
 {
-    if ( not std::filesystem::exists(fileName) )  {
+    if ( !std::filesystem::exists(fileName) )  {
 
     } else 
     {

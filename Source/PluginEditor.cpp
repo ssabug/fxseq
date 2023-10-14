@@ -167,7 +167,7 @@ void FxseqAudioProcessorEditor::timerCallback()
 
         positions.push_back(int(std::floor( std::modf(ppq/sequencers[i].clockMult,&unused)*(16))));
 
-        if ( (options.scroll) and (options.sequenceMode) ) {
+        if ( (options.scroll) && (options.sequenceMode) ) {
             sequencers[i].remoteChangeSelectedPattern(sequenceSeq.sequence[sequencePosition]);
         }
 
@@ -655,11 +655,11 @@ void FxseqAudioProcessorEditor::initDirectories()
     std::string devPath=homePath+ sep + hidden + "ssabug" +sep;
     rootPath=devPath+"fxseq"+ sep;
     
-    if ( not std::filesystem::exists(devPath) )  {
+    if ( !std::filesystem::exists(devPath) )  {
         std::filesystem::create_directory(devPath);
     }
 
-    if ( not std::filesystem::exists(rootPath) )  {
+    if ( !std::filesystem::exists(rootPath) )  {
         std::filesystem::create_directory(rootPath);
         std::filesystem::create_directory(getPath("config"));
         std::filesystem::create_directory(getPath("presets"));
@@ -723,7 +723,7 @@ std::vector<std::string> FxseqAudioProcessorEditor::getPresetList()
 {
     std::vector<std::string> presetFiles;
     for (const auto & entry : std::filesystem::directory_iterator(getPath("presets"))) {
-        std::string file=entry.path();
+        std::string file=entry.path().string();
         if (file.find(".xml") != std::string::npos ) {
             presetFiles.push_back(file);
         }
@@ -805,7 +805,7 @@ std::string FxseqAudioProcessorEditor::readXMLParam(std::string xmlFilePath,std:
     categoryTagName=v[1];
     paramTagName=v[2];
     
-    if ( not std::filesystem::exists(std::string(xmlFilePath)) )  {
+    if ( !std::filesystem::exists(std::string(xmlFilePath)) )  {
 
     } else {
         juce::File xmlFile(xmlFilePath);
@@ -838,7 +838,7 @@ std::vector<std::string> FxseqAudioProcessorEditor::readXMLVectorParam(std::stri
     subCategoryTagName=v[2];
     subSubCategoryTagName=v[3];
     
-    if ( not std::filesystem::exists(std::string(xmlFilePath)) )  {
+    if ( !std::filesystem::exists(std::string(xmlFilePath)) )  {
 
     } else {
         juce::File xmlFile(xmlFilePath);
@@ -881,7 +881,7 @@ std::vector<std::vector<int>> FxseqAudioProcessorEditor::readXMLVector2Param(std
     
     //debugLog.setText(debugLog.getText() + "\n" + xmlFilePath + "\n" + rootTagName + "\n" + categoryTagName + "\n" + subCategoryTagName + "\n" + subSubCategoryTagName);
 
-    if ( not std::filesystem::exists(std::string(xmlFilePath)) )  {
+    if ( !std::filesystem::exists(std::string(xmlFilePath)) )  {
 
     } else {
         juce::File xmlFile(xmlFilePath);

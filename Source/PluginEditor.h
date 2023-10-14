@@ -65,7 +65,7 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         std::vector<std::string> fxNamesStr={"Chopper","Echo","Filter","Crusher","Distortion","Repeater","CombFilter","PitchShifter"};
         std::vector<int> clipboard;
 
-        std::string currentSkin="default",currentPreset="default",rootPath/*="/home/pwner/dev/fxseq/Ressources/"*/;
+        std::string currentSkin="default",currentPreset="default",rootPath;
         std::string debugtext;
     private:
         void timerCallback();

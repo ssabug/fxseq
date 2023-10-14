@@ -127,7 +127,7 @@ void OptionsComponent::skinChange()
 
     sequencerMode.setSelectedItemIndex(int(APE->getMasterParam("sequencerMode")));
 
-    if (not scroll) { scrollPatterns.setColour(juce::TextButton::buttonColourId,juce::Colours::black);}
+    if ( !scroll) { scrollPatterns.setColour(juce::TextButton::buttonColourId,juce::Colours::black);}
     else {scrollPatterns.setColour(juce::TextButton::buttonColourId,juce::Colour(imageButtonColors[0][1]));}
 }
 ////////////////////////////////////////////// TEMPLATES //////////////////////////////////////////////
@@ -155,7 +155,7 @@ void OptionsComponent::savePreset()
     
     if (presetText  != "" ) {
         //writeXMLPreset("/home/pwner/.ssabug/choppah/presets/test.xml");    
-        if ( not APE->presetExists(presetText)) {
+        if ( !APE->presetExists(presetText)) {
             presetSelected.addItem (TRANS(presetText), presetSelected.getNumItems()+1);
         } 
         APE->saveXMLPreset(presetText);
