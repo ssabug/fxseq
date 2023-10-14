@@ -29,9 +29,9 @@ You're ready to go.
  - The script will ask for your **JUCE/modules** path
  - the VST3 folder will be in the  **Builds/LinuxMakefile/build/fxseq.vst3** directory
 
-Tested OSs  : Fedora
+Tested OSs  : Fedora, Arch Linux
 
-Tested DAWs : Bitwig
+Tested DAWs : Bitwig, Ardour **(not working)**
 
 ## History
 see ![HISTORY](HISTORY.md) for more details.

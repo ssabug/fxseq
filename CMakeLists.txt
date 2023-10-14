@@ -1,13 +1,34 @@
 cmake_minimum_required(VERSION 3.22)
 
+set(CMAKE_CXX_STANDARD 20)
+#target_compile_features (fxseq-${format} PRIVATE cxx_std_20)
+
+set(COMP_TARGET "The system to be built for (linux or windows)" "linux")
+
+if (COMP_TARGET STREQUAL "windows")
+
+    set(CMAKE_SYSTEM_NAME Windows)
+    add_definitions(-D_WIN32_WINNT=0x0603) # windows vista is 0x0600, 8.1 is 0x0603
+    set(CMAKE_SYSTEM_PROCESSOR x86_64)
+    set(THREADS_PREFER_PTHREAD_FLAG ON)
+
+    set(TOOLCHAIN_PREFIX x86_64-w64-mingw32)
+    set(TOOLCHAIN_SUFFIX -posix) #or ""
+    set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}-gcc${TOOLCHAIN_SUFFIX})
+    set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}-g++${TOOLCHAIN_SUFFIX})
+    set(CMAKE_RC_COMPILER ${TOOLCHAIN_PREFIX}-windres)
+    set(CMAKE_CXX_COMPILER /usr/bin/x86_64-w64-mingw32-g++${TOOLCHAIN_SUFFIX})
+   
+    #set(CMAKE_FIND_ROOT_PATH /usr/share/mingw-w64/include)
+    set(CMAKE_FIND_ROOT_PATH /usr/x86_64-w64-mingw32/include/) #path to mingw windows sdk
+endif()
+
 project (fxseq VERSION 0.1)
 
 # Adding JUCE
 add_subdirectory (External/JUCE)
+#add_subdirectory (JuceLibraryCode)
 
-
-# Set the C++ compiler to the cross-compiler for Windows
-#set(CMAKE_CXX_COMPILER /path/to/cross-compiler)
 # The subdirectory contains its own CMakeLists that creates BinaryData targets containing graphics and fonts
 #add_subdirectory (BinaryResources)
 
@@ -26,7 +47,7 @@ function (add_fxseq_version format)
 # Add the plugin target itself
 juce_add_plugin (fxseq-${format}
 
-        COMPANY_NAME Ssabug
+        COMPANY_NAME ssabug
         PRODUCT_NAME "fxseq"
 
         COPY_PLUGIN_AFTER_BUILD ${COPY_PLUGIN_AFTER_BUILD}
@@ -34,10 +55,10 @@ juce_add_plugin (fxseq-${format}
 
         ${ARGN})
 
-# We want to compile the plugin with C++14
-target_compile_features (fxseq-${format} PRIVATE cxx_std_17)
-set(CMAKE_CXX_STANDARD 17)
+
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall  -O3 -march=native -std=c++11")
+
+
 # Gather some info regarding our git commit to inject them into a header file.
 #jb_add_git_version_info (fxseq-${format})
 
@@ -113,15 +134,21 @@ add_fxseq_version (VST3
 
         target_compile_definitions (fxseq-VST3 PRIVATE JUCE_DISPLAY_SPLASH_SCREEN=0)
 
-#add_fxseq_version (LV2
-        # A four-character manufacturer id with at least one upper-case character
-#        PLUGIN_MANUFACTURER_CODE Sabg
-        # A unique four-character plugin id with at least one upper-case character
-#        PLUGIN_CODE FXSQ
 
- #       LV2URI "http://github.com/ssabug/fxseq"
-#        LVZ_SHARED_LIBRARY_NAME fxseq)
- #       target_compile_definitions (fxseq-LV2 PRIVATE JUCE_DISPLAY_SPLASH_SCREEN=0)
+
+add_fxseq_version (LV2
+        # A four-character manufacturer id with at least one upper-case character
+        PLUGIN_MANUFACTURER_CODE Sabg
+        # A unique four-character plugin id with at least one upper-case character
+        PLUGIN_CODE FXSQ
+        # When the fxseq was released, there was a bug in JUCE that wrongly reported the plugin code "proj". Applying this
+        # to not break existing sessions
+        USE_LEGACY_COMPATIBILITY_PLUGIN_CODE TRUE
+
+        LV2URI "http://github.com/ssabug/fxseq"
+        LVZ_SHARED_LIBRARY_NAME fxseq)
+        target_compile_definitions (fxseq-LV2 PRIVATE JUCE_DISPLAY_SPLASH_SCREEN=0)
+
 
 if (APPLE)
 add_fxseq_version (AU
@@ -165,5 +192,5 @@ target_link_libraries (fxseq-ALL_FORMATS
     INTERFACE
     fxseq-AU_AU
     fxseq-VST3_VST3
-    #fxseq-LV2_LV2
+    fxseq-LV2_LV2
     fxseq-AAX_AAX)
