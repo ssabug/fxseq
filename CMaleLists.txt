@@ -1,0 +1,169 @@
+cmake_minimum_required(VERSION 3.22)
+
+project (fxseq VERSION 0.1)
+
+# Adding JUCE
+add_subdirectory (External/JUCE)
+
+
+# Set the C++ compiler to the cross-compiler for Windows
+#set(CMAKE_CXX_COMPILER /path/to/cross-compiler)
+# The subdirectory contains its own CMakeLists that creates BinaryData targets containing graphics and fonts
+#add_subdirectory (BinaryResources)
+
+# Adding JSON
+#set (JSON_BuildTests OFF CACHE INTERNAL "")
+#set (JSON_Install OFF CACHE INTERNAL "")
+#add_subdirectory (Ext/JBPluginBase)
+#add_subdirectory (Ext/Resvg4JUCE)
+
+if (NOT DEFINED COPY_PLUGIN_AFTER_BUILD)
+    set (COPY_PLUGIN_AFTER_BUILD TRUE)
+endif()
+
+function (add_fxseq_version format)
+
+# Add the plugin target itself
+juce_add_plugin (fxseq-${format}
+
+        COMPANY_NAME Ssabug
+        PRODUCT_NAME "fxseq"
+
+        COPY_PLUGIN_AFTER_BUILD ${COPY_PLUGIN_AFTER_BUILD}
+        FORMATS ${format}
+
+        ${ARGN})
+
+# We want to compile the plugin with C++14
+target_compile_features (fxseq-${format} PRIVATE cxx_std_17)
+set(CMAKE_CXX_STANDARD 17)
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall  -O3 -march=native -std=c++11")
+# Gather some info regarding our git commit to inject them into a header file.
+#jb_add_git_version_info (fxseq-${format})
+
+# Adding all source files to the plugin target
+target_sources (fxseq-${format}
+    PRIVATE
+        Source/PluginProcessor.cpp
+        Source/PluginEditor.cpp
+        Source/ui/EffectComponent.cpp
+        Source/ui/OptionsComponent.cpp
+        Source/ui/OutputComponent.cpp
+        Source/ui/SequencerComponent.cpp
+        Source/ui/SequenceSequencerComponent.cpp)
+
+target_compile_definitions (fxseq-${format}
+    PUBLIC
+        DONT_SET_USING_JUCE_NAMESPACE=1
+        JUCE_WEB_BROWSER=0
+        JUCE_USE_CURL=0
+        JUCE_STRICT_REFCOUNTEDPTR=1
+        JUCE_VST3_CAN_REPLACE_VST2=0
+        JB_INCLUDE_JSON=1)
+
+target_link_libraries (fxseq-${format}
+    PRIVATE
+        # JUCE Modules
+        juce::juce_dsp
+
+        # Custom modules
+        #jb_plugin_base
+        #jb::Resvg4JUCE
+
+        # JSON dependncy in plugin base
+        #nlohmann_json::nlohmann_json
+
+        # Binary Data
+        #EmbeddedBinaryData
+
+        # Recommended flags
+        juce::juce_recommended_lto_flags
+        juce::juce_recommended_warning_flags
+        juce::juce_recommended_config_flags)
+
+if (UNIX AND NOT APPLE)
+    set_target_properties (fxseq-${format}
+        PROPERTIES
+            POSITION_INDEPENDENT_CODE TRUE)
+
+   # set_target_properties (jb_git_version-fxseq-${format}
+   #     PROPERTIES
+   #         POSITION_INDEPENDENT_CODE TRUE)
+endif()
+
+endfunction()
+
+if (UNIX AND NOT APPLE)
+    #set_target_properties (EmbeddedBinaryData
+    #    PROPERTIES
+    #        POSITION_INDEPENDENT_CODE TRUE)
+endif()
+
+add_fxseq_version (VST3
+        # A four-character manufacturer id with at least one upper-case character
+        PLUGIN_MANUFACTURER_CODE Sabg
+        # A unique four-character plugin id with at least one upper-case character
+        PLUGIN_CODE FXSQ
+
+        # When the fxseq was released, there was a bug in JUCE that wrongly reported the plugin code "proj". Applying this
+        # to not break existing sessions
+        USE_LEGACY_COMPATIBILITY_PLUGIN_CODE TRUE
+
+        VST3_CATEGORIES Fx)
+
+        target_compile_definitions (fxseq-VST3 PRIVATE JUCE_DISPLAY_SPLASH_SCREEN=0)
+
+#add_fxseq_version (LV2
+        # A four-character manufacturer id with at least one upper-case character
+#        PLUGIN_MANUFACTURER_CODE Sabg
+        # A unique four-character plugin id with at least one upper-case character
+#        PLUGIN_CODE FXSQ
+
+ #       LV2URI "http://github.com/ssabug/fxseq"
+#        LVZ_SHARED_LIBRARY_NAME fxseq)
+ #       target_compile_definitions (fxseq-LV2 PRIVATE JUCE_DISPLAY_SPLASH_SCREEN=0)
+
+if (APPLE)
+add_fxseq_version (AU
+        # A four-character manufacturer id with at least one upper-case character
+        PLUGIN_MANUFACTURER_CODE Sabg
+        # A unique four-character plugin id with at least one upper-case character
+        PLUGIN_CODE Fxsq
+
+        AU_MAIN_TYPE kAudioUnitType_Effect)
+        target_compile_definitions (fxseq-AU PRIVATE JUCE_DISPLAY_SPLASH_SCREEN=0)
+endif()
+
+if (AAX_SDK_PATH)
+
+    if (WIN32)
+        # Extra escaping is needed to not mess up the macro inside the AAX wrapper with the path created by the
+        # GitHub Actions runner
+        string (REPLACE "\\" "\\\\" AAX_SDK_PATH ${AAX_SDK_PATH})
+    endif()
+
+    juce_set_aax_sdk_path ("${AAX_SDK_PATH}")
+    add_fxseq_version (AAX
+            # A four-character manufacturer id with at least one upper-case character
+            PLUGIN_MANUFACTURER_CODE Sabg
+            # A unique four-character plugin id with at least one upper-case character
+            PLUGIN_CODE Fxsq
+
+            AAX_IDENTIFIER io.ssabug.fxseq
+            AAX_CATEGORY AAX_ePlugInCategory_Harmonic)
+
+    set_target_properties(fxseq-AAX_AAX PROPERTIES OSX_ARCHITECTURES x86_64)
+    
+    target_compile_definitions (fxseq-AAX
+        PRIVATE
+            JUCE_DISPLAY_SPLASH_SCREEN=1
+            _CRT_SECURE_NO_WARNINGS=1)
+endif()
+
+add_library (fxseq-ALL_FORMATS INTERFACE)
+target_link_libraries (fxseq-ALL_FORMATS
+    INTERFACE
+    fxseq-AU_AU
+    fxseq-VST3_VST3
+    #fxseq-LV2_LV2
+    fxseq-AAX_AAX)
