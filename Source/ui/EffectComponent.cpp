@@ -33,7 +33,7 @@ EffectComponent::EffectComponent(int Index,FxseqAudioProcessorEditor *ape,std::s
     for (int i=0;i<sizeof(params)/sizeof(params[0]);i++)
     {
         std::vector<std::string> range=(APE->getFxParamProperty(index,i,0,"range"));//APE->getFxParamRange(index,i);
-        initSlider1("param"+std::__cxx11::to_string(i),params[i],paramsLabel[i],std::stof(range[0]),std::stof(range[1]),std::stof(range[2]));
+        initSlider1("param"+std::to_string(i),params[i],paramsLabel[i],std::stof(range[0]),std::stof(range[1]),std::stof(range[2]));
         params[i].setTextBoxStyle (juce::Slider::TextBoxBelow, true, 10, 10);
 
         std::string paramName = (APE->getFxParamProperty(index,i,0,"name"))[0];//APE->getFxParameterName(index,i);
@@ -129,7 +129,7 @@ void EffectComponent::changeProgram()
     for (int i=0;i<sizeof(params)/sizeof(params[0]);i++) 
     {
         if (  paramsLabel[i].getText() != "" ) {
-            //debug="fxIndex " + std::__cxx11::to_string(index) + " programIndex " + std::__cxx11::to_string(programSelected) + " paramIndex " + std::__cxx11::to_string(i);
+            //debug="fxIndex " + std::to_string(index) + " programIndex " + std::to_string(programSelected) + " paramIndex " + std::to_string(i);
             params[i].setValue(std::stof((APE->getFxParamProperty(index,i,programSelected,"value")[0])));//(APE->getFxParamValue(index,programSelected,i));
         }
     }

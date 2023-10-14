@@ -42,7 +42,7 @@ SequencerComponent::SequencerComponent(int Index,FxseqAudioProcessorEditor *ape,
     seqStep[2].onClick = [this] { seqStepClick(2);};seqStep[6].onClick = [this] { seqStepClick(6);};seqStep[10].onClick = [this] { seqStepClick(10);};seqStep[14].onClick = [this] { seqStepClick(14);};
     seqStep[3].onClick = [this] { seqStepClick(3);};seqStep[7].onClick = [this] { seqStepClick(7);};seqStep[11].onClick = [this] { seqStepClick(11);};seqStep[15].onClick = [this] { seqStepClick(15);};
 
-    for(int i=0;i<16;i++) {patternSelect.addItem(TRANS(std::__cxx11::to_string(i+1)),i+1);}
+    for(int i=0;i<16;i++) {patternSelect.addItem(TRANS(std::to_string(i+1)),i+1);}
     for(int i=0;i<comboColors.size();i++) {  patternSelect.setColour(comboColors[i][0],juce::Colour(comboColors[i][1]));   }
     patternSelect.setSelectedItemIndex(0);
     patternSelect.onChange = [this] {changeSelectedPattern();};
@@ -51,7 +51,7 @@ SequencerComponent::SequencerComponent(int Index,FxseqAudioProcessorEditor *ape,
     patternSelectLabel.setFont (9.0f);
     addAndMakeVisible (patternSelectLabel);
 
-    for(int i=0;i<8;i++) {clockMultSelect.addItem(TRANS(std::__cxx11::to_string((int)pow(2,i))),i+1);}
+    for(int i=0;i<8;i++) {clockMultSelect.addItem(TRANS(std::to_string((int)pow(2,i))),i+1);}
     for(int i=0;i<comboColors.size();i++) {  clockMultSelect.setColour(comboColors[i][0],juce::Colour(comboColors[i][1]));   }
     clockMultSelect.setSelectedItemIndex(2);
     clockMultSelect.onChange = [this] {changeClockMult();};

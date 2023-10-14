@@ -14,7 +14,7 @@ SequenceSequencerComponent::SequenceSequencerComponent(FxseqAudioProcessorEditor
     sequenceLengthSlider.setValue(4);
     sequenceLengthSlider.onValueChange = [this] {changeSequenceLength();};
     
-    for(int i=0;i<16;i++) {sequenceSelect.addItem(TRANS(std::__cxx11::to_string(i+1)),i+1);}
+    for(int i=0;i<16;i++) {sequenceSelect.addItem(TRANS(std::to_string(i+1)),i+1);}
     for(int i=0;i<comboColors.size();i++) {  sequenceSelect.setColour(comboColors[i][0],juce::Colour(comboColors[i][1]));   }
     sequenceSelect.setSelectedItemIndex(0);
     sequenceSelect.onChange = [this] {changeSelectedSequence();};
@@ -23,7 +23,7 @@ SequenceSequencerComponent::SequenceSequencerComponent(FxseqAudioProcessorEditor
     //  addAndMakeVisible (sequenceSelectLabel);
 
     for (int j=0;j<16;j++) {
-        for(int i=0;i<16;i++) {sequenceStep[j].addItem(TRANS(std::__cxx11::to_string(i+1)),i+1);}
+        for(int i=0;i<16;i++) {sequenceStep[j].addItem(TRANS(std::to_string(i+1)),i+1);}
         for(int i=0;i<comboColors.size();i++) {  sequenceStep[j].setColour(comboColors[i][0],juce::Colour(comboColors[i][1]));   }
         sequenceStep[j].setSelectedItemIndex(0);
         addAndMakeVisible (sequenceStep[j]);

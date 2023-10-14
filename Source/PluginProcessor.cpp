@@ -489,14 +489,14 @@ void FxseqAudioProcessor::updateEffectProgramParameter(int effectIndex,int progr
 
 float FxseqAudioProcessor::getEffectProgramParameterValue(int fxIndex,int programIndex,int paramIndex)
 {
-    //debug="fxIndex " + std::__cxx11::to_string(fxIndex) + " programIndex " + std::__cxx11::to_string(programIndex) + " paramIndex " + std::__cxx11::to_string(paramIndex);
+    //debug="fxIndex " + std::to_string(fxIndex) + " programIndex " + std::to_string(programIndex) + " paramIndex " + std::to_string(paramIndex);
     //return fxPrograms[fxIndex][programIndex][paramIndex];
     return 0.0f;
 }
 
 std::vector<std::string> FxseqAudioProcessor::getParameterProperty(int fxIndex,int paramIndex,std::string paramProperty,int programIndex)
 {
-    //debug+="\n" + paramProperty + std::__cxx11::to_string(fxIndex) + " " + std::__cxx11::to_string(paramIndex);
+    //debug+="\n" + paramProperty + std::to_string(fxIndex) + " " + std::to_string(paramIndex);
   // std::ofstream file("/home/pwner/dev/fxseq/log.txt");file << "before shit" ;
 
    /*std::string fxName=returnFxNames()[fxIndex];//fxNamesStr[0];
@@ -513,7 +513,7 @@ std::vector<std::string> FxseqAudioProcessor::getParameterProperty(int fxIndex,i
     if (paramProperty == "hasPrograms")  
     {
         return {"0"};
-        //return {std::__cxx11::to_string(hasPrograms)}; 
+        //return {std::to_string(hasPrograms)}; 
     }
     if (paramProperty == "name")  
     {
@@ -523,9 +523,9 @@ std::vector<std::string> FxseqAudioProcessor::getParameterProperty(int fxIndex,i
     if (paramProperty == "range") 
     {
         std::vector<std::string> result;
-        result.push_back(std::__cxx11::to_string(paramList[paramIndex].min));
-        result.push_back(std::__cxx11::to_string(paramList[paramIndex].max));
-        result.push_back(std::__cxx11::to_string(paramList[paramIndex].step));
+        result.push_back(std::to_string(paramList[paramIndex].min));
+        result.push_back(std::to_string(paramList[paramIndex].max));
+        result.push_back(std::to_string(paramList[paramIndex].step));
         return result; 
     }
     if (paramProperty == "value") 
@@ -535,7 +535,7 @@ std::vector<std::string> FxseqAudioProcessor::getParameterProperty(int fxIndex,i
             return {"0"};    
         } else
         {   //return {"100"};    
-            return {std::__cxx11::to_string(getParameterValue(fxName + "_" + paramList[paramIndex].name))};
+            return {std::to_string(getParameterValue(fxName + "_" + paramList[paramIndex].name))};
         }
     } */
 
@@ -627,7 +627,7 @@ std::vector<std::string> FxseqAudioProcessor::getParameterProperty(int fxIndex,i
         } else {
             buffer_pos=0;
         }
-        //debug=std::__cxx11::to_string(buffer_pos);
+        //debug=std::to_string(buffer_pos);
 
 
     }
@@ -752,8 +752,8 @@ juce::XmlElement* FxseqAudioProcessor::getAllPatternsXml()
         std::vector<unsigned long long int> patternsData=getPatterns(sequencer);
         for (int pat=0;pat<patternsPerSequencer;pat++)
         {
-            juce::XmlElement* patXML = new juce::XmlElement (TRANS("PATTERN"+std::__cxx11::to_string(pat)));
-            patXML->addTextElement (std::__cxx11::to_string(patternsData[pat]) );
+            juce::XmlElement* patXML = new juce::XmlElement (TRANS("PATTERN"+std::to_string(pat)));
+            patXML->addTextElement (std::to_string(patternsData[pat]) );
             sequencerElement->addChildElement (patXML);   
         }
         rootElement->addChildElement (sequencerElement); 
@@ -770,8 +770,8 @@ juce::XmlElement* FxseqAudioProcessor::getAllSequencesXml()
     std::vector<unsigned long long int> sequencesData=getSequences();
     for (int sequence=0;sequence<sequenceCount;sequence++)
     {
-        juce::XmlElement* seqXML = new juce::XmlElement (TRANS("SEQUENCE"+std::__cxx11::to_string(sequence)));
-        seqXML->addTextElement (std::__cxx11::to_string(sequencesData[sequence]) );
+        juce::XmlElement* seqXML = new juce::XmlElement (TRANS("SEQUENCE"+std::to_string(sequence)));
+        seqXML->addTextElement (std::to_string(sequencesData[sequence]) );
         rootElement->addChildElement (seqXML);   
     }
         
@@ -819,7 +819,7 @@ void FxseqAudioProcessor::loadPatternsAndSequencesFromXML(juce::XmlElement* root
                         value+=((stoull(paramValue) >> i*4+j) & 1)*(unsigned long long int) (pow(2,j));
                     }
                     patterns[sequencerNum][patternNum][i]=(int)value;
-                    //debug+=std::__cxx11::to_string(value) + " " ;
+                    //debug+=std::to_string(value) + " " ;
                 }  
                 patternNum++;
              } 
@@ -839,7 +839,7 @@ void FxseqAudioProcessor::loadPatternsAndSequencesFromXML(juce::XmlElement* root
                     value+=((stoull(paramValue) >> i*4+j) & 1)*(unsigned long long int) (pow(2,j));
                 }
                 sequences[sequenceNum][i]=(int)value;
-                //debug+=std::__cxx11::to_string(value) + " " ;
+                //debug+=std::to_string(value) + " " ;
             }  
             sequenceNum++;                            
          }

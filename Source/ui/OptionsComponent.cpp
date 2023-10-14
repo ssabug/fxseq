@@ -51,7 +51,7 @@ OptionsComponent::OptionsComponent(FxseqAudioProcessorEditor *ape,std::string Co
     addAndMakeVisible (scrollPatterns);
     addAndMakeVisible (scrollPatternsLabel);
 
-    for (int i=0;i<8;i++){patternSelect.addItem(TRANS(std::__cxx11::to_string(i+1)),i+1);}
+    for (int i=0;i<8;i++){patternSelect.addItem(TRANS(std::to_string(i+1)),i+1);}
     for(int i=0;i<comboColors.size();i++) {  patternSelect.setColour(comboColors[i][0],juce::Colour(comboColors[i][1]));   }
     patternSelect.setSelectedItemIndex(0);
     addAndMakeVisible (patternSelect);
