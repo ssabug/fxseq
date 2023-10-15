@@ -29,20 +29,17 @@ You're ready to go.
  - The script will ask for your **JUCE/modules** path
  - the VST3 folder will be in the  **Builds/LinuxMakefile/build/fxseq.vst3** directory
 
-## Testing
-### Linux
-#### Distro
-- [x] Fedora
-- [x] Arch Linux
-#### DAWs
-- [x] Bitwig
-- [x] Tracktion Waveform 12
-- [ ] Carla / Zrythm
-- [ ] Ardour 
-- [ ] Qtractor 
-### Windows
-#### DAWs
-- [ ] Ableton
+## Compatibility
+| OS            | Working               |  Not working          |
+|:-------------:|:---------------------:|:---------------------:|
+| Linux         | Bitwig                | Qtractor              |
+|               | Tracktion Waveform 12 | Carla                 |
+|               |                       | Ardour                |
+| Windows       |                       | Ableton 11            |
+
+Linux distributions tested : Fedora, Arch Linux
+
+Windows versions tested : 11
 
 ## History
 see ![HISTORY](HISTORY.md) for more details.
