@@ -50,6 +50,7 @@ juce_add_plugin (fxseq-${format}
         COMPANY_NAME ssabug
         PRODUCT_NAME "fxseq"
         PLUGIN_MANUFACTURER_CODE Sabg
+        COMPANY_WEBSITE "https://github.com/ssabug/fxseq"
         PLUGIN_CODE Fxsq
         IS_SYNTH FALSE
         NEEDS_MIDI_INPUT FALSE
