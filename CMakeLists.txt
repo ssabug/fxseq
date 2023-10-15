@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.22)
 set(CMAKE_CXX_STANDARD 20)
 #target_compile_features (fxseq-${format} PRIVATE cxx_std_20)
 
-set(COMP_TARGET "The system to be built for (linux or windows)" "linux")
+set(COMP_TARGET"linux") #linux or windows
 
 if (COMP_TARGET STREQUAL "windows")
 
