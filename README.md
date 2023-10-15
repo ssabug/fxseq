@@ -32,14 +32,14 @@ You're ready to go.
 ## Testing
 ### Linux
 #### OS
- [x] Fedora
- [x] Arch Linux
+- [OK] Fedora
+- [OK] Arch Linux
 #### DAWs
- [x] Bitwig
- [x] Tracktion Waveform 12
- [ ] Carla / Zrythm
- [ ] Ardour 
- [ ] Qtractor 
+- [OK] Bitwig
+- [OK] Tracktion Waveform 12
+- [KO] Carla / Zrythm
+- [KO] Ardour 
+- [KO] Qtractor 
 
 ## History
 see ![HISTORY](HISTORY.md) for more details.
