@@ -49,6 +49,13 @@ juce_add_plugin (fxseq-${format}
 
         COMPANY_NAME ssabug
         PRODUCT_NAME "fxseq"
+        PLUGIN_MANUFACTURER_CODE Sabg
+        PLUGIN_CODE Fxsq
+        IS_SYNTH FALSE
+        NEEDS_MIDI_INPUT FALSE
+        NEEDS_MIDI_OUTPUT FALSE
+        IS_MIDI_EFFECT FALSE
+        EDITOR_WANTS_KEYBOARD_FOCUS FALSE
 
         COPY_PLUGIN_AFTER_BUILD ${COPY_PLUGIN_AFTER_BUILD}
         FORMATS ${format}
