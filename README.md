@@ -31,7 +31,7 @@ You're ready to go.
 
 ## Testing
 ### Linux
-#### OS
+#### Distro
 - [x] Fedora
 - [x] Arch Linux
 #### DAWs
@@ -40,6 +40,9 @@ You're ready to go.
 - [ ] Carla / Zrythm
 - [ ] Ardour 
 - [ ] Qtractor 
+### Windows
+#### DAWs
+- [ ] Ableton
 
 ## History
 see ![HISTORY](HISTORY.md) for more details.
