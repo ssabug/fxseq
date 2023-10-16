@@ -2,22 +2,25 @@
 
 ## Change records
 
-### v0.06 03102023  
+### v0.06 17102023  
 #### TODO
 - [x] put all effects in separate .h files
 - [x] tidy source files arbo
 - [x] Linux / Windows / Mac code & path compatibility (**TO BE TESTED**)
 - [x] clean unused pluginProcessor variables
-- [ ] implement load/save programParameters from XML presets (config not required but **find a way to store skin**)
+- [x] implement load/save programParameters from XML presets (**TO BE TESTED**)
+- [ ] store current skin
 - [ ] add program parameters to combFilter
 - [ ] in PluginEditor, find a way to acquire plugin parameters attributes
 - [ ] betatest pluginParameters values loading at editor start **(and processor start as well)** 
 - [x] pitch shifter (**freq sweep to be improved**) / combFilter (**doesnt work**)
-- [ ] add more effects :  fix ring modulator (**sounds strange**) / convolution verb / stretcher / 
+- [ ] implement TimeStretcher.h
+- [ ] add more effects :  fix ring modulator (**sounds strange**) / convolution verb 
 - [ ] cleaner way to pass colortemplates & skin/image paths
 - [ ] in parameter layout constructor find a way to destroy created effects objects
 #### BUGS
 - [x] pitchshifter clicks
+- [ ] program parameters control does not update on GUI after loading presets
 - [ ] combFilter clicks
 - [ ] echo step on->off clicks
 - [x] wet output is mono (was combfilter)

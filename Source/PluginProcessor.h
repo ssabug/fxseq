@@ -66,9 +66,13 @@ public:
     juce::XmlElement* getAllPatternsXml();
     std::vector<unsigned long long int> getSequences();
     juce::XmlElement* getAllSequencesXml();
+    juce::XmlElement* getProgramParametersXml();
     void loadPatternsAndSequencesFromXML(juce::XmlElement* rootElement);
     void loadPatternsAndSequencesFromXMLFile(std::string fileName);
+    void loadProgramsFromXML(juce::XmlElement* rootElement);
     //==============================================================================
+    std::vector<std::string> split(std::string s, std::string delimiter);
+    //========================================================================================
     void initAllPatterns();
     std::vector<float> generateGainPattern(int sequencerIndex,int patternIndex);
     void updateGainPattern(int sequencerIndex,int patternIndex);

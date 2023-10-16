@@ -785,12 +785,15 @@ void FxseqAudioProcessorEditor::saveXMLPreset(std::string presetName)
 
     juce::XmlElement* patternDef=new juce::XmlElement(*(audioProcessor.getAllPatternsXml()));
     juce::XmlElement* sequenceDef=new juce::XmlElement(*(audioProcessor.getAllSequencesXml()));
+    juce::XmlElement* programsDef=new juce::XmlElement(*(audioProcessor.getProgramParametersXml()));
 
     xml->removeChildElement(xml->getChildByName("PATTERNS"),true);
     xml->removeChildElement(xml->getChildByName("SEQUENCES"),true);
+    xml->removeChildElement(xml->getChildByName("PROGRAMS"),true);
     
     xml->addChildElement(patternDef);  
     xml->addChildElement(sequenceDef);
+    xml->addChildElement(programsDef);
 
     std::ofstream file(getPath("presets")+presetName+".xml");
     
