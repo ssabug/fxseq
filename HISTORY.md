@@ -18,6 +18,7 @@
 - [ ] add more effects :  fix ring modulator (**sounds strange**) / convolution verb 
 - [ ] cleaner way to pass colortemplates & skin/image paths
 - [ ] in parameter layout constructor find a way to destroy created effects objects
+- [x] Cmake implementation : **cross compiled vst3s have to be verified on bitwig windows**
 #### BUGS
 - [x] pitchshifter clicks
 - [ ] program parameters control does not update on GUI after loading presets
