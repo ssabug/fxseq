@@ -9,16 +9,16 @@
 - [x] Linux / Windows / Mac code & path compatibility (**TO BE TESTED**)
 - [x] clean unused pluginProcessor variables
 - [x] implement load/save programParameters from XML presets (**TO BE TESTED**)
+- [x] Cmake implementation : **cross compiled vst3s have to be verified on bitwig windows**
+- [x] pitch shifter (**freq sweep to be improved**) / combFilter (**doesnt work**)
 - [ ] store current skin
 - [ ] add program parameters to combFilter
 - [ ] in PluginEditor, find a way to acquire plugin parameters attributes
 - [ ] betatest pluginParameters values loading at editor start **(and processor start as well)** 
-- [x] pitch shifter (**freq sweep to be improved**) / combFilter (**doesnt work**)
 - [ ] implement TimeStretcher.h
-- [ ] add more effects :  fix ring modulator (**sounds strange**) / convolution verb 
+- [ ] add more effects : fix ring modulator (**sounds strange**) / convolution verb 
 - [ ] cleaner way to pass colortemplates & skin/image paths
 - [ ] in parameter layout constructor find a way to destroy created effects objects
-- [x] Cmake implementation : **cross compiled vst3s have to be verified on bitwig windows**
 #### BUGS
 - [x] pitchshifter clicks
 - [ ] program parameters control does not update on GUI after loading presets

@@ -9,7 +9,7 @@ see ![DOCUMENTATION](DOCUMENTATION.md) for more details.
 
 ## Requirements
  - JUCE Version 7.0.7
- - gcc
+ - gcc / mingw32-gcc-posix (Linux)
 
 ## Installation
 ### Linux
@@ -35,7 +35,8 @@ You're ready to go.
 | Linux         | Bitwig                | Qtractor              |
 |               | Tracktion Waveform 12 | Carla                 |
 |               |                       | Ardour                |
-| Windows       |                       | Ableton 11            |
+| Windows       | Bitwig                |                       |
+|               | Ableton 11            |                       |
 
 Linux distributions tested : Fedora, Arch Linux
 

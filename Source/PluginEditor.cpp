@@ -148,7 +148,7 @@ void FxseqAudioProcessorEditor::timerCallback()
     double ppq=audioProcessor.ppq;
     float unused;
     std::vector<int> positions;
-    int sequencePosition;
+    int sequencePosition=0;
     int sequenceLength=sequenceSeq.getSequenceLength();
     std::vector<int> clockMults;
     for (int i=0;i<sizeof(sequencers)/sizeof(sequencers[0]);i++) { clockMults.push_back(sequencers[i].clockMult); }

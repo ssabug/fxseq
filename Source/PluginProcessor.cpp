@@ -268,7 +268,7 @@ void FxseqAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
                 selected_pattern[i]=(int)getParameterValue(fxNamesStr[i] + "_pattern"); //get selected pattern
             } else {                                                                   // SEQUENCE MODE
                 int selectedSequence=(int)(pluginParameters.getParameter("sequenceNumber")->getValue()*15); // get selected sequence                
-                int sequencePosition;
+                int sequencePosition=0;
                 sequenceLength=(int)getParameterValue("sequenceLength")+2;
                 if (ppq >= (float)sequenceLength ) {sequencePosition=int(std::floor(ppq/greatestClockMult)-sequenceLength*std::floor(ppq/(sequenceLength*greatestClockMult)));} else {sequenceLength=std::floor(ppq/greatestClockMult);}         // compute positon on sequence            
                 
