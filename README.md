@@ -18,8 +18,10 @@ see ![DOCUMENTATION](DOCUMENTATION.md) for more details.
  - run the script `./Ressources/scripts/copy_plugin_data_linux.sh [path to downloaded github stuff]`
 
 It will create the folders and copy the plugin data in **${HOME}/.ssabug/fxseq/**
-
-You're ready to go.
+### Windows
+ - copy the folders `Ressources/skins` and `Ressources/presets` in the github files
+ - create the folder `C:\Users\YourUsername\ssabug\fxseq`
+ - paste the above folders into
 
 ## Building 
 ### Linux

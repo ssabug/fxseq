@@ -9,8 +9,9 @@
 - [x] Linux / Windows / Mac code & path compatibility (**TO BE TESTED**)
 - [x] clean unused pluginProcessor variables
 - [x] implement load/save programParameters from XML presets (**TO BE TESTED**)
-- [x] Cmake implementation : **cross compiled vst3s have to be verified on bitwig windows**
+- [x] Cmake implementation : Linux built OK, Windows Built OK, **mingw32-g++-posix vst3s do not work**
 - [x] pitch shifter (**freq sweep to be improved**) / combFilter (**doesnt work**)
+- [ ] create windows installation script + change default directories?? (linux .local/share, windows Documents\)
 - [ ] store current skin
 - [ ] add program parameters to combFilter
 - [ ] in PluginEditor, find a way to acquire plugin parameters attributes
