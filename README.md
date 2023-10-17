@@ -19,6 +19,8 @@ see ![DOCUMENTATION](DOCUMENTATION.md) for more details.
 
 It will create the folders and copy the plugin data in **${HOME}/.ssabug/fxseq/**
 ### Windows
+ - get the pre-built **.vst3** folder in **Releases** or build it (see below).
+ - put it in your VST3 folder
  - copy the folders `Ressources/skins` and `Ressources/presets` in the github files
  - create the folder `C:\Users\YourUsername\ssabug\fxseq`
  - paste the above folders into
@@ -30,6 +32,9 @@ It will create the folders and copy the plugin data in **${HOME}/.ssabug/fxseq/*
  - Run the build script with `./Ressources/scripts/build_linux_vst3.sh "$(pwd)"`
  - The script will ask for your **JUCE/modules** path
  - the VST3 folder will be in the  **Builds/LinuxMakefile/build/fxseq.vst3** directory
+ ### Windows
+ - open the file fxseq.jucer with JUCE Projucer
+ - generate the project for your IDE and build
 
 ## Compatibility
 | OS            | Working               |  Not working          |
