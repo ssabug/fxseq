@@ -21,9 +21,9 @@ It will create the folders and copy the plugin data in **${HOME}/.ssabug/fxseq/*
 ### Windows
  - get the pre-built **.vst3** folder in **Releases** or build it (see below).
  - put it in your VST3 folder
- - copy the folders `Ressources/skins` and `Ressources/presets` in the github files
  - create the folder `C:\Users\YourUsername\ssabug\fxseq`
- - paste the above folders into
+ - copy the folders `Ressources/skins` and `Ressources/presets` from the github files
+ - paste the folders into the created one
 
 ## Building 
 ### Linux

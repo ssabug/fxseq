@@ -2,7 +2,7 @@
 
 ## Change records
 
-### v0.06 17102023  
+### v0.1 17102023  
 #### TODO
 - [x] put all effects in separate .h files
 - [x] tidy source files arbo
