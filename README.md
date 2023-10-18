@@ -22,8 +22,8 @@ It will create the folders and copy the plugin data in **${HOME}/.ssabug/fxseq**
  - get the pre-built **.vst3** folder in **Releases** or build it (see below).
  - put it in your VST3 folder
  - run the script `.\Ressources\scripts\copy_plugin_data_windows.cmd`
-It will create the folders and copy the plugin data in **%HomePath%\ssabug\fxseq**
 
+It will create the folders and copy the plugin data in **%HomePath%\ssabug\fxseq**
 ## Building 
 ### Linux
  - git clone the repo or get a release zip. Extract if necessary.
