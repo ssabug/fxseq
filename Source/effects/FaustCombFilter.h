@@ -38,7 +38,7 @@ class CombFilter : public juce::AudioProcessorValueTreeState::Listener
             for (int channel = 0; channel < outputCount; ++channel) {
                 Outputs[channel] = new float[samplesPerBlock];
             }
-
+            wetBuffer.setSize(2, samplesPerBlock);
 	    };
 
         void releaseResources()
@@ -58,6 +58,10 @@ class CombFilter : public juce::AudioProcessorValueTreeState::Listener
 
 	    void processBlock(juce::AudioBuffer<float>& buffer, const int numSamples,float gain,float mix,float sequencerGate)
         {
+            float lastGainValue=smoothMix.getNextValue();
+            smoothMix.setTargetValue(sequencerGate*mix);
+            float volume=smoothMix.getNextValue();
+
             for (int channel = 0; channel < inputCount; ++channel) {
                 for (int i = 0; i < numSamples; i++) { 
                         Inputs[channel][i] = *buffer.getWritePointer(channel,i); 
@@ -66,8 +70,12 @@ class CombFilter : public juce::AudioProcessorValueTreeState::Listener
             DSP->compute(numSamples,Inputs,Outputs);
             for (int channel = 0; channel < 2; ++channel) {
                 for (int i = 0; i < numSamples; i++){
-                    *buffer.getWritePointer(channel,i) =gain*Outputs[0][i]*sequencerGate*mix + (1-mix*sequencerGate) * buffer.getReadPointer(channel)[i];  
+                    *wetBuffer.getWritePointer(channel,i) =gain*Outputs[0][i]*sequencerGate*mix + (1-mix*sequencerGate) * buffer.getReadPointer(channel)[i];  
                 }
+                wetBuffer.applyGainRamp(channel,0,numSamples,lastGainValue,volume);
+                buffer.applyGainRamp(channel,0,numSamples,1.0f-lastGainValue,1.0f-volume);
+            
+                juce::FloatVectorOperations::add(buffer.getWritePointer(channel), wetBuffer.getReadPointer(channel), numSamples);
             }
 		    
 	    };
@@ -94,5 +102,7 @@ class CombFilter : public juce::AudioProcessorValueTreeState::Listener
         dsp* DSP;
         float **Inputs;
         float **Outputs;
+        juce::SmoothedValue<float,juce::ValueSmoothingTypes::Multiplicative> smoothMix;
+        juce::AudioBuffer<float> wetBuffer;
 
 };

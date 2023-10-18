@@ -46,12 +46,15 @@ function (add_fxseq_version format)
 
 # Add the plugin target itself
 juce_add_plugin (fxseq-${format}
-
-        COMPANY_NAME ssabug
-        PRODUCT_NAME "fxseq"
+        VERSION "0.1.0"
+        COMPANY_NAME "ssabug"
+        COMPANY_WEBSITE "https://github.com/ssabug/fxseq"
+        PRODUCT_NAME fxseq
+        PLUGIN_NAME fxseq
         PLUGIN_MANUFACTURER_CODE Sabg
         PLUGIN_CODE Fxsq
-        COMPANY_WEBSITE "https://github.com/ssabug/fxseq"
+        VST3_CATEGORIES Fx
+        BUNDLE_ID "com.ssabug.fxseq"
         IS_SYNTH FALSE
         NEEDS_MIDI_INPUT FALSE
         NEEDS_MIDI_OUTPUT FALSE
@@ -130,15 +133,11 @@ endif()
 
 add_fxseq_version (VST3
         # A four-character manufacturer id with at least one upper-case character
-        PLUGIN_MANUFACTURER_CODE Sabg
         # A unique four-character plugin id with at least one upper-case character
-        PLUGIN_CODE FXSQ
 
         # When the fxseq was released, there was a bug in JUCE that wrongly reported the plugin code "proj". Applying this
         # to not break existing sessions
-        USE_LEGACY_COMPATIBILITY_PLUGIN_CODE TRUE
-
-        VST3_CATEGORIES Fx)
+        USE_LEGACY_COMPATIBILITY_PLUGIN_CODE TRUE)
 
         target_compile_definitions (fxseq-VST3 PRIVATE JUCE_DISPLAY_SPLASH_SCREEN=0)
 

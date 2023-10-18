@@ -2,7 +2,8 @@
 
 <JUCERPROJECT id="BFx3FP" name="fxseq" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              pluginFormats="buildVST3" companyName="ssabug" companyWebsite="https://github.com/ssabug">
+              pluginFormats="buildLV2,buildVST3" companyName="ssabug" companyWebsite="https://github.com/ssabug"
+              lv2Uri="https://github.com/ssabug/fxseq">
   <MAINGROUP id="mabWzD" name="fxseq">
     <GROUP id="{AB131AAF-5B1D-67F1-748B-C00E17971B5F}" name="Source">
       <FILE id="OanDcm" name="PluginProcessor.cpp" compile="1" resource="0"

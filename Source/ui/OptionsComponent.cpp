@@ -153,8 +153,7 @@ void OptionsComponent::savePreset()
 {
     std::string presetText = APE->removeForbiddenCharacters(presetSelected.getText().toStdString());
     
-    if (presetText  != "" ) {
-        //writeXMLPreset("/home/pwner/.ssabug/choppah/presets/test.xml");    
+    if (presetText  != "" ) { 
         if ( !APE->presetExists(presetText)) {
             presetSelected.addItem (TRANS(presetText), presetSelected.getNumItems()+1);
         } 
@@ -180,20 +179,6 @@ void OptionsComponent::switchScroll()
 
 void OptionsComponent::debugFunction()
 {
-
-    /*std::vector<float> values={0.5f,1.0f,2.0f,4.0f};
-
-    APE->debugRepeater(values[debugCounter]);
-
-
-    if (debugCounter>=values.size()-1) 
-    {
-        debugCounter=0;
-    } else {
-        debugCounter++;
-    }*/
-    //APE->saveXMLPreset();
-    //fileName="/home/pwner/dev/fxseq/Ressources/presets/default.xml";
     APE->loadPreset(APE->getPath("presets") + presetSelected.getText().toStdString() + ".xml");
 }
 

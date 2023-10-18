@@ -10,27 +10,31 @@
 - [x] clean unused pluginProcessor variables
 - [x] implement load/save programParameters from XML presets (**TO BE TESTED**)
 - [x] Cmake implementation : Linux built OK, Windows Built OK, **mingw32-g++-posix vst3s do not work**
-- [x] pitch shifter (**freq sweep to be improved**) / combFilter (**doesnt work**)
-- [ ] create windows installation script + change default directories?? (linux .local/share, windows Documents\)
+- [x] pitch shifter (**freq sweep to be improved**) / combFilter 
+- [x] create windows installation script
+- [ ] Call install scripts from Cmake
+- [ ] change default directories?? (linux .local/share, windows Documents\)
 - [ ] store current skin
 - [ ] add program parameters to combFilter
 - [ ] in PluginEditor, find a way to acquire plugin parameters attributes
 - [ ] betatest pluginParameters values loading at editor start **(and processor start as well)** 
 - [ ] implement TimeStretcher.h
+- [ ] make linux LV2 working
+- [ ] Compatibility : find out why Windows VST3 doesnt work in some cases
 - [ ] add more effects : fix ring modulator (**sounds strange**) / convolution verb 
 - [ ] cleaner way to pass colortemplates & skin/image paths
 - [ ] in parameter layout constructor find a way to destroy created effects objects
 #### BUGS
 - [x] pitchshifter clicks
-- [ ] program parameters control does not update on GUI after loading presets
-- [ ] combFilter clicks
-- [ ] echo step on->off clicks
+- [x] combFilter clicks
+- [x] echo step on->off clicks
 - [x] wet output is mono (was combfilter)
-- [ ] strange behaviour while moving effect's position
 - [x] effects gain should not apply to dry signal
-- [ ] effect position not restored on preset load (works with DAW save)
 - [x] crashes in sequence mode (actually because some default patterns included values > 1 for non program supporting fx)  
 - [x] dry/wet for filter cracks
+- [ ] program parameters control does not update on GUI after loading presets
+- [ ] strange behaviour while moving effect's position
+- [ ] effect position not restored on preset load (works with DAW save)
 - [ ] buffer seems wrongly initialised on press play(sequence mode)
 - [ ] latency (same problem as choppah) -> maybe due to chopper gain ramp
 

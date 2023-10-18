@@ -501,7 +501,7 @@ float FxseqAudioProcessor::getEffectProgramParameterValue(int fxIndex,int progra
 std::vector<std::string> FxseqAudioProcessor::getParameterProperty(int fxIndex,int paramIndex,std::string paramProperty,int programIndex)
 {
     //debug+="\n" + paramProperty + std::to_string(fxIndex) + " " + std::to_string(paramIndex);
-  // std::ofstream file("/home/pwner/dev/fxseq/log.txt");file << "before shit" ;
+  // std::ofstream file("a/path/to/log/file");file << "before shit" ;
 
    /*std::string fxName=returnFxNames()[fxIndex];//fxNamesStr[0];
     std::vector<EffectParameter> paramList;
