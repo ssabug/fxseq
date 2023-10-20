@@ -28,6 +28,7 @@ It will create the folders and copy the plugin data in **%HomePath%\ssabug\fxseq
 ## Building 
 <details>
   <summary> ### Linux </summary>
+
  - git clone the repo or get a release zip. Extract if necessary.
  - in the created folder `fxseq`, open the file **fxseq.jucer** with JUCE Projucer
  - generate the project for your IDE or Linux Makefile
