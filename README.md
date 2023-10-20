@@ -28,7 +28,7 @@ It will create the folders and copy the plugin data in **%HomePath%\ssabug\fxseq
 ## Building 
 ### Linux
 <details>
-  <summary>  </summary>
+  <summary> Instructions </summary>
 
  - git clone the repo or get a release zip. Extract if necessary.
  - in the created folder `fxseq`, open the file **fxseq.jucer** with JUCE Projucer
@@ -38,9 +38,13 @@ It will create the folders and copy the plugin data in **%HomePath%\ssabug\fxseq
  </details>
 
  ### Windows
+ <details>
+  <summary> Instructions </summary>
+
  - git clone the repo or get a release zip. Extract if necessary.
  - in the created folder `fxseq`, open the file **fxseq.jucer** with JUCE Projucer
  - generate the project for your IDE and build
+ </details>
 
 ## Compatibility
 | OS            | Working               |  Not working          |
