@@ -26,12 +26,14 @@ It will create the folders and copy the plugin data in **${HOME}/.ssabug/fxseq**
 
 It will create the folders and copy the plugin data in **%HomePath%\ssabug\fxseq**
 ## Building 
-### Linux
+<details>
+  <summary> ### Linux </summary>
  - git clone the repo or get a release zip. Extract if necessary.
  - in the created folder `fxseq`, open the file **fxseq.jucer** with JUCE Projucer
  - generate the project for your IDE or Linux Makefile
  - build in a IDE or, in a terminal, run `cd Builds/LinuxMakefile/ && make`
  - if manually built, the VST3 folder will be in the  **Builds/LinuxMakefile/build** directory
+ </details>
  ### Windows
  - git clone the repo or get a release zip. Extract if necessary.
  - in the created folder `fxseq`, open the file **fxseq.jucer** with JUCE Projucer

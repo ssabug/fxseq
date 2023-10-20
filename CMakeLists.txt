@@ -147,7 +147,7 @@ add_fxseq_version (LV2
         # A four-character manufacturer id with at least one upper-case character
         PLUGIN_MANUFACTURER_CODE Sabg
         # A unique four-character plugin id with at least one upper-case character
-        PLUGIN_CODE FXSQ
+        PLUGIN_CODE Fxsq
         # When the fxseq was released, there was a bug in JUCE that wrongly reported the plugin code "proj". Applying this
         # to not break existing sessions
         USE_LEGACY_COMPATIBILITY_PLUGIN_CODE TRUE

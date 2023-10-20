@@ -9,8 +9,8 @@
 - [x] Linux / Windows / Mac code & path compatibility (**TO BE TESTED**)
 - [x] clean unused pluginProcessor variables
 - [x] implement load/save programParameters from XML presets (**TO BE TESTED**)
-- [x] Cmake implementation : Linux built OK, Windows Built OK, **mingw32-g++-posix vst3s do not work**
-- [x] pitch shifter (**freq sweep to be improved**) / combFilter 
+- [x] Cmake implementation start : Linux built OK, Windows Built OK, **mingw32-g++-posix vst3s do not work**
+- [x] pitch shifter (**freq sweep to be improved**) / combFilter fix
 - [x] create windows installation script
 - [ ] Call install scripts from Cmake
 - [ ] change default directories?? (linux .local/share, windows Documents\)

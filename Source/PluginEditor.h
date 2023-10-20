@@ -46,6 +46,7 @@ class FxseqAudioProcessorEditor  : public juce::AudioProcessorEditor,
         int getSequencerCount();
         void updateFxParam(int fxIndex,int programIndex, float paramIndex,float paramValue);
         std::vector<std::string> getFxParamProperty(int fxIndex, int paramIndex, int programIndex,std::string paramProperty);
+        void updateAllFxParamValues();
         void patternUtils(std::string action,int seqIndex);
         void updateMaster(std::string parameterName,float value);
         float getMasterParam(std::string parameterName);

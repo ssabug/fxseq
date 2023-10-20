@@ -372,6 +372,7 @@ void FxseqAudioProcessorEditor::updateFxParam(int fxIndex,int programIndex, floa
     }
 }
 
+
 std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxIndex, int paramIndex, int programIndex,std::string paramProperty)
 {
     audioProcessor.getParameterProperty(fxIndex,paramIndex,paramProperty,programIndex);
@@ -525,6 +526,22 @@ std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxInd
     return {};
 }
 
+void FxseqAudioProcessorEditor::updateAllFxParamValues()
+{
+    for(int i=0;i<sizeof(effects)/sizeof(effects[0]);i++)
+    {
+        for (int j=0;j<3;j++) 
+        {
+            std::string value=getFxParamProperty(i,j,0,"value")[0];
+            if ( value != "-100")
+            {
+                effects[i].params[j].setValue(std::stof(value));
+            }
+        }   
+       
+    }
+}
+
 void FxseqAudioProcessorEditor::patternUtils(std::string action,int seqIndex)
 {
     int index;
@@ -568,6 +585,8 @@ void FxseqAudioProcessorEditor::loadPreset(std::string presetName)
     }
     
     refreshSequencerPositions();
+    updateAllFxParamValues();
+    
 }
 ////////////////////////////////////////////////////////////////////////////////////// UTILS //////////////////////////////////////////////////////////////////////////////////////
 std::vector<std::string> FxseqAudioProcessorEditor::split(std::string s, std::string delimiter) 
