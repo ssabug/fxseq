@@ -184,7 +184,9 @@ void FxseqAudioProcessorEditor::timerCallback()
                        +"seqmode :"+ std::to_string(options.sequenceMode) +" scroll :" + std::to_string(options.scroll) + "\n"
                        +"selected pattern : " + select +  "\n"
                        + "fx chain " +  pos1 + "\n"
-                       + audioProcessor.debug  + "\n" 	
+                      // + audioProcessor.debug  + "\n" 	
+                       + std::to_string(audioProcessor.getParameterValue("CombFilter_Frequency")) +"\n"
+                       + std::to_string(audioProcessor.getParameterValue("CombFilter_Feedback")) +"\n"
                       // +std::to_string(getMasterParam("sequencerMode")) + "\n"
                       // +std::to_string(this->getNumChildComponents()) +"\n"
                   //     +std::to_string(effects[1].getNumChildComponents()) +"\n"
@@ -528,6 +530,7 @@ std::vector<std::string> FxseqAudioProcessorEditor::getFxParamProperty(int fxInd
 
 void FxseqAudioProcessorEditor::updateAllFxParamValues()
 {
+    audioProcessor.debug="";
     for(int i=0;i<sizeof(effects)/sizeof(effects[0]);i++)
     {
         for (int j=0;j<3;j++) 
@@ -536,6 +539,7 @@ void FxseqAudioProcessorEditor::updateAllFxParamValues()
             if ( value != "-100")
             {
                 effects[i].params[j].setValue(std::stof(value));
+                audioProcessor.debug+= effects[i].name + "_" + getFxParamProperty(i,j,0,"name")[0] + " = " + value+ "\n";
             }
         }   
        

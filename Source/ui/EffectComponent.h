@@ -29,11 +29,11 @@ class EffectComponent   : public juce::Component
         std::vector<std::vector<int>> sliderColors={{(int)0x1001300,(int)0xFF00FF00},{(int)0x1001312,(int)0xFF000000},{(int)0x1001311,(int)0xFF00FF00},{(int)0x1001400,(int)0xFF00AF00},{(int)0x1001700,(int)0xFF000000}};
         std::string imageButtonTemplate="programbutton1";
         std::vector<std::vector<int>> programButtonColors={{(int)0x1000280,(int)0xFF00FF00},{(int)0x1000281,(int)0xFF007F00}};
-        std::vector<juce::Image> programButtonImages={juce::ImageFileFormat::loadFrom(juce::File(imagePath+"preset_1.png")),
-                                                juce::ImageFileFormat::loadFrom(juce::File(imagePath+"preset_2.png")),
-                                                juce::ImageFileFormat::loadFrom(juce::File(imagePath+"preset_3.png")),
-                                                juce::ImageFileFormat::loadFrom(juce::File(imagePath+"preset_4.png")),
-                                                juce::ImageFileFormat::loadFrom(juce::File(imagePath+"preset_0.png"))
+        std::vector<juce::Image> programButtonImages={  juce::ImageFileFormat::loadFrom(juce::File(imagePath+"preset_1.png")),
+                                                        juce::ImageFileFormat::loadFrom(juce::File(imagePath+"preset_2.png")),
+                                                        juce::ImageFileFormat::loadFrom(juce::File(imagePath+"preset_3.png")),
+                                                        juce::ImageFileFormat::loadFrom(juce::File(imagePath+"preset_4.png")),
+                                                        juce::ImageFileFormat::loadFrom(juce::File(imagePath+"preset_0.png"))
                                                 };
         juce::Slider outGain,outMix,params[3];
         juce::Label  paramsLabel[3];    

@@ -61,7 +61,8 @@ The plugin data is in **${HOME}/.ssabug/fxseq**
 |:-------------:|:---------------------:|:---------------------:|
 | Linux         | Bitwig                | Qtractor              |
 |               | Tracktion Waveform 12 | Carla                 |
-|               |                       | Ardour                |
+|               | Tracktion Waveform 12 | Ardour                |
+|:-------------:|:-------------:|:-------------:|
 | Windows       | Bitwig                |                       |
 |               | Ableton 11            |                       |
 
