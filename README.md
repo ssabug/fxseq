@@ -36,6 +36,7 @@ The plugin data is in **${HOME}/.ssabug/fxseq**
  </details>
 
 ## Building 
+You have to put a symbolic link to the JUCE folder in the root folder of the repository ( named "JUCE" ).
 ### Linux
 <details>
   <summary> Instructions </summary>

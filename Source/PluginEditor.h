@@ -11,7 +11,7 @@
 #include <filesystem>
 #include <fstream>
 
-#include <JuceHeader.h>
+#include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 #include "ui/SequencerComponent.h"
 #include "ui/SequenceSequencerComponent.h"

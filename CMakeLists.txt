@@ -26,7 +26,7 @@ endif()
 project (fxseq VERSION 0.1)
 
 # Adding JUCE
-add_subdirectory (External/JUCE)
+add_subdirectory (JUCE)
 #add_subdirectory (JuceLibraryCode)
 
 # The subdirectory contains its own CMakeLists that creates BinaryData targets containing graphics and fonts

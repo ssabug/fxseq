@@ -1,7 +1,7 @@
 #pragma once
 
 #pragma once
-#include <JuceHeader.h>
+#include "../../JuceLibraryCode/JuceHeader.h"
 
 class DirtyRepeater : public juce::AudioProcessorValueTreeState::Listener
 {

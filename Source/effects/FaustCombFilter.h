@@ -1,7 +1,7 @@
 #pragma once
 
 #pragma once
-#include <JuceHeader.h>
+#include "../../JuceLibraryCode/JuceHeader.h"
 #include "FaustEffects.h"
 
 class CombFilter : public juce::AudioProcessorValueTreeState::Listener

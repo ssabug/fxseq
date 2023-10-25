@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <JuceHeader.h>
+#include "../JuceLibraryCode/JuceHeader.h"
 #include "effects/FaustRepeater.h"
 #include "effects/FaustEcho.h"
 #include "effects/FaustRingMod.h"
