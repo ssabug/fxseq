@@ -58,12 +58,13 @@ The plugin data is in **${HOME}/.ssabug/fxseq**
 
 ## Compatibility
 ### Linux  
-|Working               |  Not working          |
+|**Working**           |  **Not working**      |
 |:--------------------:|:---------------------:|
 |Bitwig                | Qtractor              |
 |Tracktion Waveform 12 | Carla                 |
 |                      | Ardour                |
 ### Windows
+|**Working**           |  **Not working**      |
 |:--------------------:|:---------------------:| 
 | Bitwig               |                       |
 | Ableton 11           |                       |
