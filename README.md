@@ -42,10 +42,7 @@ You have to put a symbolic link to the JUCE folder in the root folder of the rep
   <summary> Instructions </summary>
 
  - git clone the repo or get a release zip. Extract if necessary.
- - in the created folder `fxseq`, open the file **fxseq.jucer** with JUCE Projucer
- - generate the project for your IDE or Linux Makefile
- - build in a IDE or, in a terminal, run `cd Builds/LinuxMakefile/ && make`
- - if manually built, the VST3 folder will be in the  **Builds/LinuxMakefile/build** directory
+ - then in a terminal, type `mkdir build && cd build && cmake --build && make`
  </details>
 
  ### Windows
