@@ -9,6 +9,7 @@ see ![DOCUMENTATION](DOCUMENTATION.md) for more details.
 
 ## Requirements
  - JUCE Version 7.0.7
+ - cmake
  - gcc / mingw32-gcc-posix (Linux)
  - MSVC compiler / mingw (Windows)
 
@@ -42,7 +43,7 @@ You have to put a symbolic link to the JUCE folder in the root folder of the rep
   <summary> Instructions </summary>
 
  - git clone the repo or get a release zip. Extract if necessary.
- - then in a terminal, type `mkdir build && cd build && cmake --build && make`
+ - then in a terminal, type `mkdir build && cd build && cmake .. && make`
  </details>
 
  ### Windows
@@ -58,9 +59,10 @@ You have to put a symbolic link to the JUCE folder in the root folder of the rep
 ### Linux  
 |**Working**           |  **Not working**      |
 |:--------------------:|:---------------------:|
-|Bitwig                | Qtractor              |
-|Tracktion Waveform 12 | Carla                 |
-|                      | Ardour                |
+|Bitwig                | Ardour                |
+|Tracktion Waveform 12 |                       |
+|Carla (LV2 only)      |                       |
+|Qtractor (LV2 only)   |                       |
 ### Windows
 |**Working**           |  **Not working**      |
 |:--------------------:|:---------------------:| 

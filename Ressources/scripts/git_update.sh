@@ -11,6 +11,10 @@ then
     echo "/////// MOVING TO PROJECT DIR ${BASE_DIR}"
     cd "${BASE_DIR}"
 
+    echo "/////// removing builds and JUCE symbolic link"
+    rm -rf "${BASE_DIR}/build/"
+    rm -rf "${BASE_DIR}/JUCE/"
+
     #echo "/////// INIT PROJECT DIR ${BASE_DIR}"
     #git init
     #echo "/////// LINK TO REMOTE REPO"
