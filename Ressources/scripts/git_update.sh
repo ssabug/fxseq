@@ -13,7 +13,7 @@ then
 
     echo "/////// removing builds and JUCE symbolic link"
     rm -rf "${BASE_DIR}/build/"
-    rm -rf "${BASE_DIR}/JUCE/"
+    rm "${BASE_DIR}/JUCE"
 
     #echo "/////// INIT PROJECT DIR ${BASE_DIR}"
     #git init
