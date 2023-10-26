@@ -18,8 +18,8 @@ see ![DOCUMENTATION](DOCUMENTATION.md) for more details.
 <details>
   <summary> Instructions </summary>
   
- - get the pre-built **.vst3** folder in **Releases** or build it (see below).
- - put it in your VST3 folder
+ - get the pre-built **.vst3/.lv2** folder in **Releases** or build it (see below).
+ - put it in your VST3/LV2 folder
  - run the script `./Ressources/scripts/copy_plugin_data_linux.sh`
 
 The plugin data is in **${HOME}/.ssabug/fxseq**
