@@ -23,7 +23,7 @@ see ![DOCUMENTATION](DOCUMENTATION.md) for more details.
  - run the script `./Ressources/scripts/copy_plugin_data_linux.sh`
 
  </details>
- The plugin data is in **${HOME}/.ssabug/fxseq**
+ The plugin data is in `${HOME}/.ssabug/fxseq`
 
 ### Windows
 <details>
@@ -34,7 +34,7 @@ see ![DOCUMENTATION](DOCUMENTATION.md) for more details.
  - run the script `.\Ressources\scripts\copy_plugin_data_windows.cmd`
 
  </details>
-  The plugin data is in **%HomePath%\ssabug\fxseq**
+  The plugin data is in `%HomePath%\ssabug\fxseq`
 
 ## Building 
 You have to put a symbolic link to the JUCE folder in the root folder of the repository ( named "JUCE" ).
