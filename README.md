@@ -23,6 +23,7 @@ see ![DOCUMENTATION](DOCUMENTATION.md) for more details.
  - run the script `./Ressources/scripts/copy_plugin_data_linux.sh`
 
  </details>
+
  The plugin data is in `${HOME}/.ssabug/fxseq`
 
 ### Windows
@@ -34,6 +35,7 @@ see ![DOCUMENTATION](DOCUMENTATION.md) for more details.
  - run the script `.\Ressources\scripts\copy_plugin_data_windows.cmd`
 
  </details>
+ 
   The plugin data is in `%HomePath%\ssabug\fxseq`
 
 ## Building 
