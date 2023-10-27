@@ -22,8 +22,8 @@ see ![DOCUMENTATION](DOCUMENTATION.md) for more details.
  - put it in your VST3/LV2 folder
  - run the script `./Ressources/scripts/copy_plugin_data_linux.sh`
 
-The plugin data is in **${HOME}/.ssabug/fxseq**
  </details>
+ The plugin data is in **${HOME}/.ssabug/fxseq**
 
 ### Windows
 <details>
@@ -33,8 +33,8 @@ The plugin data is in **${HOME}/.ssabug/fxseq**
  - put it in your VST3 folder
  - run the script `.\Ressources\scripts\copy_plugin_data_windows.cmd`
 
- The plugin data is in **%HomePath%\ssabug\fxseq**
  </details>
+  The plugin data is in **%HomePath%\ssabug\fxseq**
 
 ## Building 
 You have to put a symbolic link to the JUCE folder in the root folder of the repository ( named "JUCE" ).
@@ -44,6 +44,8 @@ You have to put a symbolic link to the JUCE folder in the root folder of the rep
 
  - git clone the repo or get a release zip. Extract if necessary.
  - then in a terminal, type `mkdir build && cd build && cmake .. && make`
+
+ Cross compilation can be done with `cmake -DCOMP_TARGET::STRING=windows ..`.You'll have to edit `CMakeLists.txt` file to select the compiler and the libraries.
  </details>
 
  ### Windows

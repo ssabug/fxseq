@@ -1,6 +1,28 @@
 # Fxseq
 
 ## Change records
+### v0.1 27102023  
+#### TODO
+- [ ] Call install scripts from Cmake
+- [ ] Pass variable value while building cmake on windows/linux
+- [ ] update build scripts & install documentation
+- [ ] change default directories?? (linux .local/share, windows Documents\)
+- [ ] store current skin
+- [ ] add program parameters to combFilter
+- [ ] in PluginEditor, find a way to acquire plugin parameters attributes
+- [ ] betatest pluginParameters values loading at editor start **(and processor start as well)** 
+- [ ] implement TimeStretcher.h
+- [x] make linux LV2 working (more or less...)
+- [ ] Compatibility : find out why Windows VST3 doesnt work in some cases
+- [ ] add more effects : fix ring modulator (**sounds strange**) / convolution verb 
+- [ ] cleaner way to pass colortemplates & skin/image paths
+- [ ] in parameter layout constructor find a way to destroy created effects objects
+#### BUGS
+- [ ] program parameters control does not update on GUI after loading presets
+- [ ] strange behaviour while moving effect's position
+- [ ] effect position not restored on preset load (works with DAW save)
+- [ ] buffer seems wrongly initialised on press play(sequence mode)
+- [ ] latency (same problem as choppah) -> maybe due to chopper gain ramp
 
 ### v0.1 17102023  
 #### TODO
@@ -19,7 +41,7 @@
 - [ ] in PluginEditor, find a way to acquire plugin parameters attributes
 - [ ] betatest pluginParameters values loading at editor start **(and processor start as well)** 
 - [ ] implement TimeStretcher.h
-- [ ] make linux LV2 working
+- [x] make linux LV2 working
 - [ ] Compatibility : find out why Windows VST3 doesnt work in some cases
 - [ ] add more effects : fix ring modulator (**sounds strange**) / convolution verb 
 - [ ] cleaner way to pass colortemplates & skin/image paths

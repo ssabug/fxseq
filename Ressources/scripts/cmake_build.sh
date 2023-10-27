@@ -11,6 +11,7 @@ mkdir build
 cd build
 echo "Starting build..."
 cmake .. 
+# to cross compile, use cmake -DCOMP_TARGET::STRING=windows ..
 make 
 
 echo "Get back to previous directory"

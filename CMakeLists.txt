@@ -1,11 +1,35 @@
 cmake_minimum_required(VERSION 3.22)
 
+SET(COMP_TARGET "linux" CACHE STRING "OS target name")
+
 set(CMAKE_CXX_STANDARD 20)
 #target_compile_features (fxseq-${format} PRIVATE cxx_std_20)
 
-set(COMP_TARGET"linux") #linux or windows
+if (UNIX)
+    set(HOST_SYSTEM "linux")
+    if(NOT DEFINED COMP_TARGET)
+        set(COMP_TARGET "linux")
+    endif()
+endif (UNIX)
+if (WIN32)
+    set(HOST_SYSTEM "windows")
+    if(NOT DEFINED COMP_TARGET)
+        set(COMP_TARGET "windows")
+    endif()
+endif (WIN32)
+if (MSVC)
+    set(HOST_SYSTEM "windows")
+    if(NOT DEFINED COMP_TARGET)
+        set(COMP_TARGET "windows")
+    endif()
+endif (MSVC)
 
-if (COMP_TARGET STREQUAL "windows")
+
+message("-- HOST SYSTEM :      ${HOST_SYSTEM}")
+message("-- TARGET SYSTEM :    ${COMP_TARGET}")
+#set(COMP_TARGET"linux") #linux or windows
+
+if (COMP_TARGET STREQUAL "windows" AND UNIX)
 
     set(CMAKE_SYSTEM_NAME Windows)
     add_definitions(-D_WIN32_WINNT=0x0603) # windows vista is 0x0600, 8.1 is 0x0603
@@ -14,6 +38,7 @@ if (COMP_TARGET STREQUAL "windows")
 
     set(TOOLCHAIN_PREFIX x86_64-w64-mingw32)
     set(TOOLCHAIN_SUFFIX -posix) #or ""
+    #set(TOOLCHAIN_SUFFIX "")
     set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}-gcc${TOOLCHAIN_SUFFIX})
     set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}-g++${TOOLCHAIN_SUFFIX})
     set(CMAKE_RC_COMPILER ${TOOLCHAIN_PREFIX}-windres)
@@ -24,7 +49,7 @@ if (COMP_TARGET STREQUAL "windows")
 endif()
 
 project (fxseq VERSION 0.1)
-
+message("----- ${PROJECT_NAME} version ${PROJECT_VERSION} -----") 
 # Adding JUCE
 add_subdirectory (JUCE)
 #add_subdirectory (JuceLibraryCode)
