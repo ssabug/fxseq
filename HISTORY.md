@@ -3,9 +3,9 @@
 ## Change records
 ### v0.1 27102023  
 #### TODO
-- [ ] Call install scripts from Cmake
-- [ ] Pass variable value while building cmake on windows/linux
-- [ ] update build scripts & install documentation
+- [x] Call install scripts from Cmake (auto)
+- [x] Pass variable value while building cmake on windows/linux
+- [x] update build scripts & install documentation
 - [ ] change default directories?? (linux .local/share, windows Documents\)
 - [ ] store current skin
 - [ ] add program parameters to combFilter

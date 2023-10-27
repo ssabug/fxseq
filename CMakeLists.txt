@@ -29,23 +29,24 @@ message("-- HOST SYSTEM :      ${HOST_SYSTEM}")
 message("-- TARGET SYSTEM :    ${COMP_TARGET}")
 #set(COMP_TARGET"linux") #linux or windows
 
-if (COMP_TARGET STREQUAL "windows" AND UNIX)
+if (COMP_TARGET STREQUAL "windows")
 
     set(CMAKE_SYSTEM_NAME Windows)
     add_definitions(-D_WIN32_WINNT=0x0603) # windows vista is 0x0600, 8.1 is 0x0603
     set(CMAKE_SYSTEM_PROCESSOR x86_64)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
-
-    set(TOOLCHAIN_PREFIX x86_64-w64-mingw32)
-    set(TOOLCHAIN_SUFFIX -posix) #or ""
-    #set(TOOLCHAIN_SUFFIX "")
-    set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}-gcc${TOOLCHAIN_SUFFIX})
-    set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}-g++${TOOLCHAIN_SUFFIX})
-    set(CMAKE_RC_COMPILER ${TOOLCHAIN_PREFIX}-windres)
-    set(CMAKE_CXX_COMPILER /usr/bin/x86_64-w64-mingw32-g++${TOOLCHAIN_SUFFIX})
-   
-    #set(CMAKE_FIND_ROOT_PATH /usr/share/mingw-w64/include)
-    set(CMAKE_FIND_ROOT_PATH /usr/x86_64-w64-mingw32/include/) #path to mingw windows sdk
+    if (UNIX)
+        set(TOOLCHAIN_PREFIX x86_64-w64-mingw32)
+        set(TOOLCHAIN_SUFFIX -posix) #or ""
+        #set(TOOLCHAIN_SUFFIX "")
+        set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}-gcc${TOOLCHAIN_SUFFIX})
+        set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}-g++${TOOLCHAIN_SUFFIX})
+        set(CMAKE_RC_COMPILER ${TOOLCHAIN_PREFIX}-windres)
+        set(CMAKE_CXX_COMPILER /usr/bin/x86_64-w64-mingw32-g++${TOOLCHAIN_SUFFIX})
+    
+        #set(CMAKE_FIND_ROOT_PATH /usr/share/mingw-w64/include)
+        set(CMAKE_FIND_ROOT_PATH /usr/x86_64-w64-mingw32/include/) #path to mingw windows sdk
+    endif(UNIX)
 endif()
 
 project (fxseq VERSION 0.1)

@@ -10,7 +10,7 @@ see ![DOCUMENTATION](DOCUMENTATION.md) for more details.
 ## Requirements
  - JUCE Version 7.0.7
  - cmake
- - gcc / mingw32-gcc-posix (Linux)
+ - gcc/g++ (Linux) / mingw32-gcc-posix (Windows cross compilation on Linux)
  - MSVC compiler / mingw (Windows)
 
 ## Installation
@@ -24,7 +24,7 @@ see ![DOCUMENTATION](DOCUMENTATION.md) for more details.
 
  </details>
 
- The plugin data is in `${HOME}/.ssabug/fxseq`
+ The plugin data is stored in `${HOME}/.ssabug/fxseq`
 
 ### Windows
 <details>
@@ -35,11 +35,13 @@ see ![DOCUMENTATION](DOCUMENTATION.md) for more details.
  - run the script `.\Ressources\scripts\copy_plugin_data_windows.cmd`
 
  </details>
- 
-  The plugin data is in `%HomePath%\ssabug\fxseq`
+
+  The plugin data is stored in `%HomePath%\ssabug\fxseq`
 
 ## Building 
-You have to put a symbolic link to the JUCE folder in the root folder of the repository ( named "JUCE" ).
+
+You have to put in the root folder of the repository a symbolic link or a copy to the JUCE folder ( named "JUCE" ).
+
 ### Linux
 <details>
   <summary> Instructions </summary>
