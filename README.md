@@ -40,7 +40,7 @@ see ![DOCUMENTATION](DOCUMENTATION.md) for more details.
 
 ## Building 
 
-You have to put in the root folder of the repository a symbolic link or a copy to the JUCE folder ( named "JUCE" ).
+In the root folder of the repository, create a symbolic link or a copy to your JUCE folder ( named "JUCE" ).
 
 ### Linux
 <details>
