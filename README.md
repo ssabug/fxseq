@@ -9,7 +9,7 @@ see ![DOCUMENTATION](DOCUMENTATION.md) for more details.
 
 ## Requirements
  - JUCE Version 7.0.7
- - cmake
+ - CMake
  - gcc/g++ (Linux) / mingw32-gcc-posix (Windows cross compilation on Linux)
  - MSVC compiler / mingw (Windows)
 
